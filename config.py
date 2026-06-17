@@ -26,9 +26,9 @@ class MGPANConfig:
     graphdata: str = "QN_graphdataF.bin"
     metadata: str = "QN_graphdata_metaF.pkl"
     subject_ids: str = "subject_ids.csv"
-    metapath_cache: str = "MGPAN_metapath_graphs8"
+    metapath_cache: str = "QN_metapath_graphsF8"
     experiment: str = "MGPAN_metapath8_typepooling_graphaugment_posweight_cl"
-    log: str = "log_MGPAN2"
+    log: str = "log_MGPAN1"
     model_name: str = "MGPAN"
 
     seed: int = 66
@@ -46,7 +46,7 @@ class MGPANConfig:
     edge_drop_prob: float = 0.05
     node_drop_prob: float = 0.0
     feat_mask_prob: float = 0.0
-    dropout1: float = 0.5
+    dropout1: float = 0.45
     dropout2: float = 0.45
     dropout3: float = 0.45
     attdropout: float = 0.4
@@ -55,7 +55,7 @@ class MGPANConfig:
     batch_size: int = 64
     epochs: int = 100
     lr: float = 0.001
-    weight_decay: float = 0.005
+    weight_decay: float = 0.004
     accum_steps: int = 1
     num_workers: int = 0
     contrastive_weight: float = 1.0

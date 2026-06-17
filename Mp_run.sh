@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#JSUB -J NielsenHB_2014-F1MP8+BCE+1cl+tymeta
+#JSUB -J QinN_2014-F1MP8+BCE+1cl+tymeta
 
 
 #IjazUZ_2017

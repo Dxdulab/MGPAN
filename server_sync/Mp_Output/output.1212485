@@ -1,0 +1,74 @@
+
+Sender: Unischeduler System <24031212340@login01>
+Subject: Job 1212485: </home/24031212340/.jhjobs/1781687727.1212485.1.shell> Exited
+
+Job </home/24031212340/.jhjobs/1781687727.1212485.1.shell> was submitted from host <login01> by user <24031212340>.
+Job was executed on host(s) <1*gpu07>, in queue <gpu>, as user <24031212340>.
+</home/24031212340> was used as the home directory.
+</home/24031212340/MGPAN> was used as the working directory.
+Started at 2026-06-17 17:15:09
+Results reported at 2026-06-17 17:15:29
+
+Your job looked like:
+
+------------------------------------------------------------
+# User input
+/home/24031212340/.jhjobs/1781687727.1212485.1.shell
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time   :           15.47 sec.
+    Max Memory :               268 MB
+    Max Processes  :               3
+
+
+The output (if any) follows:
+
+Wed Jun 17 17:15:11 2026       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 470.63.01    Driver Version: 470.63.01    CUDA Version: 11.4     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  NVIDIA GeForce ...  Off  | 00000000:1B:00.0 Off |                  N/A |
+| 30%   43C    P2   113W / 320W |   2871MiB / 10018MiB |     64%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   1  NVIDIA GeForce ...  Off  | 00000000:1D:00.0 Off |                  N/A |
+| 41%   49C    P2   155W / 320W |   6589MiB / 10018MiB |     10%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   2  NVIDIA GeForce ...  Off  | 00000000:1E:00.0 Off |                  N/A |
+| 30%   27C    P8    15W / 320W |      0MiB / 10018MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   3  NVIDIA GeForce ...  Off  | 00000000:3D:00.0 Off |                  N/A |
+| 30%   28C    P8    24W / 320W |      0MiB / 10018MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   4  NVIDIA GeForce ...  Off  | 00000000:3F:00.0 Off |                  N/A |
+| 30%   28C    P8    17W / 320W |      0MiB / 10018MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   5  NVIDIA GeForce ...  Off  | 00000000:40:00.0 Off |                  N/A |
+| 30%   27C    P8    16W / 320W |      0MiB / 10018MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   6  NVIDIA GeForce ...  Off  | 00000000:41:00.0 Off |                  N/A |
+| 30%   28C    P8    21W / 320W |      0MiB / 10018MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|    0   N/A  N/A    125440      C   python                           2861MiB |
+|    1   N/A  N/A    168059      C   python                           6587MiB |
++-----------------------------------------------------------------------------+

@@ -1,0 +1,655 @@
+2026-06-17 18:14:45,146 INFO MGPANConfig(dataset='QinN_2014', graphdata='QN_graphdataF.bin', metadata='QN_graphdata_metaF.pkl', subject_ids='subject_ids.csv', metapath_cache='QN_metapath_graphsF8', experiment='MGPAN_metapath8_typepooling_graphaugment_posweight_cl', log='log_MGPAN1', model_name='MGPAN', seed=66, n_splits=10, gnn='sage', num_gnn_layer=1, feat_dim=5, embed_dim=192, dim_a=56, num_node_types=3, type_emb_dim=4, node_id_emb_dim=64, abundance_proj_dim=64, edge_drop_prob=0.05, node_drop_prob=0.0, feat_mask_prob=0.0, dropout1=0.45, dropout2=0.4, dropout3=0.4, attdropout=0.4, activation='elu', batch_size=64, epochs=100, lr=0.001, weight_decay=0.003, accum_steps=1, num_workers=0, contrastive_weight=0.5, min_epochs=70, patience=10, min_delta=1e-07, data_dir='./data', metapath_dir='./metapaths', saved_model_dir='./saved_models', log_dir='./logs')
+2026-06-17 18:14:47,030 INFO MGPANConfig(dataset='QinN_2014', graphdata='QN_graphdataF.bin', metadata='QN_graphdata_metaF.pkl', subject_ids='subject_ids.csv', metapath_cache='QN_metapath_graphsF8', experiment='MGPAN_metapath8_typepooling_graphaugment_posweight_cl', log='log_MGPAN1', model_name='MGPAN', seed=66, n_splits=10, gnn='sage', num_gnn_layer=1, feat_dim=5, embed_dim=192, dim_a=56, num_node_types=3, type_emb_dim=4, node_id_emb_dim=64, abundance_proj_dim=64, edge_drop_prob=0.05, node_drop_prob=0.0, feat_mask_prob=0.0, dropout1=0.45, dropout2=0.4, dropout3=0.4, attdropout=0.4, activation='elu', batch_size=64, epochs=100, lr=0.001, weight_decay=0.003, accum_steps=1, num_workers=0, contrastive_weight=0.5, min_epochs=70, patience=10, min_delta=1e-07, data_dir='./data', metapath_dir='./metapaths', saved_model_dir='./saved_models', log_dir='./logs')
+2026-06-17 18:14:47,914 INFO Train sample count: 214
+2026-06-17 18:14:47,914 INFO   Label 0: 111 (51.87%)
+2026-06-17 18:14:47,914 INFO   Label 1: 103 (48.13%)
+2026-06-17 18:14:47,914 INFO Test sample count: 23
+2026-06-17 18:14:47,914 INFO   Label 0: 12 (52.17%)
+2026-06-17 18:14:47,914 INFO   Label 1: 11 (47.83%)
+2026-06-17 18:14:50,019 INFO pos_class_weight: 1.0776699029126213
+2026-06-17 18:14:52,211 INFO Device: cuda
+2026-06-17 18:15:03,297 INFO [Fold 9] Epoch 01 Summary: Avg Total Loss: 2.6692, Avg BCE Loss: 0.7355, Avg Contrastive Loss: 3.8674
+2026-06-17 18:15:03,298 INFO [Fold 9] Epoch 01: Acc: 0.6449 | Prec: 0.5894 | Recall: 0.8641 | F1: 0.7008 | AUC: 0.6848 | AUPR: 0.6048
+2026-06-17 18:15:03,473 INFO [Fold 9] Test Epoch 01: Acc: 0.6957 | Prec: 0.6250 | Recall: 0.9091 | F1: 0.7407 | AUC: 0.7652 | AUPR: 0.7776
+2026-06-17 18:15:03,627 INFO [EarlyStopping] New best train_loss: 2.6692 at epoch 0
+2026-06-17 18:15:12,704 INFO [Fold 9] Epoch 02 Summary: Avg Total Loss: 2.6570, Avg BCE Loss: 0.7230, Avg Contrastive Loss: 3.8680
+2026-06-17 18:15:12,704 INFO [Fold 9] Epoch 02: Acc: 0.7944 | Prec: 0.7218 | Recall: 0.9320 | F1: 0.8136 | AUC: 0.8642 | AUPR: 0.8127
+2026-06-17 18:15:12,864 INFO [Fold 9] Test Epoch 02: Acc: 0.6957 | Prec: 0.6429 | Recall: 0.8182 | F1: 0.7200 | AUC: 0.8409 | AUPR: 0.8524
+2026-06-17 18:15:13,497 INFO [EarlyStopping] New best train_loss: 2.6570 at epoch 1
+2026-06-17 18:15:22,254 INFO [Fold 9] Epoch 03 Summary: Avg Total Loss: 2.6797, Avg BCE Loss: 0.7453, Avg Contrastive Loss: 3.8688
+2026-06-17 18:15:22,254 INFO [Fold 9] Epoch 03: Acc: 0.8411 | Prec: 0.7805 | Recall: 0.9320 | F1: 0.8496 | AUC: 0.9077 | AUPR: 0.8900
+2026-06-17 18:15:22,418 INFO [Fold 9] Test Epoch 03: Acc: 0.7391 | Prec: 0.6923 | Recall: 0.8182 | F1: 0.7500 | AUC: 0.8409 | AUPR: 0.8481
+2026-06-17 18:15:32,813 INFO [Fold 9] Epoch 04 Summary: Avg Total Loss: 2.6741, Avg BCE Loss: 0.7399, Avg Contrastive Loss: 3.8683
+2026-06-17 18:15:32,826 INFO [Fold 9] Epoch 04: Acc: 0.8505 | Prec: 0.8034 | Recall: 0.9126 | F1: 0.8545 | AUC: 0.9137 | AUPR: 0.8906
+2026-06-17 18:15:33,105 INFO [Fold 9] Test Epoch 04: Acc: 0.7391 | Prec: 0.6923 | Recall: 0.8182 | F1: 0.7500 | AUC: 0.8485 | AUPR: 0.8541
+2026-06-17 18:15:42,976 INFO [Fold 9] Epoch 05 Summary: Avg Total Loss: 2.6613, Avg BCE Loss: 0.7271, Avg Contrastive Loss: 3.8686
+2026-06-17 18:15:42,976 INFO [Fold 9] Epoch 05: Acc: 0.8458 | Prec: 0.7734 | Recall: 0.9612 | F1: 0.8571 | AUC: 0.9187 | AUPR: 0.9045
+2026-06-17 18:15:43,142 INFO [Fold 9] Test Epoch 05: Acc: 0.7826 | Prec: 0.7143 | Recall: 0.9091 | F1: 0.8000 | AUC: 0.8333 | AUPR: 0.8444
+2026-06-17 18:15:52,641 INFO [Fold 9] Epoch 06 Summary: Avg Total Loss: 2.6649, Avg BCE Loss: 0.7308, Avg Contrastive Loss: 3.8682
+2026-06-17 18:15:52,641 INFO [Fold 9] Epoch 06: Acc: 0.8598 | Prec: 0.8017 | Recall: 0.9417 | F1: 0.8661 | AUC: 0.9284 | AUPR: 0.9181
+2026-06-17 18:15:52,807 INFO [Fold 9] Test Epoch 06: Acc: 0.7391 | Prec: 0.6923 | Recall: 0.8182 | F1: 0.7500 | AUC: 0.8333 | AUPR: 0.8444
+2026-06-17 18:16:01,969 INFO [Fold 9] Epoch 07 Summary: Avg Total Loss: 2.6581, Avg BCE Loss: 0.7243, Avg Contrastive Loss: 3.8677
+2026-06-17 18:16:01,970 INFO [Fold 9] Epoch 07: Acc: 0.8645 | Prec: 0.8083 | Recall: 0.9417 | F1: 0.8700 | AUC: 0.9346 | AUPR: 0.9305
+2026-06-17 18:16:02,218 INFO [Fold 9] Test Epoch 07: Acc: 0.7391 | Prec: 0.6923 | Recall: 0.8182 | F1: 0.7500 | AUC: 0.8561 | AUPR: 0.8614
+2026-06-17 18:16:12,268 INFO [Fold 9] Epoch 08 Summary: Avg Total Loss: 2.6445, Avg BCE Loss: 0.7108, Avg Contrastive Loss: 3.8675
+2026-06-17 18:16:12,268 INFO [Fold 9] Epoch 08: Acc: 0.8645 | Prec: 0.7937 | Recall: 0.9709 | F1: 0.8734 | AUC: 0.9386 | AUPR: 0.9367
+2026-06-17 18:16:12,519 INFO [Fold 9] Test Epoch 08: Acc: 0.7391 | Prec: 0.6923 | Recall: 0.8182 | F1: 0.7500 | AUC: 0.8712 | AUPR: 0.8724
+2026-06-17 18:16:12,747 INFO [EarlyStopping] New best train_loss: 2.6445 at epoch 7
+2026-06-17 18:16:22,329 INFO [Fold 9] Epoch 09 Summary: Avg Total Loss: 2.6480, Avg BCE Loss: 0.7148, Avg Contrastive Loss: 3.8663
+2026-06-17 18:16:22,329 INFO [Fold 9] Epoch 09: Acc: 0.8692 | Prec: 0.8000 | Recall: 0.9709 | F1: 0.8772 | AUC: 0.9397 | AUPR: 0.9391
+2026-06-17 18:16:22,490 INFO [Fold 9] Test Epoch 09: Acc: 0.7391 | Prec: 0.6923 | Recall: 0.8182 | F1: 0.7500 | AUC: 0.8712 | AUPR: 0.8713
+2026-06-17 18:16:32,829 INFO [Fold 9] Epoch 10 Summary: Avg Total Loss: 2.6521, Avg BCE Loss: 0.7190, Avg Contrastive Loss: 3.8662
+2026-06-17 18:16:32,830 INFO [Fold 9] Epoch 10: Acc: 0.8645 | Prec: 0.7984 | Recall: 0.9612 | F1: 0.8722 | AUC: 0.9391 | AUPR: 0.9374
+2026-06-17 18:16:33,161 INFO [Fold 9] Test Epoch 10: Acc: 0.7391 | Prec: 0.6923 | Recall: 0.8182 | F1: 0.7500 | AUC: 0.8864 | AUPR: 0.8835
+2026-06-17 18:16:42,111 INFO [Fold 9] Epoch 11 Summary: Avg Total Loss: 2.6454, Avg BCE Loss: 0.7133, Avg Contrastive Loss: 3.8641
+2026-06-17 18:16:42,113 INFO [Fold 9] Epoch 11: Acc: 0.8832 | Prec: 0.8824 | Recall: 0.8738 | F1: 0.8780 | AUC: 0.9414 | AUPR: 0.9406
+2026-06-17 18:16:42,280 INFO [Fold 9] Test Epoch 11: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.8939 | AUPR: 0.8899
+2026-06-17 18:16:51,250 INFO [Fold 9] Epoch 12 Summary: Avg Total Loss: 2.6523, Avg BCE Loss: 0.7226, Avg Contrastive Loss: 3.8594
+2026-06-17 18:16:51,250 INFO [Fold 9] Epoch 12: Acc: 0.8692 | Prec: 0.8099 | Recall: 0.9515 | F1: 0.8750 | AUC: 0.9401 | AUPR: 0.9389
+2026-06-17 18:16:51,410 INFO [Fold 9] Test Epoch 12: Acc: 0.7391 | Prec: 0.6923 | Recall: 0.8182 | F1: 0.7500 | AUC: 0.9091 | AUPR: 0.9077
+2026-06-17 18:17:00,724 INFO [Fold 9] Epoch 13 Summary: Avg Total Loss: 2.6243, Avg BCE Loss: 0.7018, Avg Contrastive Loss: 3.8449
+2026-06-17 18:17:00,725 INFO [Fold 9] Epoch 13: Acc: 0.8832 | Prec: 0.8305 | Recall: 0.9515 | F1: 0.8869 | AUC: 0.9419 | AUPR: 0.9404
+2026-06-17 18:17:00,883 INFO [Fold 9] Test Epoch 13: Acc: 0.8261 | Prec: 0.7692 | Recall: 0.9091 | F1: 0.8333 | AUC: 0.9242 | AUPR: 0.9188
+2026-06-17 18:17:01,168 INFO [EarlyStopping] New best train_loss: 2.6243 at epoch 12
+2026-06-17 18:17:10,085 INFO [Fold 9] Epoch 14 Summary: Avg Total Loss: 2.5751, Avg BCE Loss: 0.6890, Avg Contrastive Loss: 3.7721
+2026-06-17 18:17:10,086 INFO [Fold 9] Epoch 14: Acc: 0.8972 | Prec: 0.8649 | Recall: 0.9320 | F1: 0.8972 | AUC: 0.9455 | AUPR: 0.9434
+2026-06-17 18:17:10,338 INFO [Fold 9] Test Epoch 14: Acc: 0.8696 | Prec: 0.8333 | Recall: 0.9091 | F1: 0.8696 | AUC: 0.9318 | AUPR: 0.9265
+2026-06-17 18:17:10,555 INFO [EarlyStopping] New best train_loss: 2.5751 at epoch 13
+2026-06-17 18:17:20,001 INFO [Fold 9] Epoch 15 Summary: Avg Total Loss: 2.5295, Avg BCE Loss: 0.6639, Avg Contrastive Loss: 3.7311
+2026-06-17 18:17:20,001 INFO [Fold 9] Epoch 15: Acc: 0.9112 | Prec: 0.8889 | Recall: 0.9320 | F1: 0.9100 | AUC: 0.9518 | AUPR: 0.9504
+2026-06-17 18:17:20,167 INFO [Fold 9] Test Epoch 15: Acc: 0.8696 | Prec: 0.8333 | Recall: 0.9091 | F1: 0.8696 | AUC: 0.9545 | AUPR: 0.9442
+2026-06-17 18:17:20,329 INFO [EarlyStopping] New best train_loss: 2.5295 at epoch 14
+2026-06-17 18:17:30,574 INFO [Fold 9] Epoch 16 Summary: Avg Total Loss: 2.5300, Avg BCE Loss: 0.6730, Avg Contrastive Loss: 3.7140
+2026-06-17 18:17:30,575 INFO [Fold 9] Epoch 16: Acc: 0.9112 | Prec: 0.8750 | Recall: 0.9515 | F1: 0.9116 | AUC: 0.9557 | AUPR: 0.9542
+2026-06-17 18:17:30,911 INFO [Fold 9] Test Epoch 16: Acc: 0.9565 | Prec: 0.9167 | Recall: 1.0000 | F1: 0.9565 | AUC: 0.9773 | AUPR: 0.9738
+2026-06-17 18:17:40,634 INFO [Fold 9] Epoch 17 Summary: Avg Total Loss: 2.5000, Avg BCE Loss: 0.6386, Avg Contrastive Loss: 3.7227
+2026-06-17 18:17:40,634 INFO [Fold 9] Epoch 17: Acc: 0.9206 | Prec: 0.8909 | Recall: 0.9515 | F1: 0.9202 | AUC: 0.9573 | AUPR: 0.9556
+2026-06-17 18:17:40,805 INFO [Fold 9] Test Epoch 17: Acc: 0.8696 | Prec: 0.8333 | Recall: 0.9091 | F1: 0.8696 | AUC: 0.9621 | AUPR: 0.9600
+2026-06-17 18:17:41,010 INFO [EarlyStopping] New best train_loss: 2.5000 at epoch 16
+2026-06-17 18:17:49,955 INFO [Fold 9] Epoch 18 Summary: Avg Total Loss: 2.4302, Avg BCE Loss: 0.6068, Avg Contrastive Loss: 3.6468
+2026-06-17 18:17:49,955 INFO [Fold 9] Epoch 18: Acc: 0.9252 | Prec: 0.8991 | Recall: 0.9515 | F1: 0.9245 | AUC: 0.9575 | AUPR: 0.9557
+2026-06-17 18:17:50,132 INFO [Fold 9] Test Epoch 18: Acc: 0.8696 | Prec: 0.8333 | Recall: 0.9091 | F1: 0.8696 | AUC: 0.9621 | AUPR: 0.9639
+2026-06-17 18:17:50,320 INFO [EarlyStopping] New best train_loss: 2.4302 at epoch 17
+2026-06-17 18:17:59,601 INFO [Fold 9] Epoch 19 Summary: Avg Total Loss: 2.3779, Avg BCE Loss: 0.5473, Avg Contrastive Loss: 3.6614
+2026-06-17 18:17:59,602 INFO [Fold 9] Epoch 19: Acc: 0.9252 | Prec: 0.8991 | Recall: 0.9515 | F1: 0.9245 | AUC: 0.9592 | AUPR: 0.9585
+2026-06-17 18:17:59,833 INFO [Fold 9] Test Epoch 19: Acc: 0.7826 | Prec: 0.7500 | Recall: 0.8182 | F1: 0.7826 | AUC: 0.9470 | AUPR: 0.9530
+2026-06-17 18:17:59,993 INFO [EarlyStopping] New best train_loss: 2.3779 at epoch 18
+2026-06-17 18:18:09,811 INFO [Fold 9] Epoch 20 Summary: Avg Total Loss: 2.3564, Avg BCE Loss: 0.5193, Avg Contrastive Loss: 3.6743
+2026-06-17 18:18:09,812 INFO [Fold 9] Epoch 20: Acc: 0.9206 | Prec: 0.8909 | Recall: 0.9515 | F1: 0.9202 | AUC: 0.9620 | AUPR: 0.9633
+2026-06-17 18:18:10,031 INFO [Fold 9] Test Epoch 20: Acc: 0.7826 | Prec: 0.7500 | Recall: 0.8182 | F1: 0.7826 | AUC: 0.9545 | AUPR: 0.9579
+2026-06-17 18:18:10,237 INFO [EarlyStopping] New best train_loss: 2.3564 at epoch 19
+2026-06-17 18:18:19,587 INFO [Fold 9] Epoch 21 Summary: Avg Total Loss: 2.2988, Avg BCE Loss: 0.4505, Avg Contrastive Loss: 3.6964
+2026-06-17 18:18:19,587 INFO [Fold 9] Epoch 21: Acc: 0.9206 | Prec: 0.9216 | Recall: 0.9126 | F1: 0.9171 | AUC: 0.9623 | AUPR: 0.9637
+2026-06-17 18:18:19,750 INFO [Fold 9] Test Epoch 21: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9621 | AUPR: 0.9639
+2026-06-17 18:18:20,673 INFO [EarlyStopping] New best train_loss: 2.2988 at epoch 20
+2026-06-17 18:18:31,308 INFO [Fold 9] Epoch 22 Summary: Avg Total Loss: 2.2064, Avg BCE Loss: 0.4182, Avg Contrastive Loss: 3.5764
+2026-06-17 18:18:31,309 INFO [Fold 9] Epoch 22: Acc: 0.9206 | Prec: 0.9135 | Recall: 0.9223 | F1: 0.9179 | AUC: 0.9627 | AUPR: 0.9642
+2026-06-17 18:18:31,661 INFO [Fold 9] Test Epoch 22: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9545 | AUPR: 0.9579
+2026-06-17 18:18:31,857 INFO [EarlyStopping] New best train_loss: 2.2064 at epoch 21
+2026-06-17 18:18:42,140 INFO [Fold 9] Epoch 23 Summary: Avg Total Loss: 2.2788, Avg BCE Loss: 0.4239, Avg Contrastive Loss: 3.7100
+2026-06-17 18:18:42,141 INFO [Fold 9] Epoch 23: Acc: 0.9159 | Prec: 0.8829 | Recall: 0.9515 | F1: 0.9159 | AUC: 0.9620 | AUPR: 0.9624
+2026-06-17 18:18:42,335 INFO [Fold 9] Test Epoch 23: Acc: 0.8696 | Prec: 0.8333 | Recall: 0.9091 | F1: 0.8696 | AUC: 0.9621 | AUPR: 0.9639
+2026-06-17 18:18:51,647 INFO [Fold 9] Epoch 24 Summary: Avg Total Loss: 2.1747, Avg BCE Loss: 0.3554, Avg Contrastive Loss: 3.6388
+2026-06-17 18:18:51,648 INFO [Fold 9] Epoch 24: Acc: 0.9252 | Prec: 0.9065 | Recall: 0.9417 | F1: 0.9238 | AUC: 0.9638 | AUPR: 0.9640
+2026-06-17 18:18:51,825 INFO [Fold 9] Test Epoch 24: Acc: 0.8696 | Prec: 0.8333 | Recall: 0.9091 | F1: 0.8696 | AUC: 0.9545 | AUPR: 0.9522
+2026-06-17 18:18:52,002 INFO [EarlyStopping] New best train_loss: 2.1747 at epoch 23
+2026-06-17 18:19:01,330 INFO [Fold 9] Epoch 25 Summary: Avg Total Loss: 2.2090, Avg BCE Loss: 0.3653, Avg Contrastive Loss: 3.6874
+2026-06-17 18:19:01,331 INFO [Fold 9] Epoch 25: Acc: 0.9206 | Prec: 0.8909 | Recall: 0.9515 | F1: 0.9202 | AUC: 0.9636 | AUPR: 0.9639
+2026-06-17 18:19:01,502 INFO [Fold 9] Test Epoch 25: Acc: 0.8696 | Prec: 0.8333 | Recall: 0.9091 | F1: 0.8696 | AUC: 0.9545 | AUPR: 0.9522
+2026-06-17 18:19:10,928 INFO [Fold 9] Epoch 26 Summary: Avg Total Loss: 2.1158, Avg BCE Loss: 0.3149, Avg Contrastive Loss: 3.6018
+2026-06-17 18:19:10,928 INFO [Fold 9] Epoch 26: Acc: 0.9159 | Prec: 0.8829 | Recall: 0.9515 | F1: 0.9159 | AUC: 0.9640 | AUPR: 0.9647
+2026-06-17 18:19:11,091 INFO [Fold 9] Test Epoch 26: Acc: 0.8696 | Prec: 0.8333 | Recall: 0.9091 | F1: 0.8696 | AUC: 0.9470 | AUPR: 0.9466
+2026-06-17 18:19:11,263 INFO [EarlyStopping] New best train_loss: 2.1158 at epoch 25
+2026-06-17 18:19:20,240 INFO [Fold 9] Epoch 27 Summary: Avg Total Loss: 2.0863, Avg BCE Loss: 0.2969, Avg Contrastive Loss: 3.5788
+2026-06-17 18:19:20,241 INFO [Fold 9] Epoch 27: Acc: 0.9159 | Prec: 0.8972 | Recall: 0.9320 | F1: 0.9143 | AUC: 0.9631 | AUPR: 0.9640
+2026-06-17 18:19:20,420 INFO [Fold 9] Test Epoch 27: Acc: 0.8696 | Prec: 0.8333 | Recall: 0.9091 | F1: 0.8696 | AUC: 0.9394 | AUPR: 0.9417
+2026-06-17 18:19:21,251 INFO [EarlyStopping] New best train_loss: 2.0863 at epoch 26
+2026-06-17 18:19:31,887 INFO [Fold 9] Epoch 28 Summary: Avg Total Loss: 2.2465, Avg BCE Loss: 0.4015, Avg Contrastive Loss: 3.6899
+2026-06-17 18:19:31,888 INFO [Fold 9] Epoch 28: Acc: 0.9112 | Prec: 0.8889 | Recall: 0.9320 | F1: 0.9100 | AUC: 0.9639 | AUPR: 0.9648
+2026-06-17 18:19:32,156 INFO [Fold 9] Test Epoch 28: Acc: 0.8696 | Prec: 0.8333 | Recall: 0.9091 | F1: 0.8696 | AUC: 0.9470 | AUPR: 0.9466
+2026-06-17 18:19:42,242 INFO [Fold 9] Epoch 29 Summary: Avg Total Loss: 2.1472, Avg BCE Loss: 0.3220, Avg Contrastive Loss: 3.6503
+2026-06-17 18:19:42,243 INFO [Fold 9] Epoch 29: Acc: 0.9159 | Prec: 0.9293 | Recall: 0.8932 | F1: 0.9109 | AUC: 0.9651 | AUPR: 0.9669
+2026-06-17 18:19:42,437 INFO [Fold 9] Test Epoch 29: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9466
+2026-06-17 18:19:52,184 INFO [Fold 9] Epoch 30 Summary: Avg Total Loss: 2.2115, Avg BCE Loss: 0.3770, Avg Contrastive Loss: 3.6689
+2026-06-17 18:19:52,184 INFO [Fold 9] Epoch 30: Acc: 0.9159 | Prec: 0.9293 | Recall: 0.8932 | F1: 0.9109 | AUC: 0.9659 | AUPR: 0.9671
+2026-06-17 18:19:52,369 INFO [Fold 9] Test Epoch 30: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9466
+2026-06-17 18:20:02,277 INFO [Fold 9] Epoch 31 Summary: Avg Total Loss: 2.1346, Avg BCE Loss: 0.3261, Avg Contrastive Loss: 3.6171
+2026-06-17 18:20:02,278 INFO [Fold 9] Epoch 31: Acc: 0.9206 | Prec: 0.9300 | Recall: 0.9029 | F1: 0.9163 | AUC: 0.9672 | AUPR: 0.9685
+2026-06-17 18:20:02,454 INFO [Fold 9] Test Epoch 31: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9545 | AUPR: 0.9522
+2026-06-17 18:20:12,091 INFO [Fold 9] Epoch 32 Summary: Avg Total Loss: 2.1282, Avg BCE Loss: 0.3273, Avg Contrastive Loss: 3.6019
+2026-06-17 18:20:12,091 INFO [Fold 9] Epoch 32: Acc: 0.9159 | Prec: 0.9126 | Recall: 0.9126 | F1: 0.9126 | AUC: 0.9671 | AUPR: 0.9691
+2026-06-17 18:20:12,264 INFO [Fold 9] Test Epoch 32: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9545 | AUPR: 0.9522
+2026-06-17 18:20:21,899 INFO [Fold 9] Epoch 33 Summary: Avg Total Loss: 2.0868, Avg BCE Loss: 0.2840, Avg Contrastive Loss: 3.6057
+2026-06-17 18:20:21,899 INFO [Fold 9] Epoch 33: Acc: 0.9065 | Prec: 0.8673 | Recall: 0.9515 | F1: 0.9074 | AUC: 0.9660 | AUPR: 0.9683
+2026-06-17 18:20:22,079 INFO [Fold 9] Test Epoch 33: Acc: 0.8696 | Prec: 0.8333 | Recall: 0.9091 | F1: 0.8696 | AUC: 0.9545 | AUPR: 0.9522
+2026-06-17 18:20:32,381 INFO [Fold 9] Epoch 34 Summary: Avg Total Loss: 2.0548, Avg BCE Loss: 0.2836, Avg Contrastive Loss: 3.5424
+2026-06-17 18:20:32,381 INFO [Fold 9] Epoch 34: Acc: 0.9065 | Prec: 0.8673 | Recall: 0.9515 | F1: 0.9074 | AUC: 0.9663 | AUPR: 0.9688
+2026-06-17 18:20:32,614 INFO [Fold 9] Test Epoch 34: Acc: 0.8696 | Prec: 0.8333 | Recall: 0.9091 | F1: 0.8696 | AUC: 0.9697 | AUPR: 0.9696
+2026-06-17 18:20:33,036 INFO [EarlyStopping] New best train_loss: 2.0548 at epoch 33
+2026-06-17 18:20:42,422 INFO [Fold 9] Epoch 35 Summary: Avg Total Loss: 2.0542, Avg BCE Loss: 0.2703, Avg Contrastive Loss: 3.5676
+2026-06-17 18:20:42,423 INFO [Fold 9] Epoch 35: Acc: 0.9159 | Prec: 0.9208 | Recall: 0.9029 | F1: 0.9118 | AUC: 0.9669 | AUPR: 0.9694
+2026-06-17 18:20:42,591 INFO [Fold 9] Test Epoch 35: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9621 | AUPR: 0.9600
+2026-06-17 18:20:42,750 INFO [EarlyStopping] New best train_loss: 2.0542 at epoch 34
+2026-06-17 18:20:51,955 INFO [Fold 9] Epoch 36 Summary: Avg Total Loss: 2.0087, Avg BCE Loss: 0.2432, Avg Contrastive Loss: 3.5309
+2026-06-17 18:20:51,955 INFO [Fold 9] Epoch 36: Acc: 0.9159 | Prec: 0.9048 | Recall: 0.9223 | F1: 0.9135 | AUC: 0.9683 | AUPR: 0.9709
+2026-06-17 18:20:52,129 INFO [Fold 9] Test Epoch 36: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9394 | AUPR: 0.9417
+2026-06-17 18:20:52,994 INFO [EarlyStopping] New best train_loss: 2.0087 at epoch 35
+2026-06-17 18:21:02,134 INFO [Fold 9] Epoch 37 Summary: Avg Total Loss: 2.1497, Avg BCE Loss: 0.3317, Avg Contrastive Loss: 3.6360
+2026-06-17 18:21:02,134 INFO [Fold 9] Epoch 37: Acc: 0.9159 | Prec: 0.9126 | Recall: 0.9126 | F1: 0.9126 | AUC: 0.9687 | AUPR: 0.9715
+2026-06-17 18:21:02,348 INFO [Fold 9] Test Epoch 37: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:21:11,374 INFO [Fold 9] Epoch 38 Summary: Avg Total Loss: 2.1763, Avg BCE Loss: 0.3326, Avg Contrastive Loss: 3.6875
+2026-06-17 18:21:11,374 INFO [Fold 9] Epoch 38: Acc: 0.9206 | Prec: 0.9216 | Recall: 0.9126 | F1: 0.9171 | AUC: 0.9699 | AUPR: 0.9725
+2026-06-17 18:21:11,541 INFO [Fold 9] Test Epoch 38: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9394 | AUPR: 0.9488
+2026-06-17 18:21:20,853 INFO [Fold 9] Epoch 39 Summary: Avg Total Loss: 2.1000, Avg BCE Loss: 0.3068, Avg Contrastive Loss: 3.5863
+2026-06-17 18:21:20,853 INFO [Fold 9] Epoch 39: Acc: 0.9252 | Prec: 0.9307 | Recall: 0.9126 | F1: 0.9216 | AUC: 0.9710 | AUPR: 0.9733
+2026-06-17 18:21:21,019 INFO [Fold 9] Test Epoch 39: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9394 | AUPR: 0.9488
+2026-06-17 18:21:31,649 INFO [Fold 9] Epoch 40 Summary: Avg Total Loss: 2.1037, Avg BCE Loss: 0.3084, Avg Contrastive Loss: 3.5905
+2026-06-17 18:21:31,650 INFO [Fold 9] Epoch 40: Acc: 0.9252 | Prec: 0.9307 | Recall: 0.9126 | F1: 0.9216 | AUC: 0.9722 | AUPR: 0.9745
+2026-06-17 18:21:31,850 INFO [Fold 9] Test Epoch 40: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9545 | AUPR: 0.9591
+2026-06-17 18:21:41,756 INFO [Fold 9] Epoch 41 Summary: Avg Total Loss: 2.0901, Avg BCE Loss: 0.2899, Avg Contrastive Loss: 3.6004
+2026-06-17 18:21:41,757 INFO [Fold 9] Epoch 41: Acc: 0.9206 | Prec: 0.8981 | Recall: 0.9417 | F1: 0.9194 | AUC: 0.9730 | AUPR: 0.9756
+2026-06-17 18:21:41,986 INFO [Fold 9] Test Epoch 41: Acc: 0.8696 | Prec: 0.8333 | Recall: 0.9091 | F1: 0.8696 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:21:51,314 INFO [Fold 9] Epoch 42 Summary: Avg Total Loss: 2.0063, Avg BCE Loss: 0.2439, Avg Contrastive Loss: 3.5246
+2026-06-17 18:21:51,314 INFO [Fold 9] Epoch 42: Acc: 0.9206 | Prec: 0.8981 | Recall: 0.9417 | F1: 0.9194 | AUC: 0.9732 | AUPR: 0.9758
+2026-06-17 18:21:51,495 INFO [Fold 9] Test Epoch 42: Acc: 0.8696 | Prec: 0.8333 | Recall: 0.9091 | F1: 0.8696 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:21:52,824 INFO [EarlyStopping] New best train_loss: 2.0063 at epoch 41
+2026-06-17 18:22:01,878 INFO [Fold 9] Epoch 43 Summary: Avg Total Loss: 2.0402, Avg BCE Loss: 0.2642, Avg Contrastive Loss: 3.5519
+2026-06-17 18:22:01,879 INFO [Fold 9] Epoch 43: Acc: 0.9252 | Prec: 0.9307 | Recall: 0.9126 | F1: 0.9216 | AUC: 0.9743 | AUPR: 0.9769
+2026-06-17 18:22:02,055 INFO [Fold 9] Test Epoch 43: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:22:11,420 INFO [Fold 9] Epoch 44 Summary: Avg Total Loss: 2.0046, Avg BCE Loss: 0.2416, Avg Contrastive Loss: 3.5261
+2026-06-17 18:22:11,420 INFO [Fold 9] Epoch 44: Acc: 0.9252 | Prec: 0.9307 | Recall: 0.9126 | F1: 0.9216 | AUC: 0.9743 | AUPR: 0.9766
+2026-06-17 18:22:11,595 INFO [Fold 9] Test Epoch 44: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9318 | AUPR: 0.9451
+2026-06-17 18:22:11,762 INFO [EarlyStopping] New best train_loss: 2.0046 at epoch 43
+2026-06-17 18:22:20,996 INFO [Fold 9] Epoch 45 Summary: Avg Total Loss: 1.9421, Avg BCE Loss: 0.2070, Avg Contrastive Loss: 3.4701
+2026-06-17 18:22:20,996 INFO [Fold 9] Epoch 45: Acc: 0.9252 | Prec: 0.9307 | Recall: 0.9126 | F1: 0.9216 | AUC: 0.9746 | AUPR: 0.9770
+2026-06-17 18:22:21,166 INFO [Fold 9] Test Epoch 45: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9318 | AUPR: 0.9451
+2026-06-17 18:22:22,470 INFO [EarlyStopping] New best train_loss: 1.9421 at epoch 44
+2026-06-17 18:22:32,400 INFO [Fold 9] Epoch 46 Summary: Avg Total Loss: 2.1224, Avg BCE Loss: 0.3110, Avg Contrastive Loss: 3.6227
+2026-06-17 18:22:32,400 INFO [Fold 9] Epoch 46: Acc: 0.9206 | Prec: 0.9057 | Recall: 0.9320 | F1: 0.9187 | AUC: 0.9751 | AUPR: 0.9775
+2026-06-17 18:22:32,723 INFO [Fold 9] Test Epoch 46: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9242 | AUPR: 0.9399
+2026-06-17 18:22:42,258 INFO [Fold 9] Epoch 47 Summary: Avg Total Loss: 1.9950, Avg BCE Loss: 0.2366, Avg Contrastive Loss: 3.5169
+2026-06-17 18:22:42,258 INFO [Fold 9] Epoch 47: Acc: 0.9252 | Prec: 0.9223 | Recall: 0.9223 | F1: 0.9223 | AUC: 0.9759 | AUPR: 0.9784
+2026-06-17 18:22:42,429 INFO [Fold 9] Test Epoch 47: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9394 | AUPR: 0.9511
+2026-06-17 18:22:51,893 INFO [Fold 9] Epoch 48 Summary: Avg Total Loss: 1.9421, Avg BCE Loss: 0.2019, Avg Contrastive Loss: 3.4805
+2026-06-17 18:22:51,896 INFO [Fold 9] Epoch 48: Acc: 0.9252 | Prec: 0.9223 | Recall: 0.9223 | F1: 0.9223 | AUC: 0.9772 | AUPR: 0.9797
+2026-06-17 18:22:52,064 INFO [Fold 9] Test Epoch 48: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:23:01,772 INFO [Fold 9] Epoch 49 Summary: Avg Total Loss: 1.9454, Avg BCE Loss: 0.2049, Avg Contrastive Loss: 3.4811
+2026-06-17 18:23:01,773 INFO [Fold 9] Epoch 49: Acc: 0.9346 | Prec: 0.9588 | Recall: 0.9029 | F1: 0.9300 | AUC: 0.9782 | AUPR: 0.9806
+2026-06-17 18:23:01,941 INFO [Fold 9] Test Epoch 49: Acc: 0.8696 | Prec: 0.9000 | Recall: 0.8182 | F1: 0.8571 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:23:11,464 INFO [Fold 9] Epoch 50 Summary: Avg Total Loss: 2.0865, Avg BCE Loss: 0.2864, Avg Contrastive Loss: 3.6004
+2026-06-17 18:23:11,464 INFO [Fold 9] Epoch 50: Acc: 0.9346 | Prec: 0.9588 | Recall: 0.9029 | F1: 0.9300 | AUC: 0.9785 | AUPR: 0.9808
+2026-06-17 18:23:11,630 INFO [Fold 9] Test Epoch 50: Acc: 0.8696 | Prec: 0.9000 | Recall: 0.8182 | F1: 0.8571 | AUC: 0.9545 | AUPR: 0.9591
+2026-06-17 18:23:20,901 INFO [Fold 9] Epoch 51 Summary: Avg Total Loss: 1.9641, Avg BCE Loss: 0.2088, Avg Contrastive Loss: 3.5106
+2026-06-17 18:23:20,901 INFO [Fold 9] Epoch 51: Acc: 0.9393 | Prec: 0.9688 | Recall: 0.9029 | F1: 0.9347 | AUC: 0.9794 | AUPR: 0.9817
+2026-06-17 18:23:21,125 INFO [Fold 9] Test Epoch 51: Acc: 0.8696 | Prec: 0.9000 | Recall: 0.8182 | F1: 0.8571 | AUC: 0.9545 | AUPR: 0.9591
+2026-06-17 18:23:31,368 INFO [Fold 9] Epoch 52 Summary: Avg Total Loss: 2.0387, Avg BCE Loss: 0.2664, Avg Contrastive Loss: 3.5444
+2026-06-17 18:23:31,369 INFO [Fold 9] Epoch 52: Acc: 0.9393 | Prec: 0.9787 | Recall: 0.8932 | F1: 0.9340 | AUC: 0.9802 | AUPR: 0.9826
+2026-06-17 18:23:31,610 INFO [Fold 9] Test Epoch 52: Acc: 0.8696 | Prec: 0.9000 | Recall: 0.8182 | F1: 0.8571 | AUC: 0.9697 | AUPR: 0.9696
+2026-06-17 18:23:40,169 INFO [Fold 9] Epoch 53 Summary: Avg Total Loss: 2.0292, Avg BCE Loss: 0.2572, Avg Contrastive Loss: 3.5440
+2026-06-17 18:23:40,169 INFO [Fold 9] Epoch 53: Acc: 0.9393 | Prec: 0.9787 | Recall: 0.8932 | F1: 0.9340 | AUC: 0.9805 | AUPR: 0.9830
+2026-06-17 18:23:40,334 INFO [Fold 9] Test Epoch 53: Acc: 0.8696 | Prec: 0.9000 | Recall: 0.8182 | F1: 0.8571 | AUC: 0.9697 | AUPR: 0.9696
+2026-06-17 18:23:48,521 INFO [Fold 9] Epoch 54 Summary: Avg Total Loss: 1.9928, Avg BCE Loss: 0.2231, Avg Contrastive Loss: 3.5393
+2026-06-17 18:23:48,522 INFO [Fold 9] Epoch 54: Acc: 0.9393 | Prec: 0.9787 | Recall: 0.8932 | F1: 0.9340 | AUC: 0.9813 | AUPR: 0.9837
+2026-06-17 18:23:48,684 INFO [Fold 9] Test Epoch 54: Acc: 0.8696 | Prec: 0.9000 | Recall: 0.8182 | F1: 0.8571 | AUC: 0.9621 | AUPR: 0.9639
+2026-06-17 18:23:56,789 INFO [Fold 9] Epoch 55 Summary: Avg Total Loss: 1.9863, Avg BCE Loss: 0.2149, Avg Contrastive Loss: 3.5429
+2026-06-17 18:23:56,790 INFO [Fold 9] Epoch 55: Acc: 0.9393 | Prec: 0.9688 | Recall: 0.9029 | F1: 0.9347 | AUC: 0.9820 | AUPR: 0.9843
+2026-06-17 18:23:56,960 INFO [Fold 9] Test Epoch 55: Acc: 0.8696 | Prec: 0.9000 | Recall: 0.8182 | F1: 0.8571 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:24:05,066 INFO [Fold 9] Epoch 56 Summary: Avg Total Loss: 1.9813, Avg BCE Loss: 0.2285, Avg Contrastive Loss: 3.5055
+2026-06-17 18:24:05,066 INFO [Fold 9] Epoch 56: Acc: 0.9346 | Prec: 0.9406 | Recall: 0.9223 | F1: 0.9314 | AUC: 0.9819 | AUPR: 0.9841
+2026-06-17 18:24:05,525 INFO [Fold 9] Test Epoch 56: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:24:13,848 INFO [Fold 9] Epoch 57 Summary: Avg Total Loss: 2.0127, Avg BCE Loss: 0.2441, Avg Contrastive Loss: 3.5373
+2026-06-17 18:24:13,849 INFO [Fold 9] Epoch 57: Acc: 0.9346 | Prec: 0.9406 | Recall: 0.9223 | F1: 0.9314 | AUC: 0.9825 | AUPR: 0.9843
+2026-06-17 18:24:14,017 INFO [Fold 9] Test Epoch 57: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:24:22,314 INFO [Fold 9] Epoch 58 Summary: Avg Total Loss: 1.9924, Avg BCE Loss: 0.2346, Avg Contrastive Loss: 3.5155
+2026-06-17 18:24:22,314 INFO [Fold 9] Epoch 58: Acc: 0.9393 | Prec: 0.9500 | Recall: 0.9223 | F1: 0.9360 | AUC: 0.9825 | AUPR: 0.9844
+2026-06-17 18:24:22,481 INFO [Fold 9] Test Epoch 58: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:24:31,663 INFO [Fold 9] Epoch 59 Summary: Avg Total Loss: 2.0193, Avg BCE Loss: 0.2415, Avg Contrastive Loss: 3.5556
+2026-06-17 18:24:31,664 INFO [Fold 9] Epoch 59: Acc: 0.9439 | Prec: 0.9596 | Recall: 0.9223 | F1: 0.9406 | AUC: 0.9833 | AUPR: 0.9852
+2026-06-17 18:24:31,857 INFO [Fold 9] Test Epoch 59: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:24:40,163 INFO [Fold 9] Epoch 60 Summary: Avg Total Loss: 2.0028, Avg BCE Loss: 0.2348, Avg Contrastive Loss: 3.5361
+2026-06-17 18:24:40,163 INFO [Fold 9] Epoch 60: Acc: 0.9439 | Prec: 0.9892 | Recall: 0.8932 | F1: 0.9388 | AUC: 0.9841 | AUPR: 0.9859
+2026-06-17 18:24:40,332 INFO [Fold 9] Test Epoch 60: Acc: 0.8696 | Prec: 0.9000 | Recall: 0.8182 | F1: 0.8571 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:24:48,309 INFO [Fold 9] Epoch 61 Summary: Avg Total Loss: 1.9903, Avg BCE Loss: 0.2250, Avg Contrastive Loss: 3.5305
+2026-06-17 18:24:48,309 INFO [Fold 9] Epoch 61: Acc: 0.9439 | Prec: 0.9596 | Recall: 0.9223 | F1: 0.9406 | AUC: 0.9847 | AUPR: 0.9864
+2026-06-17 18:24:48,473 INFO [Fold 9] Test Epoch 61: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:24:57,783 INFO [Fold 9] Epoch 62 Summary: Avg Total Loss: 1.9469, Avg BCE Loss: 0.2052, Avg Contrastive Loss: 3.4835
+2026-06-17 18:24:57,784 INFO [Fold 9] Epoch 62: Acc: 0.9439 | Prec: 0.9333 | Recall: 0.9515 | F1: 0.9423 | AUC: 0.9852 | AUPR: 0.9868
+2026-06-17 18:24:57,954 INFO [Fold 9] Test Epoch 62: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:25:07,282 INFO [Fold 9] Epoch 63 Summary: Avg Total Loss: 1.9896, Avg BCE Loss: 0.2285, Avg Contrastive Loss: 3.5222
+2026-06-17 18:25:07,282 INFO [Fold 9] Epoch 63: Acc: 0.9486 | Prec: 0.9423 | Recall: 0.9515 | F1: 0.9469 | AUC: 0.9852 | AUPR: 0.9868
+2026-06-17 18:25:07,458 INFO [Fold 9] Test Epoch 63: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:25:17,192 INFO [Fold 9] Epoch 64 Summary: Avg Total Loss: 1.9425, Avg BCE Loss: 0.2032, Avg Contrastive Loss: 3.4784
+2026-06-17 18:25:17,193 INFO [Fold 9] Epoch 64: Acc: 0.9486 | Prec: 0.9423 | Recall: 0.9515 | F1: 0.9469 | AUC: 0.9854 | AUPR: 0.9870
+2026-06-17 18:25:17,362 INFO [Fold 9] Test Epoch 64: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:25:27,203 INFO [Fold 9] Epoch 65 Summary: Avg Total Loss: 1.9603, Avg BCE Loss: 0.2223, Avg Contrastive Loss: 3.4759
+2026-06-17 18:25:27,204 INFO [Fold 9] Epoch 65: Acc: 0.9486 | Prec: 0.9600 | Recall: 0.9320 | F1: 0.9458 | AUC: 0.9858 | AUPR: 0.9874
+2026-06-17 18:25:27,424 INFO [Fold 9] Test Epoch 65: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:25:37,402 INFO [Fold 9] Epoch 66 Summary: Avg Total Loss: 1.9308, Avg BCE Loss: 0.2003, Avg Contrastive Loss: 3.4610
+2026-06-17 18:25:37,403 INFO [Fold 9] Epoch 66: Acc: 0.9486 | Prec: 0.9600 | Recall: 0.9320 | F1: 0.9458 | AUC: 0.9857 | AUPR: 0.9874
+2026-06-17 18:25:37,573 INFO [Fold 9] Test Epoch 66: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:25:38,069 INFO [EarlyStopping] New best train_loss: 1.9308 at epoch 65
+2026-06-17 18:25:47,098 INFO [Fold 9] Epoch 67 Summary: Avg Total Loss: 1.9486, Avg BCE Loss: 0.2117, Avg Contrastive Loss: 3.4737
+2026-06-17 18:25:47,099 INFO [Fold 9] Epoch 67: Acc: 0.9486 | Prec: 0.9600 | Recall: 0.9320 | F1: 0.9458 | AUC: 0.9857 | AUPR: 0.9873
+2026-06-17 18:25:47,272 INFO [Fold 9] Test Epoch 67: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:25:56,498 INFO [Fold 9] Epoch 68 Summary: Avg Total Loss: 1.9189, Avg BCE Loss: 0.1907, Avg Contrastive Loss: 3.4564
+2026-06-17 18:25:56,499 INFO [Fold 9] Epoch 68: Acc: 0.9486 | Prec: 0.9600 | Recall: 0.9320 | F1: 0.9458 | AUC: 0.9862 | AUPR: 0.9878
+2026-06-17 18:25:56,667 INFO [Fold 9] Test Epoch 68: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:25:57,408 INFO [EarlyStopping] New best train_loss: 1.9189 at epoch 67
+2026-06-17 18:26:06,661 INFO [Fold 9] Epoch 69 Summary: Avg Total Loss: 1.9447, Avg BCE Loss: 0.1898, Avg Contrastive Loss: 3.5097
+2026-06-17 18:26:06,661 INFO [Fold 9] Epoch 69: Acc: 0.9533 | Prec: 0.9697 | Recall: 0.9320 | F1: 0.9505 | AUC: 0.9862 | AUPR: 0.9879
+2026-06-17 18:26:06,831 INFO [Fold 9] Test Epoch 69: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:26:16,426 INFO [Fold 9] Epoch 70 Summary: Avg Total Loss: 1.9509, Avg BCE Loss: 0.1893, Avg Contrastive Loss: 3.5232
+2026-06-17 18:26:16,427 INFO [Fold 9] Epoch 70: Acc: 0.9579 | Prec: 0.9896 | Recall: 0.9223 | F1: 0.9548 | AUC: 0.9865 | AUPR: 0.9882
+2026-06-17 18:26:16,599 INFO [Fold 9] Test Epoch 70: Acc: 0.8696 | Prec: 0.9000 | Recall: 0.8182 | F1: 0.8571 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:26:26,745 INFO [Fold 9] Epoch 71 Summary: Avg Total Loss: 1.8820, Avg BCE Loss: 0.1619, Avg Contrastive Loss: 3.4401
+2026-06-17 18:26:26,747 INFO [Fold 9] Epoch 71: Acc: 0.9579 | Prec: 0.9796 | Recall: 0.9320 | F1: 0.9552 | AUC: 0.9867 | AUPR: 0.9884
+2026-06-17 18:26:26,982 INFO [Fold 9] Test Epoch 71: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:26:28,069 INFO [EarlyStopping] New best train_loss: 1.8820 at epoch 70
+2026-06-17 18:26:37,637 INFO [Fold 9] Epoch 72 Summary: Avg Total Loss: 1.9274, Avg BCE Loss: 0.1911, Avg Contrastive Loss: 3.4726
+2026-06-17 18:26:37,637 INFO [Fold 9] Epoch 72: Acc: 0.9579 | Prec: 0.9796 | Recall: 0.9320 | F1: 0.9552 | AUC: 0.9870 | AUPR: 0.9886
+2026-06-17 18:26:37,810 INFO [Fold 9] Test Epoch 72: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:26:37,896 INFO [EarlyStopping] No improvement for 1/10 epochs
+2026-06-17 18:26:46,736 INFO [Fold 9] Epoch 73 Summary: Avg Total Loss: 1.9790, Avg BCE Loss: 0.2246, Avg Contrastive Loss: 3.5088
+2026-06-17 18:26:46,736 INFO [Fold 9] Epoch 73: Acc: 0.9579 | Prec: 0.9796 | Recall: 0.9320 | F1: 0.9552 | AUC: 0.9872 | AUPR: 0.9888
+2026-06-17 18:26:46,908 INFO [Fold 9] Test Epoch 73: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:26:46,997 INFO [EarlyStopping] No improvement for 2/10 epochs
+2026-06-17 18:26:56,513 INFO [Fold 9] Epoch 74 Summary: Avg Total Loss: 1.9165, Avg BCE Loss: 0.1773, Avg Contrastive Loss: 3.4784
+2026-06-17 18:26:56,530 INFO [Fold 9] Epoch 74: Acc: 0.9579 | Prec: 0.9796 | Recall: 0.9320 | F1: 0.9552 | AUC: 0.9875 | AUPR: 0.9891
+2026-06-17 18:26:56,709 INFO [Fold 9] Test Epoch 74: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:26:57,249 INFO [EarlyStopping] No improvement for 3/10 epochs
+2026-06-17 18:27:06,766 INFO [Fold 9] Epoch 75 Summary: Avg Total Loss: 1.9156, Avg BCE Loss: 0.1875, Avg Contrastive Loss: 3.4563
+2026-06-17 18:27:06,766 INFO [Fold 9] Epoch 75: Acc: 0.9579 | Prec: 0.9796 | Recall: 0.9320 | F1: 0.9552 | AUC: 0.9876 | AUPR: 0.9893
+2026-06-17 18:27:06,983 INFO [Fold 9] Test Epoch 75: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:27:07,529 INFO [EarlyStopping] No improvement for 4/10 epochs
+2026-06-17 18:27:16,787 INFO [Fold 9] Epoch 76 Summary: Avg Total Loss: 1.9440, Avg BCE Loss: 0.1953, Avg Contrastive Loss: 3.4974
+2026-06-17 18:27:16,788 INFO [Fold 9] Epoch 76: Acc: 0.9579 | Prec: 0.9796 | Recall: 0.9320 | F1: 0.9552 | AUC: 0.9876 | AUPR: 0.9893
+2026-06-17 18:27:16,958 INFO [Fold 9] Test Epoch 76: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:27:17,145 INFO [EarlyStopping] No improvement for 5/10 epochs
+2026-06-17 18:27:27,101 INFO [Fold 9] Epoch 77 Summary: Avg Total Loss: 1.9329, Avg BCE Loss: 0.1872, Avg Contrastive Loss: 3.4915
+2026-06-17 18:27:27,111 INFO [Fold 9] Epoch 77: Acc: 0.9579 | Prec: 0.9896 | Recall: 0.9223 | F1: 0.9548 | AUC: 0.9875 | AUPR: 0.9892
+2026-06-17 18:27:27,360 INFO [Fold 9] Test Epoch 77: Acc: 0.8696 | Prec: 0.9000 | Recall: 0.8182 | F1: 0.8571 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:27:27,655 INFO [EarlyStopping] No improvement for 6/10 epochs
+2026-06-17 18:27:37,377 INFO [Fold 9] Epoch 78 Summary: Avg Total Loss: 1.8949, Avg BCE Loss: 0.1711, Avg Contrastive Loss: 3.4475
+2026-06-17 18:27:37,377 INFO [Fold 9] Epoch 78: Acc: 0.9579 | Prec: 0.9896 | Recall: 0.9223 | F1: 0.9548 | AUC: 0.9875 | AUPR: 0.9892
+2026-06-17 18:27:37,544 INFO [Fold 9] Test Epoch 78: Acc: 0.8696 | Prec: 0.9000 | Recall: 0.8182 | F1: 0.8571 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:27:37,769 INFO [EarlyStopping] No improvement for 7/10 epochs
+2026-06-17 18:27:46,736 INFO [Fold 9] Epoch 79 Summary: Avg Total Loss: 1.9586, Avg BCE Loss: 0.2145, Avg Contrastive Loss: 3.4883
+2026-06-17 18:27:46,741 INFO [Fold 9] Epoch 79: Acc: 0.9579 | Prec: 0.9896 | Recall: 0.9223 | F1: 0.9548 | AUC: 0.9878 | AUPR: 0.9895
+2026-06-17 18:27:46,917 INFO [Fold 9] Test Epoch 79: Acc: 0.8696 | Prec: 0.9000 | Recall: 0.8182 | F1: 0.8571 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:27:47,369 INFO [EarlyStopping] No improvement for 8/10 epochs
+2026-06-17 18:27:56,625 INFO [Fold 9] Epoch 80 Summary: Avg Total Loss: 2.0307, Avg BCE Loss: 0.2643, Avg Contrastive Loss: 3.5328
+2026-06-17 18:27:56,633 INFO [Fold 9] Epoch 80: Acc: 0.9626 | Prec: 0.9703 | Recall: 0.9515 | F1: 0.9608 | AUC: 0.9882 | AUPR: 0.9898
+2026-06-17 18:27:56,810 INFO [Fold 9] Test Epoch 80: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:27:57,476 INFO [EarlyStopping] No improvement for 9/10 epochs
+2026-06-17 18:28:06,890 INFO [Fold 9] Epoch 81 Summary: Avg Total Loss: 1.9781, Avg BCE Loss: 0.2228, Avg Contrastive Loss: 3.5105
+2026-06-17 18:28:06,890 INFO [Fold 9] Epoch 81: Acc: 0.9626 | Prec: 0.9703 | Recall: 0.9515 | F1: 0.9608 | AUC: 0.9883 | AUPR: 0.9898
+2026-06-17 18:28:07,071 INFO [Fold 9] Test Epoch 81: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-17 18:28:07,394 INFO [EarlyStopping] No improvement for 10/10 epochs
+2026-06-17 18:28:07,394 INFO [EarlyStopping] Triggered at epoch 80
+2026-06-17 18:28:07,519 INFO Total training time: 795.31s
+-------------------------
+Fold 9 Validation metrics:
+loss: [2.6692331433296204, 2.6569714546203613, 2.679747521877289, 2.6740618348121643, 2.661344885826111, 2.6649316549301147, 2.6581273674964905, 2.644498884677887, 2.6479612588882446, 2.6520920395851135, 2.645370841026306, 2.652250826358795, 2.6242721676826477, 2.5750869512557983, 2.529492199420929, 2.5300248861312866, 2.499971032142639, 2.4302315413951874, 2.37794491648674, 2.356414347887039, 2.298763930797577, 2.206358790397644, 2.27884441614151, 2.174748033285141, 2.208996832370758, 2.1157891750335693, 2.0863099098205566, 2.246451437473297, 2.147160053253174, 2.211485803127289, 2.1345799267292023, 2.1282266676425934, 2.08684840798378, 2.054846167564392, 2.0541645884513855, 2.008660614490509, 2.1497270464897156, 2.1763428449630737, 2.0999794602394104, 2.103668361902237, 2.0901468694210052, 2.0062625408172607, 2.040186494588852, 2.0046457946300507, 1.9420830309391022, 2.1224130988121033, 1.9950434565544128, 1.942127913236618, 1.9454245567321777, 2.0865282714366913, 1.9640511870384216, 2.038657009601593, 2.0291602313518524, 1.9928028285503387, 1.9863116145133972, 1.9813024401664734, 2.012719452381134, 1.9923829436302185, 2.0192649960517883, 2.002813547849655, 1.9902878403663635, 1.946902334690094, 1.9896362125873566, 1.942454993724823, 1.9602725505828857, 1.9308104813098907, 1.9485576450824738, 1.9189430177211761, 1.9446757137775421, 1.950888842344284, 1.8819523453712463, 1.9273696839809418, 1.9789966344833374, 1.9164807796478271, 1.9156346321105957, 1.9439804553985596, 1.9329371452331543, 1.8948513269424438, 1.9586211442947388, 2.03065687417984, 1.9780590534210205]
+Accuracies: [0.6448598130841121, 0.794392523364486, 0.8411214953271028, 0.8504672897196262, 0.8457943925233645, 0.8598130841121495, 0.8644859813084113, 0.8644859813084113, 0.8691588785046729, 0.8644859813084113, 0.883177570093458, 0.8691588785046729, 0.883177570093458, 0.897196261682243, 0.9112149532710281, 0.9112149532710281, 0.9205607476635514, 0.9252336448598131, 0.9252336448598131, 0.9205607476635514, 0.9205607476635514, 0.9205607476635514, 0.9158878504672897, 0.9252336448598131, 0.9205607476635514, 0.9158878504672897, 0.9158878504672897, 0.9112149532710281, 0.9158878504672897, 0.9158878504672897, 0.9205607476635514, 0.9158878504672897, 0.9065420560747663, 0.9065420560747663, 0.9158878504672897, 0.9158878504672897, 0.9158878504672897, 0.9205607476635514, 0.9252336448598131, 0.9252336448598131, 0.9205607476635514, 0.9205607476635514, 0.9252336448598131, 0.9252336448598131, 0.9252336448598131, 0.9205607476635514, 0.9252336448598131, 0.9252336448598131, 0.9345794392523364, 0.9345794392523364, 0.9392523364485982, 0.9392523364485982, 0.9392523364485982, 0.9392523364485982, 0.9392523364485982, 0.9345794392523364, 0.9345794392523364, 0.9392523364485982, 0.9439252336448598, 0.9439252336448598, 0.9439252336448598, 0.9439252336448598, 0.9485981308411215, 0.9485981308411215, 0.9485981308411215, 0.9485981308411215, 0.9485981308411215, 0.9485981308411215, 0.9532710280373832, 0.9579439252336449, 0.9579439252336449, 0.9579439252336449, 0.9579439252336449, 0.9579439252336449, 0.9579439252336449, 0.9579439252336449, 0.9579439252336449, 0.9579439252336449, 0.9579439252336449, 0.9626168224299065, 0.9626168224299065]
+Precisions: [0.5894039735099338, 0.7218045112781954, 0.7804878048780488, 0.8034188034188035, 0.7734375, 0.8016528925619835, 0.8083333333333333, 0.7936507936507936, 0.8, 0.7983870967741935, 0.8823529411764706, 0.8099173553719008, 0.8305084745762712, 0.8648648648648649, 0.8888888888888888, 0.875, 0.8909090909090909, 0.8990825688073395, 0.8990825688073395, 0.8909090909090909, 0.9215686274509803, 0.9134615384615384, 0.8828828828828829, 0.9065420560747663, 0.8909090909090909, 0.8828828828828829, 0.897196261682243, 0.8888888888888888, 0.9292929292929293, 0.9292929292929293, 0.93, 0.912621359223301, 0.8672566371681416, 0.8672566371681416, 0.9207920792079208, 0.9047619047619048, 0.912621359223301, 0.9215686274509803, 0.9306930693069307, 0.9306930693069307, 0.8981481481481481, 0.8981481481481481, 0.9306930693069307, 0.9306930693069307, 0.9306930693069307, 0.9056603773584906, 0.9223300970873787, 0.9223300970873787, 0.9587628865979382, 0.9587628865979382, 0.96875, 0.9787234042553191, 0.9787234042553191, 0.9787234042553191, 0.96875, 0.9405940594059405, 0.9405940594059405, 0.95, 0.9595959595959596, 0.989247311827957, 0.9595959595959596, 0.9333333333333333, 0.9423076923076923, 0.9423076923076923, 0.96, 0.96, 0.96, 0.96, 0.9696969696969697, 0.9895833333333334, 0.9795918367346939, 0.9795918367346939, 0.9795918367346939, 0.9795918367346939, 0.9795918367346939, 0.9795918367346939, 0.9895833333333334, 0.9895833333333334, 0.9895833333333334, 0.9702970297029703, 0.9702970297029703]
+Recalls: [0.8640776699029126, 0.9320388349514563, 0.9320388349514563, 0.912621359223301, 0.9611650485436893, 0.941747572815534, 0.941747572815534, 0.970873786407767, 0.970873786407767, 0.9611650485436893, 0.8737864077669902, 0.9514563106796117, 0.9514563106796117, 0.9320388349514563, 0.9320388349514563, 0.9514563106796117, 0.9514563106796117, 0.9514563106796117, 0.9514563106796117, 0.9514563106796117, 0.912621359223301, 0.9223300970873787, 0.9514563106796117, 0.941747572815534, 0.9514563106796117, 0.9514563106796117, 0.9320388349514563, 0.9320388349514563, 0.8932038834951457, 0.8932038834951457, 0.9029126213592233, 0.912621359223301, 0.9514563106796117, 0.9514563106796117, 0.9029126213592233, 0.9223300970873787, 0.912621359223301, 0.912621359223301, 0.912621359223301, 0.912621359223301, 0.941747572815534, 0.941747572815534, 0.912621359223301, 0.912621359223301, 0.912621359223301, 0.9320388349514563, 0.9223300970873787, 0.9223300970873787, 0.9029126213592233, 0.9029126213592233, 0.9029126213592233, 0.8932038834951457, 0.8932038834951457, 0.8932038834951457, 0.9029126213592233, 0.9223300970873787, 0.9223300970873787, 0.9223300970873787, 0.9223300970873787, 0.8932038834951457, 0.9223300970873787, 0.9514563106796117, 0.9514563106796117, 0.9514563106796117, 0.9320388349514563, 0.9320388349514563, 0.9320388349514563, 0.9320388349514563, 0.9320388349514563, 0.9223300970873787, 0.9320388349514563, 0.9320388349514563, 0.9320388349514563, 0.9320388349514563, 0.9320388349514563, 0.9320388349514563, 0.9223300970873787, 0.9223300970873787, 0.9223300970873787, 0.9514563106796117, 0.9514563106796117]
+F1s: [0.7007874015748031, 0.8135593220338982, 0.8495575221238938, 0.8545454545454545, 0.8571428571428572, 0.8660714285714285, 0.8699551569506726, 0.8733624454148472, 0.8771929824561404, 0.8722466960352422, 0.8780487804878048, 0.8749999999999999, 0.8868778280542986, 0.8971962616822431, 0.909952606635071, 0.9116279069767441, 0.9201877934272301, 0.9245283018867926, 0.9245283018867926, 0.9201877934272301, 0.9170731707317074, 0.9178743961352658, 0.9158878504672898, 0.9238095238095239, 0.9201877934272301, 0.9158878504672898, 0.9142857142857143, 0.909952606635071, 0.9108910891089108, 0.9108910891089108, 0.916256157635468, 0.912621359223301, 0.9074074074074074, 0.9074074074074074, 0.911764705882353, 0.9134615384615385, 0.912621359223301, 0.9170731707317074, 0.9215686274509804, 0.9215686274509804, 0.9194312796208531, 0.9194312796208531, 0.9215686274509804, 0.9215686274509804, 0.9215686274509804, 0.9186602870813397, 0.9223300970873787, 0.9223300970873787, 0.9299999999999999, 0.9299999999999999, 0.9346733668341708, 0.934010152284264, 0.934010152284264, 0.934010152284264, 0.9346733668341708, 0.9313725490196079, 0.9313725490196079, 0.9359605911330049, 0.9405940594059405, 0.9387755102040817, 0.9405940594059405, 0.9423076923076923, 0.9468599033816425, 0.9468599033816425, 0.9458128078817734, 0.9458128078817734, 0.9458128078817734, 0.9458128078817734, 0.9504950495049505, 0.9547738693467336, 0.9552238805970149, 0.9552238805970149, 0.9552238805970149, 0.9552238805970149, 0.9552238805970149, 0.9552238805970149, 0.9547738693467336, 0.9547738693467336, 0.9547738693467336, 0.9607843137254902, 0.9607843137254902]
+AUCs: [0.6847721507915683, 0.8641651360097963, 0.9077232572378204, 0.913670952505904, 0.9186565205982682, 0.9283652584623459, 0.9345753520510802, 0.9385987929677251, 0.9397358523572116, 0.9391235896090265, 0.9413977083879996, 0.940085716784746, 0.9419225050293011, 0.945508615411528, 0.9518061751071459, 0.9557421499169072, 0.9573165398408118, 0.9574914720545789, 0.9592407941922505, 0.9620397096125252, 0.9623021079331759, 0.9627394384675938, 0.9620397096125249, 0.9637890317501968, 0.9636140995364295, 0.963963963963964, 0.9630893028951281, 0.9638764978570803, 0.9651010233534506, 0.9658882183154027, 0.9672002099186565, 0.9671127438117729, 0.9659756844222863, 0.9663255488498207, 0.9669378115980057, 0.9683372693081431, 0.9686871337356774, 0.9699116592320476, 0.9710487186215342, 0.9721857780110207, 0.9729729729729729, 0.9732353712936237, 0.9742849645762267, 0.9742849645762267, 0.9746348290037611, 0.9750721595381789, 0.9759468206070149, 0.977171346103385, 0.9782209393859879, 0.9784833377066386, 0.9793579987754745, 0.9802326598443103, 0.9804950581649611, 0.9812822531269133, 0.9819819819819819, 0.9818945158750984, 0.9825067786232835, 0.9825067786232835, 0.9832939735852356, 0.984081168547188, 0.9846934312953731, 0.9852182279366745, 0.9852182279366746, 0.9853931601504416, 0.9858304906848597, 0.985743024577976, 0.9856555584710925, 0.986180355112394, 0.986180355112394, 0.9865302195399283, 0.9867051517536954, 0.9869675500743461, 0.9872299483949969, 0.9874923467156477, 0.9875798128225313, 0.9875798128225313, 0.9874923467156477, 0.9874923467156477, 0.987842211143182, 0.9881920755707163, 0.9882795416775999]
+AUPRs: [0.6047887290974474, 0.8126603822984202, 0.8900043390472977, 0.8906094349293722, 0.9044680488014751, 0.9180987027752758, 0.9305227268058461, 0.9366910975462259, 0.9390681235327304, 0.9373746281533146, 0.9406064208249822, 0.9389211581585647, 0.9403911720224079, 0.9433933489004989, 0.9503876841934279, 0.954241804412534, 0.9555757363399606, 0.9556792447449092, 0.958542087425221, 0.9633491945427084, 0.9636949983486335, 0.9642066215712854, 0.9623561413495603, 0.963997171771348, 0.9638739599902452, 0.9646825657307214, 0.9639537129149088, 0.9648065340585247, 0.9668713897366865, 0.9671049048159417, 0.9685043800605325, 0.9691056035441215, 0.9683335555200181, 0.9687931599343412, 0.9693553374735164, 0.9708574393533417, 0.9714678271376211, 0.9725144442433725, 0.9732863485650138, 0.9744659495719653, 0.9756122937213909, 0.9758107832992852, 0.9769050806819837, 0.9766162167462402, 0.976986832299406, 0.9775113260212716, 0.978418429112611, 0.9796727482197585, 0.9806146209978692, 0.9807875263457041, 0.9816904333966663, 0.9825997569274081, 0.9830108873718162, 0.9836759957107608, 0.984292623733826, 0.984077850971309, 0.9843464871984922, 0.9843833813248696, 0.985172014286769, 0.9859288957288063, 0.98638063846679, 0.9868185793243753, 0.9868252220663192, 0.9870489718469188, 0.9874114323126667, 0.9874221796429219, 0.987313936882823, 0.9877539759430811, 0.9879015305035117, 0.988183203263352, 0.9883613017481758, 0.9886296683873614, 0.9888039856056916, 0.9891256571613202, 0.9892901308975567, 0.9892901308975567, 0.9891935845129224, 0.9891935845129224, 0.9894705480683696, 0.9897854853277216, 0.9898234046077514]
+-------------------------
+
+-------------------------
+Fold 9 Test metrics:
+Accuracy: 0.8261
+Precision: 0.8182
+Recall: 0.8182
+F1: 0.8182
+AUC: 0.9470
+AUPR: 0.9548
+Confusion Matrix: 
+[[10  2]
+ [ 2  9]]
+-------------------------
+
+2026-06-17 18:28:11,405 INFO MGPANConfig(dataset='QinN_2014', graphdata='QN_graphdataF.bin', metadata='QN_graphdata_metaF.pkl', subject_ids='subject_ids.csv', metapath_cache='QN_metapath_graphsF8', experiment='MGPAN_metapath8_typepooling_graphaugment_posweight_cl', log='log_MGPAN1', model_name='MGPAN', seed=66, n_splits=10, gnn='sage', num_gnn_layer=1, feat_dim=5, embed_dim=192, dim_a=56, num_node_types=3, type_emb_dim=4, node_id_emb_dim=64, abundance_proj_dim=64, edge_drop_prob=0.05, node_drop_prob=0.0, feat_mask_prob=0.0, dropout1=0.45, dropout2=0.4, dropout3=0.4, attdropout=0.4, activation='elu', batch_size=64, epochs=100, lr=0.001, weight_decay=0.003, accum_steps=1, num_workers=0, contrastive_weight=0.5, min_epochs=70, patience=10, min_delta=1e-07, data_dir='./data', metapath_dir='./metapaths', saved_model_dir='./saved_models', log_dir='./logs')
+2026-06-17 18:28:12,009 INFO Train sample count: 214
+2026-06-17 18:28:12,009 INFO   Label 0: 111 (51.87%)
+2026-06-17 18:28:12,009 INFO   Label 1: 103 (48.13%)
+2026-06-17 18:28:12,010 INFO Test sample count: 23
+2026-06-17 18:28:12,010 INFO   Label 0: 12 (52.17%)
+2026-06-17 18:28:12,010 INFO   Label 1: 11 (47.83%)
+2026-06-17 18:28:17,113 INFO pos_class_weight: 1.0776699029126213
+2026-06-17 18:28:17,176 INFO Device: cuda
+2026-06-17 18:28:48,990 INFO [Fold 10] Epoch 01 Summary: Avg Total Loss: 2.6738, Avg BCE Loss: 0.7386, Avg Contrastive Loss: 3.8703
+2026-06-17 18:28:48,991 INFO [Fold 10] Epoch 01: Acc: 0.6075 | Prec: 0.5590 | Recall: 0.8738 | F1: 0.6818 | AUC: 0.6496 | AUPR: 0.5868
+2026-06-17 18:28:49,529 INFO [Fold 10] Test Epoch 01: Acc: 0.6522 | Prec: 0.5882 | Recall: 0.9091 | F1: 0.7143 | AUC: 0.7727 | AUPR: 0.8176
+2026-06-17 18:28:49,742 INFO [EarlyStopping] New best train_loss: 2.6738 at epoch 0
+2026-06-18 00:13:07,307 INFO MGPANConfig(dataset='QinN_2014', graphdata='QN_graphdataF.bin', metadata='QN_graphdata_metaF.pkl', subject_ids='subject_ids.csv', metapath_cache='QN_metapath_graphsF8', experiment='MGPAN_metapath8_typepooling_graphaugment_posweight_cl', log='log_MGPAN1', model_name='MGPAN', seed=66, n_splits=10, gnn='sage', num_gnn_layer=1, feat_dim=5, embed_dim=192, dim_a=56, num_node_types=3, type_emb_dim=4, node_id_emb_dim=64, abundance_proj_dim=64, edge_drop_prob=0.05, node_drop_prob=0.0, feat_mask_prob=0.0, dropout1=0.45, dropout2=0.45, dropout3=0.45, attdropout=0.4, activation='elu', batch_size=64, epochs=100, lr=0.001, weight_decay=0.004, accum_steps=1, num_workers=0, contrastive_weight=1.0, min_epochs=70, patience=10, min_delta=1e-07, data_dir='./data', metapath_dir='./metapaths', saved_model_dir='./saved_models', log_dir='./logs')
+2026-06-18 00:13:08,658 INFO MGPANConfig(dataset='QinN_2014', graphdata='QN_graphdataF.bin', metadata='QN_graphdata_metaF.pkl', subject_ids='subject_ids.csv', metapath_cache='QN_metapath_graphsF8', experiment='MGPAN_metapath8_typepooling_graphaugment_posweight_cl', log='log_MGPAN1', model_name='MGPAN', seed=66, n_splits=10, gnn='sage', num_gnn_layer=1, feat_dim=5, embed_dim=192, dim_a=56, num_node_types=3, type_emb_dim=4, node_id_emb_dim=64, abundance_proj_dim=64, edge_drop_prob=0.05, node_drop_prob=0.0, feat_mask_prob=0.0, dropout1=0.45, dropout2=0.45, dropout3=0.45, attdropout=0.4, activation='elu', batch_size=64, epochs=100, lr=0.001, weight_decay=0.004, accum_steps=1, num_workers=0, contrastive_weight=1.0, min_epochs=70, patience=10, min_delta=1e-07, data_dir='./data', metapath_dir='./metapaths', saved_model_dir='./saved_models', log_dir='./logs')
+2026-06-18 00:13:09,118 INFO Train sample count: 214
+2026-06-18 00:13:09,118 INFO   Label 0: 111 (51.87%)
+2026-06-18 00:13:09,118 INFO   Label 1: 103 (48.13%)
+2026-06-18 00:13:09,118 INFO Test sample count: 23
+2026-06-18 00:13:09,118 INFO   Label 0: 12 (52.17%)
+2026-06-18 00:13:09,118 INFO   Label 1: 11 (47.83%)
+2026-06-18 00:13:11,675 INFO pos_class_weight: 1.0776699029126213
+2026-06-18 00:13:14,548 INFO Device: cuda
+2026-06-18 00:13:26,023 INFO [Fold 9] Epoch 01 Summary: Avg Total Loss: 4.6016, Avg BCE Loss: 0.7335, Avg Contrastive Loss: 3.8681
+2026-06-18 00:13:26,024 INFO [Fold 9] Epoch 01: Acc: 0.6402 | Prec: 0.5793 | Recall: 0.9223 | F1: 0.7116 | AUC: 0.6954 | AUPR: 0.6456
+2026-06-18 00:13:26,382 INFO [Fold 9] Test Epoch 01: Acc: 0.7391 | Prec: 0.6471 | Recall: 1.0000 | F1: 0.7857 | AUC: 0.7803 | AUPR: 0.6488
+2026-06-18 00:13:27,056 INFO [EarlyStopping] New best train_loss: 4.6016 at epoch 0
+2026-06-18 00:13:37,568 INFO [Fold 9] Epoch 02 Summary: Avg Total Loss: 4.5848, Avg BCE Loss: 0.7173, Avg Contrastive Loss: 3.8676
+2026-06-18 00:13:37,569 INFO [Fold 9] Epoch 02: Acc: 0.7991 | Prec: 0.7419 | Recall: 0.8932 | F1: 0.8106 | AUC: 0.8513 | AUPR: 0.8191
+2026-06-18 00:13:37,746 INFO [Fold 9] Test Epoch 02: Acc: 0.8261 | Prec: 0.7692 | Recall: 0.9091 | F1: 0.8333 | AUC: 0.9167 | AUPR: 0.9112
+2026-06-18 00:13:37,937 INFO [EarlyStopping] New best train_loss: 4.5848 at epoch 1
+2026-06-18 00:13:47,234 INFO [Fold 9] Epoch 03 Summary: Avg Total Loss: 4.6246, Avg BCE Loss: 0.7561, Avg Contrastive Loss: 3.8685
+2026-06-18 00:13:47,235 INFO [Fold 9] Epoch 03: Acc: 0.8458 | Prec: 0.8017 | Recall: 0.9029 | F1: 0.8493 | AUC: 0.9044 | AUPR: 0.8874
+2026-06-18 00:13:47,413 INFO [Fold 9] Test Epoch 03: Acc: 0.7826 | Prec: 0.7500 | Recall: 0.8182 | F1: 0.7826 | AUC: 0.8864 | AUPR: 0.8835
+2026-06-18 00:13:56,655 INFO [Fold 9] Epoch 04 Summary: Avg Total Loss: 4.6076, Avg BCE Loss: 0.7398, Avg Contrastive Loss: 3.8679
+2026-06-18 00:13:56,656 INFO [Fold 9] Epoch 04: Acc: 0.8551 | Prec: 0.8103 | Recall: 0.9126 | F1: 0.8584 | AUC: 0.9171 | AUPR: 0.9014
+2026-06-18 00:13:56,828 INFO [Fold 9] Test Epoch 04: Acc: 0.7826 | Prec: 0.7500 | Recall: 0.8182 | F1: 0.7826 | AUC: 0.8712 | AUPR: 0.8748
+2026-06-18 00:14:06,773 INFO [Fold 9] Epoch 05 Summary: Avg Total Loss: 4.5943, Avg BCE Loss: 0.7260, Avg Contrastive Loss: 3.8683
+2026-06-18 00:14:06,773 INFO [Fold 9] Epoch 05: Acc: 0.8458 | Prec: 0.7652 | Recall: 0.9806 | F1: 0.8596 | AUC: 0.9239 | AUPR: 0.9089
+2026-06-18 00:14:06,992 INFO [Fold 9] Test Epoch 05: Acc: 0.7826 | Prec: 0.7143 | Recall: 0.9091 | F1: 0.8000 | AUC: 0.8864 | AUPR: 0.8844
+2026-06-18 00:14:16,537 INFO [Fold 9] Epoch 06 Summary: Avg Total Loss: 4.5988, Avg BCE Loss: 0.7311, Avg Contrastive Loss: 3.8678
+2026-06-18 00:14:16,537 INFO [Fold 9] Epoch 06: Acc: 0.8598 | Prec: 0.7874 | Recall: 0.9709 | F1: 0.8696 | AUC: 0.9316 | AUPR: 0.9223
+2026-06-18 00:14:16,725 INFO [Fold 9] Test Epoch 06: Acc: 0.7826 | Prec: 0.7143 | Recall: 0.9091 | F1: 0.8000 | AUC: 0.9091 | AUPR: 0.9010
+2026-06-18 00:14:26,835 INFO [Fold 9] Epoch 07 Summary: Avg Total Loss: 4.5883, Avg BCE Loss: 0.7207, Avg Contrastive Loss: 3.8677
+2026-06-18 00:14:26,836 INFO [Fold 9] Epoch 07: Acc: 0.8645 | Prec: 0.7937 | Recall: 0.9709 | F1: 0.8734 | AUC: 0.9320 | AUPR: 0.9233
+2026-06-18 00:14:27,171 INFO [Fold 9] Test Epoch 07: Acc: 0.7391 | Prec: 0.6923 | Recall: 0.8182 | F1: 0.7500 | AUC: 0.8788 | AUPR: 0.8812
+2026-06-18 00:14:38,130 INFO [Fold 9] Epoch 08 Summary: Avg Total Loss: 4.5881, Avg BCE Loss: 0.7210, Avg Contrastive Loss: 3.8671
+2026-06-18 00:14:38,130 INFO [Fold 9] Epoch 08: Acc: 0.8598 | Prec: 0.7920 | Recall: 0.9612 | F1: 0.8684 | AUC: 0.9354 | AUPR: 0.9310
+2026-06-18 00:14:38,339 INFO [Fold 9] Test Epoch 08: Acc: 0.7391 | Prec: 0.6923 | Recall: 0.8182 | F1: 0.7500 | AUC: 0.8864 | AUPR: 0.8905
+2026-06-18 00:14:48,109 INFO [Fold 9] Epoch 09 Summary: Avg Total Loss: 4.5789, Avg BCE Loss: 0.7148, Avg Contrastive Loss: 3.8641
+2026-06-18 00:14:48,110 INFO [Fold 9] Epoch 09: Acc: 0.8645 | Prec: 0.8033 | Recall: 0.9515 | F1: 0.8711 | AUC: 0.9368 | AUPR: 0.9339
+2026-06-18 00:14:48,329 INFO [Fold 9] Test Epoch 09: Acc: 0.7391 | Prec: 0.6923 | Recall: 0.8182 | F1: 0.7500 | AUC: 0.8864 | AUPR: 0.8905
+2026-06-18 00:14:48,520 INFO [EarlyStopping] New best train_loss: 4.5789 at epoch 8
+2026-06-18 00:14:57,455 INFO [Fold 9] Epoch 10 Summary: Avg Total Loss: 4.5826, Avg BCE Loss: 0.7199, Avg Contrastive Loss: 3.8627
+2026-06-18 00:14:57,458 INFO [Fold 9] Epoch 10: Acc: 0.8738 | Prec: 0.8393 | Recall: 0.9126 | F1: 0.8744 | AUC: 0.9388 | AUPR: 0.9353
+2026-06-18 00:14:57,620 INFO [Fold 9] Test Epoch 10: Acc: 0.7826 | Prec: 0.7500 | Recall: 0.8182 | F1: 0.7826 | AUC: 0.9091 | AUPR: 0.9043
+2026-06-18 00:15:06,904 INFO [Fold 9] Epoch 11 Summary: Avg Total Loss: 4.5577, Avg BCE Loss: 0.7073, Avg Contrastive Loss: 3.8504
+2026-06-18 00:15:06,905 INFO [Fold 9] Epoch 11: Acc: 0.8785 | Prec: 0.8348 | Recall: 0.9320 | F1: 0.8807 | AUC: 0.9391 | AUPR: 0.9342
+2026-06-18 00:15:07,064 INFO [Fold 9] Test Epoch 11: Acc: 0.7826 | Prec: 0.7500 | Recall: 0.8182 | F1: 0.7826 | AUC: 0.9091 | AUPR: 0.9085
+2026-06-18 00:15:07,231 INFO [EarlyStopping] New best train_loss: 4.5577 at epoch 10
+2026-06-18 00:15:16,638 INFO [Fold 9] Epoch 12 Summary: Avg Total Loss: 4.4876, Avg BCE Loss: 0.7037, Avg Contrastive Loss: 3.7839
+2026-06-18 00:15:16,638 INFO [Fold 9] Epoch 12: Acc: 0.8832 | Prec: 0.8421 | Recall: 0.9320 | F1: 0.8848 | AUC: 0.9449 | AUPR: 0.9428
+2026-06-18 00:15:16,878 INFO [Fold 9] Test Epoch 12: Acc: 0.8696 | Prec: 0.8333 | Recall: 0.9091 | F1: 0.8696 | AUC: 0.9318 | AUPR: 0.9265
+2026-06-18 00:15:17,056 INFO [EarlyStopping] New best train_loss: 4.4876 at epoch 11
+2026-06-18 00:15:27,091 INFO [Fold 9] Epoch 13 Summary: Avg Total Loss: 4.4380, Avg BCE Loss: 0.6800, Avg Contrastive Loss: 3.7581
+2026-06-18 00:15:27,092 INFO [Fold 9] Epoch 13: Acc: 0.8972 | Prec: 0.8522 | Recall: 0.9515 | F1: 0.8991 | AUC: 0.9500 | AUPR: 0.9486
+2026-06-18 00:15:27,444 INFO [Fold 9] Test Epoch 13: Acc: 0.8696 | Prec: 0.8333 | Recall: 0.9091 | F1: 0.8696 | AUC: 0.9470 | AUPR: 0.9371
+2026-06-18 00:15:27,741 INFO [EarlyStopping] New best train_loss: 4.4380 at epoch 12
+2026-06-18 00:15:38,130 INFO [Fold 9] Epoch 14 Summary: Avg Total Loss: 4.3983, Avg BCE Loss: 0.6819, Avg Contrastive Loss: 3.7164
+2026-06-18 00:15:38,131 INFO [Fold 9] Epoch 14: Acc: 0.9065 | Prec: 0.8673 | Recall: 0.9515 | F1: 0.9074 | AUC: 0.9572 | AUPR: 0.9565
+2026-06-18 00:15:38,307 INFO [Fold 9] Test Epoch 14: Acc: 0.8696 | Prec: 0.8333 | Recall: 0.9091 | F1: 0.8696 | AUC: 0.9545 | AUPR: 0.9442
+2026-06-18 00:15:38,503 INFO [EarlyStopping] New best train_loss: 4.3983 at epoch 13
+2026-06-18 00:15:47,936 INFO [Fold 9] Epoch 15 Summary: Avg Total Loss: 4.3517, Avg BCE Loss: 0.6604, Avg Contrastive Loss: 3.6913
+2026-06-18 00:15:47,936 INFO [Fold 9] Epoch 15: Acc: 0.9112 | Prec: 0.8684 | Recall: 0.9612 | F1: 0.9124 | AUC: 0.9610 | AUPR: 0.9604
+2026-06-18 00:15:48,094 INFO [Fold 9] Test Epoch 15: Acc: 0.9565 | Prec: 0.9167 | Recall: 1.0000 | F1: 0.9565 | AUC: 0.9773 | AUPR: 0.9738
+2026-06-18 00:15:48,258 INFO [EarlyStopping] New best train_loss: 4.3517 at epoch 14
+2026-06-18 00:15:57,560 INFO [Fold 9] Epoch 16 Summary: Avg Total Loss: 4.3022, Avg BCE Loss: 0.6412, Avg Contrastive Loss: 3.6610
+2026-06-18 00:15:57,560 INFO [Fold 9] Epoch 16: Acc: 0.9206 | Prec: 0.8839 | Recall: 0.9612 | F1: 0.9209 | AUC: 0.9633 | AUPR: 0.9631
+2026-06-18 00:15:57,787 INFO [Fold 9] Test Epoch 16: Acc: 0.9565 | Prec: 0.9167 | Recall: 1.0000 | F1: 0.9565 | AUC: 0.9848 | AUPR: 0.9834
+2026-06-18 00:15:58,045 INFO [EarlyStopping] New best train_loss: 4.3022 at epoch 15
+2026-06-18 00:16:08,040 INFO [Fold 9] Epoch 17 Summary: Avg Total Loss: 4.3453, Avg BCE Loss: 0.6440, Avg Contrastive Loss: 3.7013
+2026-06-18 00:16:08,041 INFO [Fold 9] Epoch 17: Acc: 0.9206 | Prec: 0.8839 | Recall: 0.9612 | F1: 0.9209 | AUC: 0.9662 | AUPR: 0.9672
+2026-06-18 00:16:08,265 INFO [Fold 9] Test Epoch 17: Acc: 0.9565 | Prec: 0.9167 | Recall: 1.0000 | F1: 0.9565 | AUC: 0.9848 | AUPR: 0.9834
+2026-06-18 00:16:17,407 INFO [Fold 9] Epoch 18 Summary: Avg Total Loss: 4.2580, Avg BCE Loss: 0.6126, Avg Contrastive Loss: 3.6455
+2026-06-18 00:16:17,408 INFO [Fold 9] Epoch 18: Acc: 0.9299 | Prec: 0.9314 | Recall: 0.9223 | F1: 0.9268 | AUC: 0.9703 | AUPR: 0.9722
+2026-06-18 00:16:17,575 INFO [Fold 9] Test Epoch 18: Acc: 0.9130 | Prec: 0.9091 | Recall: 0.9091 | F1: 0.9091 | AUC: 0.9848 | AUPR: 0.9834
+2026-06-18 00:16:17,946 INFO [EarlyStopping] New best train_loss: 4.2580 at epoch 17
+2026-06-18 00:16:27,829 INFO [Fold 9] Epoch 19 Summary: Avg Total Loss: 4.2125, Avg BCE Loss: 0.5868, Avg Contrastive Loss: 3.6257
+2026-06-18 00:16:27,829 INFO [Fold 9] Epoch 19: Acc: 0.9346 | Prec: 0.9406 | Recall: 0.9223 | F1: 0.9314 | AUC: 0.9726 | AUPR: 0.9752
+2026-06-18 00:16:28,190 INFO [Fold 9] Test Epoch 19: Acc: 0.9130 | Prec: 0.9091 | Recall: 0.9091 | F1: 0.9091 | AUC: 0.9848 | AUPR: 0.9834
+2026-06-18 00:16:28,630 INFO [EarlyStopping] New best train_loss: 4.2125 at epoch 18
+2026-06-18 00:16:38,827 INFO [Fold 9] Epoch 20 Summary: Avg Total Loss: 4.2175, Avg BCE Loss: 0.5907, Avg Contrastive Loss: 3.6268
+2026-06-18 00:16:38,827 INFO [Fold 9] Epoch 20: Acc: 0.9299 | Prec: 0.8929 | Recall: 0.9709 | F1: 0.9302 | AUC: 0.9732 | AUPR: 0.9761
+2026-06-18 00:16:39,003 INFO [Fold 9] Test Epoch 20: Acc: 0.8696 | Prec: 0.8333 | Recall: 0.9091 | F1: 0.8696 | AUC: 0.9697 | AUPR: 0.9696
+2026-06-18 00:16:48,459 INFO [Fold 9] Epoch 21 Summary: Avg Total Loss: 4.2090, Avg BCE Loss: 0.5602, Avg Contrastive Loss: 3.6488
+2026-06-18 00:16:48,459 INFO [Fold 9] Epoch 21: Acc: 0.9393 | Prec: 0.9245 | Recall: 0.9515 | F1: 0.9378 | AUC: 0.9737 | AUPR: 0.9764
+2026-06-18 00:16:48,625 INFO [Fold 9] Test Epoch 21: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9697 | AUPR: 0.9696
+2026-06-18 00:16:48,799 INFO [EarlyStopping] New best train_loss: 4.2090 at epoch 20
+2026-06-18 00:16:57,994 INFO [Fold 9] Epoch 22 Summary: Avg Total Loss: 4.0932, Avg BCE Loss: 0.5392, Avg Contrastive Loss: 3.5540
+2026-06-18 00:16:57,994 INFO [Fold 9] Epoch 22: Acc: 0.9439 | Prec: 0.9252 | Recall: 0.9612 | F1: 0.9429 | AUC: 0.9752 | AUPR: 0.9783
+2026-06-18 00:16:58,216 INFO [Fold 9] Test Epoch 22: Acc: 0.8696 | Prec: 0.8333 | Recall: 0.9091 | F1: 0.8696 | AUC: 0.9697 | AUPR: 0.9696
+2026-06-18 00:16:58,504 INFO [EarlyStopping] New best train_loss: 4.0932 at epoch 21
+2026-06-18 00:17:07,704 INFO [Fold 9] Epoch 23 Summary: Avg Total Loss: 4.1601, Avg BCE Loss: 0.4920, Avg Contrastive Loss: 3.6681
+2026-06-18 00:17:07,704 INFO [Fold 9] Epoch 23: Acc: 0.9393 | Prec: 0.9167 | Recall: 0.9612 | F1: 0.9384 | AUC: 0.9759 | AUPR: 0.9790
+2026-06-18 00:17:07,868 INFO [Fold 9] Test Epoch 23: Acc: 0.8696 | Prec: 0.8333 | Recall: 0.9091 | F1: 0.8696 | AUC: 0.9621 | AUPR: 0.9639
+2026-06-18 00:17:17,116 INFO [Fold 9] Epoch 24 Summary: Avg Total Loss: 4.1408, Avg BCE Loss: 0.4862, Avg Contrastive Loss: 3.6546
+2026-06-18 00:17:17,117 INFO [Fold 9] Epoch 24: Acc: 0.9393 | Prec: 0.9412 | Recall: 0.9320 | F1: 0.9366 | AUC: 0.9762 | AUPR: 0.9784
+2026-06-18 00:17:17,282 INFO [Fold 9] Test Epoch 24: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9697 | AUPR: 0.9696
+2026-06-18 00:17:26,699 INFO [Fold 9] Epoch 25 Summary: Avg Total Loss: 4.0965, Avg BCE Loss: 0.4664, Avg Contrastive Loss: 3.6301
+2026-06-18 00:17:26,700 INFO [Fold 9] Epoch 25: Acc: 0.9393 | Prec: 0.9412 | Recall: 0.9320 | F1: 0.9366 | AUC: 0.9755 | AUPR: 0.9771
+2026-06-18 00:17:26,950 INFO [Fold 9] Test Epoch 25: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9621 | AUPR: 0.9639
+2026-06-18 00:17:37,378 INFO [Fold 9] Epoch 26 Summary: Avg Total Loss: 4.0320, Avg BCE Loss: 0.4372, Avg Contrastive Loss: 3.5948
+2026-06-18 00:17:37,379 INFO [Fold 9] Epoch 26: Acc: 0.9393 | Prec: 0.9245 | Recall: 0.9515 | F1: 0.9378 | AUC: 0.9749 | AUPR: 0.9771
+2026-06-18 00:17:37,586 INFO [Fold 9] Test Epoch 26: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9621 | AUPR: 0.9639
+2026-06-18 00:17:37,758 INFO [EarlyStopping] New best train_loss: 4.0320 at epoch 25
+2026-06-18 00:17:47,119 INFO [Fold 9] Epoch 27 Summary: Avg Total Loss: 3.9719, Avg BCE Loss: 0.4051, Avg Contrastive Loss: 3.5668
+2026-06-18 00:17:47,119 INFO [Fold 9] Epoch 27: Acc: 0.9393 | Prec: 0.9245 | Recall: 0.9515 | F1: 0.9378 | AUC: 0.9742 | AUPR: 0.9765
+2026-06-18 00:17:47,340 INFO [Fold 9] Test Epoch 27: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9545 | AUPR: 0.9591
+2026-06-18 00:17:47,830 INFO [EarlyStopping] New best train_loss: 3.9719 at epoch 26
+2026-06-18 00:17:57,666 INFO [Fold 9] Epoch 28 Summary: Avg Total Loss: 4.0601, Avg BCE Loss: 0.4139, Avg Contrastive Loss: 3.6462
+2026-06-18 00:17:57,666 INFO [Fold 9] Epoch 28: Acc: 0.9393 | Prec: 0.9245 | Recall: 0.9515 | F1: 0.9378 | AUC: 0.9731 | AUPR: 0.9755
+2026-06-18 00:17:57,828 INFO [Fold 9] Test Epoch 28: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9545 | AUPR: 0.9591
+2026-06-18 00:18:06,866 INFO [Fold 9] Epoch 29 Summary: Avg Total Loss: 3.9164, Avg BCE Loss: 0.3378, Avg Contrastive Loss: 3.5787
+2026-06-18 00:18:06,867 INFO [Fold 9] Epoch 29: Acc: 0.9346 | Prec: 0.9159 | Recall: 0.9515 | F1: 0.9333 | AUC: 0.9733 | AUPR: 0.9752
+2026-06-18 00:18:07,037 INFO [Fold 9] Test Epoch 29: Acc: 0.8696 | Prec: 0.8333 | Recall: 0.9091 | F1: 0.8696 | AUC: 0.9545 | AUPR: 0.9591
+2026-06-18 00:18:07,220 INFO [EarlyStopping] New best train_loss: 3.9164 at epoch 28
+2026-06-18 00:18:16,603 INFO [Fold 9] Epoch 30 Summary: Avg Total Loss: 4.1025, Avg BCE Loss: 0.4140, Avg Contrastive Loss: 3.6885
+2026-06-18 00:18:16,603 INFO [Fold 9] Epoch 30: Acc: 0.9439 | Prec: 0.9505 | Recall: 0.9320 | F1: 0.9412 | AUC: 0.9752 | AUPR: 0.9760
+2026-06-18 00:18:16,772 INFO [Fold 9] Test Epoch 30: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9621 | AUPR: 0.9639
+2026-06-18 00:18:26,598 INFO [Fold 9] Epoch 31 Summary: Avg Total Loss: 3.9240, Avg BCE Loss: 0.3512, Avg Contrastive Loss: 3.5728
+2026-06-18 00:18:26,599 INFO [Fold 9] Epoch 31: Acc: 0.9393 | Prec: 0.9412 | Recall: 0.9320 | F1: 0.9366 | AUC: 0.9759 | AUPR: 0.9768
+2026-06-18 00:18:26,792 INFO [Fold 9] Test Epoch 31: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9621 | AUPR: 0.9639
+2026-06-18 00:18:37,537 INFO [Fold 9] Epoch 32 Summary: Avg Total Loss: 3.9096, Avg BCE Loss: 0.3559, Avg Contrastive Loss: 3.5537
+2026-06-18 00:18:37,538 INFO [Fold 9] Epoch 32: Acc: 0.9346 | Prec: 0.9320 | Recall: 0.9320 | F1: 0.9320 | AUC: 0.9752 | AUPR: 0.9766
+2026-06-18 00:18:37,768 INFO [Fold 9] Test Epoch 32: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9621 | AUPR: 0.9639
+2026-06-18 00:18:37,977 INFO [EarlyStopping] New best train_loss: 3.9096 at epoch 31
+2026-06-18 00:18:47,247 INFO [Fold 9] Epoch 33 Summary: Avg Total Loss: 3.7723, Avg BCE Loss: 0.2687, Avg Contrastive Loss: 3.5036
+2026-06-18 00:18:47,247 INFO [Fold 9] Epoch 33: Acc: 0.9299 | Prec: 0.9314 | Recall: 0.9223 | F1: 0.9268 | AUC: 0.9735 | AUPR: 0.9755
+2026-06-18 00:18:47,523 INFO [Fold 9] Test Epoch 33: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-18 00:18:47,980 INFO [EarlyStopping] New best train_loss: 3.7723 at epoch 32
+2026-06-18 00:18:57,563 INFO [Fold 9] Epoch 34 Summary: Avg Total Loss: 3.8628, Avg BCE Loss: 0.3054, Avg Contrastive Loss: 3.5573
+2026-06-18 00:18:57,564 INFO [Fold 9] Epoch 34: Acc: 0.9206 | Prec: 0.8909 | Recall: 0.9515 | F1: 0.9202 | AUC: 0.9717 | AUPR: 0.9741
+2026-06-18 00:18:57,748 INFO [Fold 9] Test Epoch 34: Acc: 0.8696 | Prec: 0.8333 | Recall: 0.9091 | F1: 0.8696 | AUC: 0.9545 | AUPR: 0.9591
+2026-06-18 00:19:07,537 INFO [Fold 9] Epoch 35 Summary: Avg Total Loss: 3.8738, Avg BCE Loss: 0.2995, Avg Contrastive Loss: 3.5743
+2026-06-18 00:19:07,537 INFO [Fold 9] Epoch 35: Acc: 0.9299 | Prec: 0.9074 | Recall: 0.9515 | F1: 0.9289 | AUC: 0.9754 | AUPR: 0.9781
+2026-06-18 00:19:07,710 INFO [Fold 9] Test Epoch 35: Acc: 0.8696 | Prec: 0.8333 | Recall: 0.9091 | F1: 0.8696 | AUC: 0.9621 | AUPR: 0.9639
+2026-06-18 00:19:17,366 INFO [Fold 9] Epoch 36 Summary: Avg Total Loss: 3.7485, Avg BCE Loss: 0.2616, Avg Contrastive Loss: 3.4869
+2026-06-18 00:19:17,366 INFO [Fold 9] Epoch 36: Acc: 0.9299 | Prec: 0.9151 | Recall: 0.9417 | F1: 0.9282 | AUC: 0.9775 | AUPR: 0.9802
+2026-06-18 00:19:17,558 INFO [Fold 9] Test Epoch 36: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9621 | AUPR: 0.9639
+2026-06-18 00:19:17,726 INFO [EarlyStopping] New best train_loss: 3.7485 at epoch 35
+2026-06-18 00:19:27,148 INFO [Fold 9] Epoch 37 Summary: Avg Total Loss: 3.9508, Avg BCE Loss: 0.3241, Avg Contrastive Loss: 3.6267
+2026-06-18 00:19:27,149 INFO [Fold 9] Epoch 37: Acc: 0.9299 | Prec: 0.9151 | Recall: 0.9417 | F1: 0.9282 | AUC: 0.9773 | AUPR: 0.9801
+2026-06-18 00:19:27,336 INFO [Fold 9] Test Epoch 37: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9621 | AUPR: 0.9639
+2026-06-18 00:19:36,962 INFO [Fold 9] Epoch 38 Summary: Avg Total Loss: 3.9417, Avg BCE Loss: 0.3257, Avg Contrastive Loss: 3.6160
+2026-06-18 00:19:36,963 INFO [Fold 9] Epoch 38: Acc: 0.9299 | Prec: 0.9151 | Recall: 0.9417 | F1: 0.9282 | AUC: 0.9782 | AUPR: 0.9807
+2026-06-18 00:19:37,131 INFO [Fold 9] Test Epoch 38: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9697 | AUPR: 0.9696
+2026-06-18 00:19:46,474 INFO [Fold 9] Epoch 39 Summary: Avg Total Loss: 3.8020, Avg BCE Loss: 0.2816, Avg Contrastive Loss: 3.5203
+2026-06-18 00:19:46,475 INFO [Fold 9] Epoch 39: Acc: 0.9393 | Prec: 0.9412 | Recall: 0.9320 | F1: 0.9366 | AUC: 0.9792 | AUPR: 0.9814
+2026-06-18 00:19:46,638 INFO [Fold 9] Test Epoch 39: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9697 | AUPR: 0.9696
+2026-06-18 00:19:56,599 INFO [Fold 9] Epoch 40 Summary: Avg Total Loss: 3.9116, Avg BCE Loss: 0.3228, Avg Contrastive Loss: 3.5887
+2026-06-18 00:19:56,600 INFO [Fold 9] Epoch 40: Acc: 0.9393 | Prec: 0.9327 | Recall: 0.9417 | F1: 0.9372 | AUC: 0.9795 | AUPR: 0.9818
+2026-06-18 00:19:56,829 INFO [Fold 9] Test Epoch 40: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9697 | AUPR: 0.9696
+2026-06-18 00:20:06,670 INFO [Fold 9] Epoch 41 Summary: Avg Total Loss: 3.8581, Avg BCE Loss: 0.2864, Avg Contrastive Loss: 3.5717
+2026-06-18 00:20:06,672 INFO [Fold 9] Epoch 41: Acc: 0.9393 | Prec: 0.9327 | Recall: 0.9417 | F1: 0.9372 | AUC: 0.9796 | AUPR: 0.9819
+2026-06-18 00:20:06,846 INFO [Fold 9] Test Epoch 41: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9697 | AUPR: 0.9696
+2026-06-18 00:20:15,900 INFO [Fold 9] Epoch 42 Summary: Avg Total Loss: 3.6994, Avg BCE Loss: 0.2202, Avg Contrastive Loss: 3.4792
+2026-06-18 00:20:15,900 INFO [Fold 9] Epoch 42: Acc: 0.9346 | Prec: 0.9320 | Recall: 0.9320 | F1: 0.9320 | AUC: 0.9804 | AUPR: 0.9826
+2026-06-18 00:20:16,069 INFO [Fold 9] Test Epoch 42: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9697 | AUPR: 0.9696
+2026-06-18 00:20:17,195 INFO [EarlyStopping] New best train_loss: 3.6994 at epoch 41
+2026-06-18 00:20:27,278 INFO [Fold 9] Epoch 43 Summary: Avg Total Loss: 3.8084, Avg BCE Loss: 0.2774, Avg Contrastive Loss: 3.5310
+2026-06-18 00:20:27,283 INFO [Fold 9] Epoch 43: Acc: 0.9393 | Prec: 0.9500 | Recall: 0.9223 | F1: 0.9360 | AUC: 0.9816 | AUPR: 0.9835
+2026-06-18 00:20:27,529 INFO [Fold 9] Test Epoch 43: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9621 | AUPR: 0.9639
+2026-06-18 00:20:37,358 INFO [Fold 9] Epoch 44 Summary: Avg Total Loss: 3.7505, Avg BCE Loss: 0.2338, Avg Contrastive Loss: 3.5167
+2026-06-18 00:20:37,359 INFO [Fold 9] Epoch 44: Acc: 0.9346 | Prec: 0.9406 | Recall: 0.9223 | F1: 0.9314 | AUC: 0.9830 | AUPR: 0.9846
+2026-06-18 00:20:37,523 INFO [Fold 9] Test Epoch 44: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9621 | AUPR: 0.9639
+2026-06-18 00:20:47,211 INFO [Fold 9] Epoch 45 Summary: Avg Total Loss: 3.6784, Avg BCE Loss: 0.2156, Avg Contrastive Loss: 3.4628
+2026-06-18 00:20:47,211 INFO [Fold 9] Epoch 45: Acc: 0.9439 | Prec: 0.9691 | Recall: 0.9126 | F1: 0.9400 | AUC: 0.9836 | AUPR: 0.9849
+2026-06-18 00:20:47,388 INFO [Fold 9] Test Epoch 45: Acc: 0.8696 | Prec: 0.9000 | Recall: 0.8182 | F1: 0.8571 | AUC: 0.9621 | AUPR: 0.9639
+2026-06-18 00:20:48,290 INFO [EarlyStopping] New best train_loss: 3.6784 at epoch 44
+2026-06-18 00:20:57,657 INFO [Fold 9] Epoch 46 Summary: Avg Total Loss: 3.8326, Avg BCE Loss: 0.2670, Avg Contrastive Loss: 3.5655
+2026-06-18 00:20:57,657 INFO [Fold 9] Epoch 46: Acc: 0.9393 | Prec: 0.9592 | Recall: 0.9126 | F1: 0.9353 | AUC: 0.9833 | AUPR: 0.9846
+2026-06-18 00:20:57,823 INFO [Fold 9] Test Epoch 46: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9545 | AUPR: 0.9591
+2026-06-18 00:21:07,411 INFO [Fold 9] Epoch 47 Summary: Avg Total Loss: 3.7013, Avg BCE Loss: 0.2194, Avg Contrastive Loss: 3.4819
+2026-06-18 00:21:07,421 INFO [Fold 9] Epoch 47: Acc: 0.9393 | Prec: 0.9592 | Recall: 0.9126 | F1: 0.9353 | AUC: 0.9831 | AUPR: 0.9845
+2026-06-18 00:21:07,586 INFO [Fold 9] Test Epoch 47: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9545 | AUPR: 0.9591
+2026-06-18 00:21:17,168 INFO [Fold 9] Epoch 48 Summary: Avg Total Loss: 3.6755, Avg BCE Loss: 0.2010, Avg Contrastive Loss: 3.4745
+2026-06-18 00:21:17,168 INFO [Fold 9] Epoch 48: Acc: 0.9393 | Prec: 0.9592 | Recall: 0.9126 | F1: 0.9353 | AUC: 0.9828 | AUPR: 0.9843
+2026-06-18 00:21:17,337 INFO [Fold 9] Test Epoch 48: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9545 | AUPR: 0.9591
+2026-06-18 00:21:18,293 INFO [EarlyStopping] New best train_loss: 3.6755 at epoch 47
+2026-06-18 00:21:28,117 INFO [Fold 9] Epoch 49 Summary: Avg Total Loss: 3.7499, Avg BCE Loss: 0.2362, Avg Contrastive Loss: 3.5138
+2026-06-18 00:21:28,117 INFO [Fold 9] Epoch 49: Acc: 0.9439 | Prec: 0.9691 | Recall: 0.9126 | F1: 0.9400 | AUC: 0.9846 | AUPR: 0.9861
+2026-06-18 00:21:28,389 INFO [Fold 9] Test Epoch 49: Acc: 0.8696 | Prec: 0.9000 | Recall: 0.8182 | F1: 0.8571 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-18 00:21:37,900 INFO [Fold 9] Epoch 50 Summary: Avg Total Loss: 3.7037, Avg BCE Loss: 0.2075, Avg Contrastive Loss: 3.4963
+2026-06-18 00:21:37,901 INFO [Fold 9] Epoch 50: Acc: 0.9533 | Prec: 0.9697 | Recall: 0.9320 | F1: 0.9505 | AUC: 0.9867 | AUPR: 0.9884
+2026-06-18 00:21:38,071 INFO [Fold 9] Test Epoch 50: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9545 | AUPR: 0.9591
+2026-06-18 00:21:47,597 INFO [Fold 9] Epoch 51 Summary: Avg Total Loss: 3.6514, Avg BCE Loss: 0.2012, Avg Contrastive Loss: 3.4502
+2026-06-18 00:21:47,597 INFO [Fold 9] Epoch 51: Acc: 0.9579 | Prec: 0.9796 | Recall: 0.9320 | F1: 0.9552 | AUC: 0.9878 | AUPR: 0.9894
+2026-06-18 00:21:47,771 INFO [Fold 9] Test Epoch 51: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9545 | AUPR: 0.9591
+2026-06-18 00:21:48,658 INFO [EarlyStopping] New best train_loss: 3.6514 at epoch 50
+2026-06-18 00:21:58,442 INFO [Fold 9] Epoch 52 Summary: Avg Total Loss: 3.6955, Avg BCE Loss: 0.2264, Avg Contrastive Loss: 3.4691
+2026-06-18 00:21:58,442 INFO [Fold 9] Epoch 52: Acc: 0.9579 | Prec: 0.9796 | Recall: 0.9320 | F1: 0.9552 | AUC: 0.9887 | AUPR: 0.9902
+2026-06-18 00:21:58,663 INFO [Fold 9] Test Epoch 52: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9545 | AUPR: 0.9591
+2026-06-18 00:22:08,343 INFO [Fold 9] Epoch 53 Summary: Avg Total Loss: 3.7391, Avg BCE Loss: 0.2288, Avg Contrastive Loss: 3.5103
+2026-06-18 00:22:08,344 INFO [Fold 9] Epoch 53: Acc: 0.9533 | Prec: 0.9697 | Recall: 0.9320 | F1: 0.9505 | AUC: 0.9889 | AUPR: 0.9903
+2026-06-18 00:22:08,509 INFO [Fold 9] Test Epoch 53: Acc: 0.8261 | Prec: 0.8182 | Recall: 0.8182 | F1: 0.8182 | AUC: 0.9470 | AUPR: 0.9548
+2026-06-18 00:22:18,364 INFO [Fold 9] Epoch 54 Summary: Avg Total Loss: 3.7238, Avg BCE Loss: 0.2187, Avg Contrastive Loss: 3.5051
+2026-06-18 00:22:18,364 INFO [Fold 9] Epoch 54: Acc: 0.9579 | Prec: 0.9896 | Recall: 0.9223 | F1: 0.9548 | AUC: 0.9892 | AUPR: 0.9905
+2026-06-18 00:22:18,577 INFO [Fold 9] Test Epoch 54: Acc: 0.8696 | Prec: 0.9000 | Recall: 0.8182 | F1: 0.8571 | AUC: 0.9545 | AUPR: 0.9620
+2026-06-18 00:22:28,922 INFO [Fold 9] Epoch 55 Summary: Avg Total Loss: 3.7235, Avg BCE Loss: 0.2047, Avg Contrastive Loss: 3.5188
+2026-06-18 00:22:28,922 INFO [Fold 9] Epoch 55: Acc: 0.9579 | Prec: 0.9896 | Recall: 0.9223 | F1: 0.9548 | AUC: 0.9897 | AUPR: 0.9908
+2026-06-18 00:22:29,132 INFO [Fold 9] Test Epoch 55: Acc: 0.8696 | Prec: 0.9000 | Recall: 0.8182 | F1: 0.8571 | AUC: 0.9545 | AUPR: 0.9620
+2026-06-18 00:22:38,781 INFO [Fold 9] Epoch 56 Summary: Avg Total Loss: 3.6472, Avg BCE Loss: 0.1924, Avg Contrastive Loss: 3.4548
+2026-06-18 00:22:38,782 INFO [Fold 9] Epoch 56: Acc: 0.9579 | Prec: 0.9896 | Recall: 0.9223 | F1: 0.9548 | AUC: 0.9901 | AUPR: 0.9911
+2026-06-18 00:22:38,953 INFO [Fold 9] Test Epoch 56: Acc: 0.8696 | Prec: 0.9000 | Recall: 0.8182 | F1: 0.8571 | AUC: 0.9545 | AUPR: 0.9620
+2026-06-18 00:22:39,557 INFO [EarlyStopping] New best train_loss: 3.6472 at epoch 55
+2026-06-18 00:22:48,550 INFO [Fold 9] Epoch 57 Summary: Avg Total Loss: 3.7442, Avg BCE Loss: 0.2351, Avg Contrastive Loss: 3.5091
+2026-06-18 00:22:48,550 INFO [Fold 9] Epoch 57: Acc: 0.9579 | Prec: 0.9608 | Recall: 0.9515 | F1: 0.9561 | AUC: 0.9905 | AUPR: 0.9914
+2026-06-18 00:22:48,710 INFO [Fold 9] Test Epoch 57: Acc: 0.9130 | Prec: 0.9091 | Recall: 0.9091 | F1: 0.9091 | AUC: 0.9545 | AUPR: 0.9620
+2026-06-18 00:22:58,385 INFO [Fold 9] Epoch 58 Summary: Avg Total Loss: 3.7049, Avg BCE Loss: 0.2101, Avg Contrastive Loss: 3.4947
+2026-06-18 00:22:58,386 INFO [Fold 9] Epoch 58: Acc: 0.9579 | Prec: 0.9796 | Recall: 0.9320 | F1: 0.9552 | AUC: 0.9899 | AUPR: 0.9908
+2026-06-18 00:22:58,550 INFO [Fold 9] Test Epoch 58: Acc: 0.9130 | Prec: 0.9091 | Recall: 0.9091 | F1: 0.9091 | AUC: 0.9545 | AUPR: 0.9620
+2026-06-18 00:23:08,062 INFO [Fold 9] Epoch 59 Summary: Avg Total Loss: 3.7500, Avg BCE Loss: 0.2342, Avg Contrastive Loss: 3.5158
+2026-06-18 00:23:08,063 INFO [Fold 9] Epoch 59: Acc: 0.9626 | Prec: 0.9703 | Recall: 0.9515 | F1: 0.9608 | AUC: 0.9902 | AUPR: 0.9911
+2026-06-18 00:23:08,228 INFO [Fold 9] Test Epoch 59: Acc: 0.9130 | Prec: 0.9091 | Recall: 0.9091 | F1: 0.9091 | AUC: 0.9545 | AUPR: 0.9620
+2026-06-18 00:23:17,599 INFO [Fold 9] Epoch 60 Summary: Avg Total Loss: 3.7239, Avg BCE Loss: 0.2150, Avg Contrastive Loss: 3.5089
+2026-06-18 00:23:17,599 INFO [Fold 9] Epoch 60: Acc: 0.9626 | Prec: 0.9703 | Recall: 0.9515 | F1: 0.9608 | AUC: 0.9902 | AUPR: 0.9911
+2026-06-18 00:23:17,771 INFO [Fold 9] Test Epoch 60: Acc: 0.9130 | Prec: 0.9091 | Recall: 0.9091 | F1: 0.9091 | AUC: 0.9545 | AUPR: 0.9620
+2026-06-18 00:23:27,542 INFO [Fold 9] Epoch 61 Summary: Avg Total Loss: 3.7021, Avg BCE Loss: 0.2160, Avg Contrastive Loss: 3.4861
+2026-06-18 00:23:27,542 INFO [Fold 9] Epoch 61: Acc: 0.9626 | Prec: 0.9703 | Recall: 0.9515 | F1: 0.9608 | AUC: 0.9901 | AUPR: 0.9911
+2026-06-18 00:23:27,725 INFO [Fold 9] Test Epoch 61: Acc: 0.9130 | Prec: 0.9091 | Recall: 0.9091 | F1: 0.9091 | AUC: 0.9545 | AUPR: 0.9620
+2026-06-18 00:23:37,355 INFO [Fold 9] Epoch 62 Summary: Avg Total Loss: 3.6188, Avg BCE Loss: 0.1760, Avg Contrastive Loss: 3.4428
+2026-06-18 00:23:37,356 INFO [Fold 9] Epoch 62: Acc: 0.9626 | Prec: 0.9798 | Recall: 0.9417 | F1: 0.9604 | AUC: 0.9907 | AUPR: 0.9918
+2026-06-18 00:23:37,519 INFO [Fold 9] Test Epoch 62: Acc: 0.9130 | Prec: 0.9091 | Recall: 0.9091 | F1: 0.9091 | AUC: 0.9697 | AUPR: 0.9749
+2026-06-18 00:23:37,969 INFO [EarlyStopping] New best train_loss: 3.6188 at epoch 61
+2026-06-18 00:23:47,352 INFO [Fold 9] Epoch 63 Summary: Avg Total Loss: 3.7120, Avg BCE Loss: 0.2246, Avg Contrastive Loss: 3.4875
+2026-06-18 00:23:47,354 INFO [Fold 9] Epoch 63: Acc: 0.9626 | Prec: 0.9798 | Recall: 0.9417 | F1: 0.9604 | AUC: 0.9909 | AUPR: 0.9920
+2026-06-18 00:23:47,517 INFO [Fold 9] Test Epoch 63: Acc: 0.9130 | Prec: 0.9091 | Recall: 0.9091 | F1: 0.9091 | AUC: 0.9773 | AUPR: 0.9798
+2026-06-18 00:23:57,278 INFO [Fold 9] Epoch 64 Summary: Avg Total Loss: 3.6561, Avg BCE Loss: 0.1846, Avg Contrastive Loss: 3.4715
+2026-06-18 00:23:57,278 INFO [Fold 9] Epoch 64: Acc: 0.9626 | Prec: 0.9897 | Recall: 0.9320 | F1: 0.9600 | AUC: 0.9910 | AUPR: 0.9919
+2026-06-18 00:23:57,443 INFO [Fold 9] Test Epoch 64: Acc: 0.9565 | Prec: 1.0000 | Recall: 0.9091 | F1: 0.9524 | AUC: 0.9697 | AUPR: 0.9749
+2026-06-18 00:24:06,805 INFO [Fold 9] Epoch 65 Summary: Avg Total Loss: 3.6802, Avg BCE Loss: 0.2158, Avg Contrastive Loss: 3.4644
+2026-06-18 00:24:06,844 INFO [Fold 9] Epoch 65: Acc: 0.9626 | Prec: 0.9897 | Recall: 0.9320 | F1: 0.9600 | AUC: 0.9915 | AUPR: 0.9923
+2026-06-18 00:24:07,006 INFO [Fold 9] Test Epoch 65: Acc: 0.9565 | Prec: 1.0000 | Recall: 0.9091 | F1: 0.9524 | AUC: 0.9697 | AUPR: 0.9749
+2026-06-18 00:24:16,904 INFO [Fold 9] Epoch 66 Summary: Avg Total Loss: 3.5781, Avg BCE Loss: 0.1627, Avg Contrastive Loss: 3.4154
+2026-06-18 00:24:16,904 INFO [Fold 9] Epoch 66: Acc: 0.9626 | Prec: 0.9897 | Recall: 0.9320 | F1: 0.9600 | AUC: 0.9918 | AUPR: 0.9926
+2026-06-18 00:24:17,069 INFO [Fold 9] Test Epoch 66: Acc: 0.9565 | Prec: 1.0000 | Recall: 0.9091 | F1: 0.9524 | AUC: 0.9697 | AUPR: 0.9749
+2026-06-18 00:24:17,236 INFO [EarlyStopping] New best train_loss: 3.5781 at epoch 65
+2026-06-18 00:24:26,372 INFO [Fold 9] Epoch 67 Summary: Avg Total Loss: 3.6386, Avg BCE Loss: 0.1998, Avg Contrastive Loss: 3.4388
+2026-06-18 00:24:26,372 INFO [Fold 9] Epoch 67: Acc: 0.9626 | Prec: 0.9897 | Recall: 0.9320 | F1: 0.9600 | AUC: 0.9921 | AUPR: 0.9928
+2026-06-18 00:24:26,577 INFO [Fold 9] Test Epoch 67: Acc: 0.9565 | Prec: 1.0000 | Recall: 0.9091 | F1: 0.9524 | AUC: 0.9621 | AUPR: 0.9706
+2026-06-18 00:24:36,556 INFO [Fold 9] Epoch 68 Summary: Avg Total Loss: 3.5929, Avg BCE Loss: 0.1788, Avg Contrastive Loss: 3.4141
+2026-06-18 00:24:36,556 INFO [Fold 9] Epoch 68: Acc: 0.9626 | Prec: 0.9897 | Recall: 0.9320 | F1: 0.9600 | AUC: 0.9924 | AUPR: 0.9930
+2026-06-18 00:24:36,718 INFO [Fold 9] Test Epoch 68: Acc: 0.9565 | Prec: 1.0000 | Recall: 0.9091 | F1: 0.9524 | AUC: 0.9621 | AUPR: 0.9706
+2026-06-18 00:24:46,406 INFO [Fold 9] Epoch 69 Summary: Avg Total Loss: 3.6900, Avg BCE Loss: 0.2047, Avg Contrastive Loss: 3.4853
+2026-06-18 00:24:46,407 INFO [Fold 9] Epoch 69: Acc: 0.9626 | Prec: 0.9897 | Recall: 0.9320 | F1: 0.9600 | AUC: 0.9923 | AUPR: 0.9929
+2026-06-18 00:24:46,586 INFO [Fold 9] Test Epoch 69: Acc: 0.9565 | Prec: 1.0000 | Recall: 0.9091 | F1: 0.9524 | AUC: 0.9621 | AUPR: 0.9706
+2026-06-18 00:24:56,059 INFO [Fold 9] Epoch 70 Summary: Avg Total Loss: 3.6400, Avg BCE Loss: 0.1819, Avg Contrastive Loss: 3.4580
+2026-06-18 00:24:56,059 INFO [Fold 9] Epoch 70: Acc: 0.9626 | Prec: 0.9897 | Recall: 0.9320 | F1: 0.9600 | AUC: 0.9927 | AUPR: 0.9933
+2026-06-18 00:24:56,384 INFO [Fold 9] Test Epoch 70: Acc: 0.9565 | Prec: 1.0000 | Recall: 0.9091 | F1: 0.9524 | AUC: 0.9621 | AUPR: 0.9706
+2026-06-18 00:25:06,875 INFO [Fold 9] Epoch 71 Summary: Avg Total Loss: 3.5513, Avg BCE Loss: 0.1571, Avg Contrastive Loss: 3.3942
+2026-06-18 00:25:06,877 INFO [Fold 9] Epoch 71: Acc: 0.9673 | Prec: 1.0000 | Recall: 0.9320 | F1: 0.9648 | AUC: 0.9936 | AUPR: 0.9940
+2026-06-18 00:25:07,051 INFO [Fold 9] Test Epoch 71: Acc: 0.9565 | Prec: 1.0000 | Recall: 0.9091 | F1: 0.9524 | AUC: 0.9545 | AUPR: 0.9669
+2026-06-18 00:25:07,233 INFO [EarlyStopping] New best train_loss: 3.5513 at epoch 70
+2026-06-18 00:25:16,794 INFO [Fold 9] Epoch 72 Summary: Avg Total Loss: 3.6405, Avg BCE Loss: 0.1855, Avg Contrastive Loss: 3.4550
+2026-06-18 00:25:16,795 INFO [Fold 9] Epoch 72: Acc: 0.9673 | Prec: 1.0000 | Recall: 0.9320 | F1: 0.9648 | AUC: 0.9941 | AUPR: 0.9944
+2026-06-18 00:25:16,965 INFO [Fold 9] Test Epoch 72: Acc: 0.9565 | Prec: 1.0000 | Recall: 0.9091 | F1: 0.9524 | AUC: 0.9621 | AUPR: 0.9706
+2026-06-18 00:25:17,166 INFO [EarlyStopping] No improvement for 1/10 epochs
+2026-06-18 00:25:27,238 INFO [Fold 9] Epoch 73 Summary: Avg Total Loss: 3.6227, Avg BCE Loss: 0.1853, Avg Contrastive Loss: 3.4374
+2026-06-18 00:25:27,238 INFO [Fold 9] Epoch 73: Acc: 0.9673 | Prec: 1.0000 | Recall: 0.9320 | F1: 0.9648 | AUC: 0.9943 | AUPR: 0.9946
+2026-06-18 00:25:27,421 INFO [Fold 9] Test Epoch 73: Acc: 0.9565 | Prec: 1.0000 | Recall: 0.9091 | F1: 0.9524 | AUC: 0.9545 | AUPR: 0.9669
+2026-06-18 00:25:28,038 INFO [EarlyStopping] No improvement for 2/10 epochs
+2026-06-18 00:25:37,597 INFO [Fold 9] Epoch 74 Summary: Avg Total Loss: 3.6597, Avg BCE Loss: 0.1977, Avg Contrastive Loss: 3.4620
+2026-06-18 00:25:37,598 INFO [Fold 9] Epoch 74: Acc: 0.9673 | Prec: 0.9615 | Recall: 0.9709 | F1: 0.9662 | AUC: 0.9946 | AUPR: 0.9948
+2026-06-18 00:25:37,766 INFO [Fold 9] Test Epoch 74: Acc: 0.9130 | Prec: 0.9091 | Recall: 0.9091 | F1: 0.9091 | AUC: 0.9545 | AUPR: 0.9669
+2026-06-18 00:25:37,861 INFO [EarlyStopping] No improvement for 3/10 epochs
+2026-06-18 00:25:46,828 INFO [Fold 9] Epoch 75 Summary: Avg Total Loss: 3.6145, Avg BCE Loss: 0.1792, Avg Contrastive Loss: 3.4353
+2026-06-18 00:25:46,828 INFO [Fold 9] Epoch 75: Acc: 0.9673 | Prec: 0.9615 | Recall: 0.9709 | F1: 0.9662 | AUC: 0.9946 | AUPR: 0.9948
+2026-06-18 00:25:46,992 INFO [Fold 9] Test Epoch 75: Acc: 0.9130 | Prec: 0.9091 | Recall: 0.9091 | F1: 0.9091 | AUC: 0.9545 | AUPR: 0.9669
+2026-06-18 00:25:47,079 INFO [EarlyStopping] No improvement for 4/10 epochs
+2026-06-18 00:25:56,523 INFO [Fold 9] Epoch 76 Summary: Avg Total Loss: 3.6339, Avg BCE Loss: 0.1843, Avg Contrastive Loss: 3.4496
+2026-06-18 00:25:56,523 INFO [Fold 9] Epoch 76: Acc: 0.9673 | Prec: 0.9615 | Recall: 0.9709 | F1: 0.9662 | AUC: 0.9948 | AUPR: 0.9950
+2026-06-18 00:25:56,689 INFO [Fold 9] Test Epoch 76: Acc: 0.9130 | Prec: 0.9091 | Recall: 0.9091 | F1: 0.9091 | AUC: 0.9545 | AUPR: 0.9669
+2026-06-18 00:25:56,776 INFO [EarlyStopping] No improvement for 5/10 epochs
+2026-06-18 00:26:05,962 INFO [Fold 9] Epoch 77 Summary: Avg Total Loss: 3.5563, Avg BCE Loss: 0.1504, Avg Contrastive Loss: 3.4059
+2026-06-18 00:26:05,962 INFO [Fold 9] Epoch 77: Acc: 0.9673 | Prec: 0.9615 | Recall: 0.9709 | F1: 0.9662 | AUC: 0.9950 | AUPR: 0.9952
+2026-06-18 00:26:06,142 INFO [Fold 9] Test Epoch 77: Acc: 0.9130 | Prec: 0.9091 | Recall: 0.9091 | F1: 0.9091 | AUC: 0.9545 | AUPR: 0.9669
+2026-06-18 00:26:06,228 INFO [EarlyStopping] No improvement for 6/10 epochs
+2026-06-18 00:26:15,362 INFO [Fold 9] Epoch 78 Summary: Avg Total Loss: 3.6137, Avg BCE Loss: 0.1685, Avg Contrastive Loss: 3.4452
+2026-06-18 00:26:15,362 INFO [Fold 9] Epoch 78: Acc: 0.9673 | Prec: 0.9615 | Recall: 0.9709 | F1: 0.9662 | AUC: 0.9950 | AUPR: 0.9952
+2026-06-18 00:26:15,556 INFO [Fold 9] Test Epoch 78: Acc: 0.9130 | Prec: 0.9091 | Recall: 0.9091 | F1: 0.9091 | AUC: 0.9545 | AUPR: 0.9669
+2026-06-18 00:26:15,642 INFO [EarlyStopping] No improvement for 7/10 epochs
+2026-06-18 00:26:24,885 INFO [Fold 9] Epoch 79 Summary: Avg Total Loss: 3.5957, Avg BCE Loss: 0.1761, Avg Contrastive Loss: 3.4196
+2026-06-18 00:26:24,886 INFO [Fold 9] Epoch 79: Acc: 0.9673 | Prec: 0.9615 | Recall: 0.9709 | F1: 0.9662 | AUC: 0.9950 | AUPR: 0.9952
+2026-06-18 00:26:25,338 INFO [Fold 9] Test Epoch 79: Acc: 0.9130 | Prec: 0.9091 | Recall: 0.9091 | F1: 0.9091 | AUC: 0.9545 | AUPR: 0.9669
+2026-06-18 00:26:25,445 INFO [EarlyStopping] No improvement for 8/10 epochs
+2026-06-18 00:26:35,889 INFO [Fold 9] Epoch 80 Summary: Avg Total Loss: 3.7542, Avg BCE Loss: 0.2334, Avg Contrastive Loss: 3.5209
+2026-06-18 00:26:35,889 INFO [Fold 9] Epoch 80: Acc: 0.9673 | Prec: 0.9615 | Recall: 0.9709 | F1: 0.9662 | AUC: 0.9951 | AUPR: 0.9953
+2026-06-18 00:26:36,104 INFO [Fold 9] Test Epoch 80: Acc: 0.9130 | Prec: 0.9091 | Recall: 0.9091 | F1: 0.9091 | AUC: 0.9545 | AUPR: 0.9669
+2026-06-18 00:26:36,197 INFO [EarlyStopping] No improvement for 9/10 epochs
+2026-06-18 00:26:45,935 INFO [Fold 9] Epoch 81 Summary: Avg Total Loss: 3.6306, Avg BCE Loss: 0.1744, Avg Contrastive Loss: 3.4562
+2026-06-18 00:26:45,936 INFO [Fold 9] Epoch 81: Acc: 0.9673 | Prec: 0.9615 | Recall: 0.9709 | F1: 0.9662 | AUC: 0.9952 | AUPR: 0.9953
+2026-06-18 00:26:46,153 INFO [Fold 9] Test Epoch 81: Acc: 0.9130 | Prec: 0.9091 | Recall: 0.9091 | F1: 0.9091 | AUC: 0.9545 | AUPR: 0.9669
+2026-06-18 00:26:46,245 INFO [EarlyStopping] No improvement for 10/10 epochs
+2026-06-18 00:26:46,246 INFO [EarlyStopping] Triggered at epoch 80
+2026-06-18 00:26:46,292 INFO Total training time: 811.74s
+-------------------------
+Fold 9 Validation metrics:
+loss: [4.601609706878662, 4.584848344326019, 4.624573826789856, 4.607635319232941, 4.594297885894775, 4.598827660083771, 4.588317275047302, 4.588076949119568, 4.5789377093315125, 4.582566022872925, 4.5576783418655396, 4.487559616565704, 4.438039481639862, 4.3983030915260315, 4.3517338037490845, 4.302193760871887, 4.345277369022369, 4.2580119371414185, 4.212462365627289, 4.217494487762451, 4.208954930305481, 4.0931848883628845, 4.160078525543213, 4.140771448612213, 4.0964515209198, 4.031997382640839, 3.971917688846588, 4.060119330883026, 3.9164368510246277, 4.102490246295929, 3.9239972829818726, 3.9095970392227173, 3.7722923159599304, 3.862750291824341, 3.873830020427704, 3.748534917831421, 3.9507561326026917, 3.9417120218276978, 3.8019521236419678, 3.911575675010681, 3.858102560043335, 3.6993945837020874, 3.8084049820899963, 3.7505025267601013, 3.6784167885780334, 3.8325769901275635, 3.701335906982422, 3.6754886507987976, 3.7499199509620667, 3.703749179840088, 3.6513726115226746, 3.6955227851867676, 3.739143431186676, 3.72375351190567, 3.7235220074653625, 3.6471983194351196, 3.7441856265068054, 3.704867422580719, 3.7500497102737427, 3.7239227294921875, 3.702055037021637, 3.618762969970703, 3.7120248675346375, 3.6561155915260315, 3.680215299129486, 3.5781262516975403, 3.638609826564789, 3.5929076075553894, 3.690017521381378, 3.6399664878845215, 3.5513262152671814, 3.6404767632484436, 3.622690498828888, 3.6597368717193604, 3.614533245563507, 3.6338675022125244, 3.5562869906425476, 3.6137086749076843, 3.5957127809524536, 3.7542242407798767, 3.6305769085884094]
+Accuracies: [0.6401869158878505, 0.7990654205607477, 0.8457943925233645, 0.8551401869158879, 0.8457943925233645, 0.8598130841121495, 0.8644859813084113, 0.8598130841121495, 0.8644859813084113, 0.8738317757009346, 0.8785046728971962, 0.883177570093458, 0.897196261682243, 0.9065420560747663, 0.9112149532710281, 0.9205607476635514, 0.9205607476635514, 0.9299065420560748, 0.9345794392523364, 0.9299065420560748, 0.9392523364485982, 0.9439252336448598, 0.9392523364485982, 0.9392523364485982, 0.9392523364485982, 0.9392523364485982, 0.9392523364485982, 0.9392523364485982, 0.9345794392523364, 0.9439252336448598, 0.9392523364485982, 0.9345794392523364, 0.9299065420560748, 0.9205607476635514, 0.9299065420560748, 0.9299065420560748, 0.9299065420560748, 0.9299065420560748, 0.9392523364485982, 0.9392523364485982, 0.9392523364485982, 0.9345794392523364, 0.9392523364485982, 0.9345794392523364, 0.9439252336448598, 0.9392523364485982, 0.9392523364485982, 0.9392523364485982, 0.9439252336448598, 0.9532710280373832, 0.9579439252336449, 0.9579439252336449, 0.9532710280373832, 0.9579439252336449, 0.9579439252336449, 0.9579439252336449, 0.9579439252336449, 0.9579439252336449, 0.9626168224299065, 0.9626168224299065, 0.9626168224299065, 0.9626168224299065, 0.9626168224299065, 0.9626168224299065, 0.9626168224299065, 0.9626168224299065, 0.9626168224299065, 0.9626168224299065, 0.9626168224299065, 0.9626168224299065, 0.9672897196261683, 0.9672897196261683, 0.9672897196261683, 0.9672897196261683, 0.9672897196261683, 0.9672897196261683, 0.9672897196261683, 0.9672897196261683, 0.9672897196261683, 0.9672897196261683, 0.9672897196261683]
+Precisions: [0.5792682926829268, 0.7419354838709677, 0.8017241379310345, 0.8103448275862069, 0.7651515151515151, 0.7874015748031497, 0.7936507936507936, 0.792, 0.8032786885245902, 0.8392857142857143, 0.8347826086956521, 0.8421052631578947, 0.8521739130434782, 0.8672566371681416, 0.868421052631579, 0.8839285714285714, 0.8839285714285714, 0.9313725490196079, 0.9405940594059405, 0.8928571428571429, 0.9245283018867925, 0.9252336448598131, 0.9166666666666666, 0.9411764705882353, 0.9411764705882353, 0.9245283018867925, 0.9245283018867925, 0.9245283018867925, 0.9158878504672897, 0.9504950495049505, 0.9411764705882353, 0.9320388349514563, 0.9313725490196079, 0.8909090909090909, 0.9074074074074074, 0.9150943396226415, 0.9150943396226415, 0.9150943396226415, 0.9411764705882353, 0.9326923076923077, 0.9326923076923077, 0.9320388349514563, 0.95, 0.9405940594059405, 0.9690721649484536, 0.9591836734693877, 0.9591836734693877, 0.9591836734693877, 0.9690721649484536, 0.9696969696969697, 0.9795918367346939, 0.9795918367346939, 0.9696969696969697, 0.9895833333333334, 0.9895833333333334, 0.9895833333333334, 0.9607843137254902, 0.9795918367346939, 0.9702970297029703, 0.9702970297029703, 0.9702970297029703, 0.9797979797979798, 0.9797979797979798, 0.9896907216494846, 0.9896907216494846, 0.9896907216494846, 0.9896907216494846, 0.9896907216494846, 0.9896907216494846, 0.9896907216494846, 1.0, 1.0, 1.0, 0.9615384615384616, 0.9615384615384616, 0.9615384615384616, 0.9615384615384616, 0.9615384615384616, 0.9615384615384616, 0.9615384615384616, 0.9615384615384616]
+Recalls: [0.9223300970873787, 0.8932038834951457, 0.9029126213592233, 0.912621359223301, 0.9805825242718447, 0.970873786407767, 0.970873786407767, 0.9611650485436893, 0.9514563106796117, 0.912621359223301, 0.9320388349514563, 0.9320388349514563, 0.9514563106796117, 0.9514563106796117, 0.9611650485436893, 0.9611650485436893, 0.9611650485436893, 0.9223300970873787, 0.9223300970873787, 0.970873786407767, 0.9514563106796117, 0.9611650485436893, 0.9611650485436893, 0.9320388349514563, 0.9320388349514563, 0.9514563106796117, 0.9514563106796117, 0.9514563106796117, 0.9514563106796117, 0.9320388349514563, 0.9320388349514563, 0.9320388349514563, 0.9223300970873787, 0.9514563106796117, 0.9514563106796117, 0.941747572815534, 0.941747572815534, 0.941747572815534, 0.9320388349514563, 0.941747572815534, 0.941747572815534, 0.9320388349514563, 0.9223300970873787, 0.9223300970873787, 0.912621359223301, 0.912621359223301, 0.912621359223301, 0.912621359223301, 0.912621359223301, 0.9320388349514563, 0.9320388349514563, 0.9320388349514563, 0.9320388349514563, 0.9223300970873787, 0.9223300970873787, 0.9223300970873787, 0.9514563106796117, 0.9320388349514563, 0.9514563106796117, 0.9514563106796117, 0.9514563106796117, 0.941747572815534, 0.941747572815534, 0.9320388349514563, 0.9320388349514563, 0.9320388349514563, 0.9320388349514563, 0.9320388349514563, 0.9320388349514563, 0.9320388349514563, 0.9320388349514563, 0.9320388349514563, 0.9320388349514563, 0.970873786407767, 0.970873786407767, 0.970873786407767, 0.970873786407767, 0.970873786407767, 0.970873786407767, 0.970873786407767, 0.970873786407767]
+F1s: [0.7116104868913857, 0.8105726872246697, 0.8493150684931507, 0.8584474885844748, 0.8595744680851064, 0.8695652173913044, 0.8733624454148472, 0.868421052631579, 0.8711111111111112, 0.8744186046511627, 0.8807339449541284, 0.8847926267281107, 0.8990825688073394, 0.9074074074074074, 0.9124423963133641, 0.9209302325581395, 0.9209302325581395, 0.9268292682926829, 0.9313725490196079, 0.930232558139535, 0.9377990430622011, 0.9428571428571428, 0.9383886255924171, 0.9365853658536586, 0.9365853658536586, 0.9377990430622011, 0.9377990430622011, 0.9377990430622011, 0.9333333333333335, 0.9411764705882353, 0.9365853658536586, 0.9320388349514563, 0.9268292682926829, 0.9201877934272301, 0.9289099526066351, 0.9282296650717704, 0.9282296650717704, 0.9282296650717704, 0.9365853658536586, 0.9371980676328503, 0.9371980676328503, 0.9320388349514563, 0.9359605911330049, 0.9313725490196079, 0.94, 0.9353233830845772, 0.9353233830845772, 0.9353233830845772, 0.94, 0.9504950495049505, 0.9552238805970149, 0.9552238805970149, 0.9504950495049505, 0.9547738693467336, 0.9547738693467336, 0.9547738693467336, 0.9560975609756097, 0.9552238805970149, 0.9607843137254902, 0.9607843137254902, 0.9607843137254902, 0.9603960396039605, 0.9603960396039605, 0.9600000000000001, 0.9600000000000001, 0.9600000000000001, 0.9600000000000001, 0.9600000000000001, 0.9600000000000001, 0.9600000000000001, 0.9648241206030151, 0.9648241206030151, 0.9648241206030151, 0.966183574879227, 0.966183574879227, 0.966183574879227, 0.966183574879227, 0.966183574879227, 0.966183574879227, 0.966183574879227, 0.966183574879227]
+AUCs: [0.6953555497244818, 0.8513076182979096, 0.9043558121228025, 0.9170821306743637, 0.9239044870112831, 0.9316015044170384, 0.9320388349514562, 0.9354062800664743, 0.9367620047231698, 0.9387737251814922, 0.9391235896090265, 0.9448963526633429, 0.9499693868625908, 0.9572290737339282, 0.9609901163299223, 0.9632642351088954, 0.9662380827429372, 0.9703489897664654, 0.9726231085454387, 0.9732353712936237, 0.9736727018280416, 0.9752470917519462, 0.9759468206070148, 0.9762092189276655, 0.9755094900725969, 0.9748972273244118, 0.9741974984693431, 0.9731479051867402, 0.9733228374005073, 0.9751596256450625, 0.9758593545001312, 0.9751596256450625, 0.9734977696142744, 0.9716609813697192, 0.9754220239657133, 0.9775212105309193, 0.9772588122102686, 0.978220939385988, 0.9791830665617074, 0.9795329309892417, 0.9796203970961253, 0.9804075920580775, 0.9816321175544477, 0.9830315752645851, 0.9835563719058865, 0.9832939735852357, 0.9831190413714685, 0.9827691769439342, 0.9846059651884895, 0.9867051517536954, 0.987842211143182, 0.9887168722120179, 0.9888918044257851, 0.9892416688533194, 0.9896789993877372, 0.9901163299221553, 0.9904661943496895, 0.9898539316015044, 0.9902037960290389, 0.9902037960290387, 0.9901163299221551, 0.9907285926703403, 0.9909035248841075, 0.990990990990991, 0.9915157876322924, 0.9917781859529432, 0.9921280503804777, 0.9923904487011284, 0.9923029825942447, 0.9927403131286626, 0.9936149741974986, 0.9940523047319163, 0.9943147030525672, 0.9945771013732179, 0.9945771013732179, 0.994752033586985, 0.9950144319076357, 0.9950144319076357, 0.9950144319076357, 0.9951018980145193, 0.9951893641214029]
+AUPRs: [0.6456198457562374, 0.8190994651392334, 0.8873860307941606, 0.9013867997439726, 0.9088942123243342, 0.9222540592242565, 0.9233418049251647, 0.9309548954382852, 0.9338718487828919, 0.9352928664673417, 0.9342221509208528, 0.9428126287440871, 0.948635121363165, 0.9564611690226147, 0.960435465839346, 0.9631399507366281, 0.9672482161391212, 0.9722274775052455, 0.9751674753881019, 0.9761351705160439, 0.9763937210003295, 0.9783198287621064, 0.9789885628276258, 0.9783972247867163, 0.977131406311788, 0.9771233363435999, 0.9765228231930689, 0.9754836165220716, 0.9751563125225445, 0.9759556406363419, 0.9767590985161856, 0.9766177217138462, 0.9755174791568137, 0.9741161254113461, 0.9780817812657487, 0.9802332117047972, 0.9800608788459372, 0.9807320911074039, 0.9814297631120983, 0.9818253794563303, 0.9818800679939058, 0.9825961408562414, 0.9834734325157477, 0.9845778685873783, 0.9848678109941957, 0.9846190564919246, 0.9844801928913818, 0.9842643606912426, 0.9861040997000252, 0.9883887021703692, 0.9894066981863059, 0.990201858263058, 0.9902584539023369, 0.9904996914518454, 0.9907761968525841, 0.9911126373453872, 0.9913676541418136, 0.9907987826389795, 0.9910923186957232, 0.9910706197716016, 0.9910794978662409, 0.9917704166672883, 0.9919573704652593, 0.991900779748544, 0.9922714344062714, 0.9925593714243811, 0.9927882059803722, 0.9929827292689761, 0.9929146783229719, 0.9932676348426672, 0.993994640859662, 0.9943917847407938, 0.9945927829683779, 0.9948427903204686, 0.9948427903204686, 0.9949807635417072, 0.995183107618054, 0.995183107618054, 0.995183107618054, 0.9952645517673702, 0.9953252920290018]
+-------------------------
+
+-------------------------
+Fold 9 Test metrics:
+Accuracy: 0.9130
+Precision: 0.9091
+Recall: 0.9091
+F1: 0.9091
+AUC: 0.9545
+AUPR: 0.9669
+Confusion Matrix: 
+[[11  1]
+ [ 1 10]]
+-------------------------
+
+2026-06-18 00:26:48,833 INFO MGPANConfig(dataset='QinN_2014', graphdata='QN_graphdataF.bin', metadata='QN_graphdata_metaF.pkl', subject_ids='subject_ids.csv', metapath_cache='QN_metapath_graphsF8', experiment='MGPAN_metapath8_typepooling_graphaugment_posweight_cl', log='log_MGPAN1', model_name='MGPAN', seed=66, n_splits=10, gnn='sage', num_gnn_layer=1, feat_dim=5, embed_dim=192, dim_a=56, num_node_types=3, type_emb_dim=4, node_id_emb_dim=64, abundance_proj_dim=64, edge_drop_prob=0.05, node_drop_prob=0.0, feat_mask_prob=0.0, dropout1=0.45, dropout2=0.45, dropout3=0.45, attdropout=0.4, activation='elu', batch_size=64, epochs=100, lr=0.001, weight_decay=0.004, accum_steps=1, num_workers=0, contrastive_weight=1.0, min_epochs=70, patience=10, min_delta=1e-07, data_dir='./data', metapath_dir='./metapaths', saved_model_dir='./saved_models', log_dir='./logs')
+2026-06-18 00:26:49,541 INFO Train sample count: 214
+2026-06-18 00:26:49,541 INFO   Label 0: 111 (51.87%)
+2026-06-18 00:26:49,541 INFO   Label 1: 103 (48.13%)
+2026-06-18 00:26:49,542 INFO Test sample count: 23
+2026-06-18 00:26:49,542 INFO   Label 0: 12 (52.17%)
+2026-06-18 00:26:49,542 INFO   Label 1: 11 (47.83%)
+2026-06-18 00:26:55,135 INFO pos_class_weight: 1.0776699029126213
+2026-06-18 00:26:55,461 INFO Device: cuda
+2026-06-18 00:27:28,554 INFO [Fold 10] Epoch 01 Summary: Avg Total Loss: 4.6100, Avg BCE Loss: 0.7397, Avg Contrastive Loss: 3.8703
+2026-06-18 00:27:28,554 INFO [Fold 10] Epoch 01: Acc: 0.6355 | Prec: 0.5828 | Recall: 0.8544 | F1: 0.6929 | AUC: 0.7033 | AUPR: 0.6861
+2026-06-18 00:27:29,517 INFO [Fold 10] Test Epoch 01: Acc: 0.6957 | Prec: 0.6250 | Recall: 0.9091 | F1: 0.7407 | AUC: 0.7879 | AUPR: 0.8236
+2026-06-18 00:27:29,865 INFO [EarlyStopping] New best train_loss: 4.6100 at epoch 0

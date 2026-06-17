@@ -1,0 +1,157 @@
+
+Sender: Unischeduler System <24031212340@login01>
+Subject: Job 1212500: </home/24031212340/.jhjobs/1781691290.1212500.1.shell> Exited
+
+Job </home/24031212340/.jhjobs/1781691290.1212500.1.shell> was submitted from host <login01> by user <24031212340>.
+Job was executed on host(s) <1*gpu07>, in queue <gpu>, as user <24031212340>.
+</home/24031212340> was used as the home directory.
+</home/24031212340/MGPAN> was used as the working directory.
+Started at 2026-06-17 18:14:32
+Results reported at 2026-06-17 18:28:54
+
+Your job looked like:
+
+------------------------------------------------------------
+# User input
+/home/24031212340/.jhjobs/1781691290.1212500.1.shell
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time   :          947.98 sec.
+    Max Memory :              6002 MB
+    Max Processes  :               3
+
+
+The output (if any) follows:
+
+Wed Jun 17 18:14:34 2026       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 470.63.01    Driver Version: 470.63.01    CUDA Version: 11.4     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  NVIDIA GeForce ...  Off  | 00000000:1B:00.0 Off |                  N/A |
+| 30%   30C    P0    83W / 320W |      2MiB / 10018MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   1  NVIDIA GeForce ...  Off  | 00000000:1D:00.0 Off |                  N/A |
+| 43%   52C    P2   183W / 320W |   6583MiB / 10018MiB |     79%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   2  NVIDIA GeForce ...  Off  | 00000000:1E:00.0 Off |                  N/A |
+| 32%   47C    P2   205W / 320W |   6231MiB / 10018MiB |     79%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   3  NVIDIA GeForce ...  Off  | 00000000:3D:00.0 Off |                  N/A |
+| 30%   30C    P0    90W / 320W |      2MiB / 10018MiB |      2%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   4  NVIDIA GeForce ...  Off  | 00000000:3F:00.0 Off |                  N/A |
+| 30%   30C    P0    75W / 320W |    171MiB / 10018MiB |      3%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   5  NVIDIA GeForce ...  Off  | 00000000:40:00.0 Off |                  N/A |
+| 30%   31C    P0    81W / 320W |      2MiB / 10018MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   6  NVIDIA GeForce ...  Off  | 00000000:41:00.0 Off |                  N/A |
+| 30%   30C    P0    88W / 320W |      2MiB / 10018MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|    1   N/A  N/A    168059      C   python                           6581MiB |
+|    2   N/A  N/A    189250      C   python                           6229MiB |
++-----------------------------------------------------------------------------+
+[Test] adaptive threshold=0.3776
+[Test] adaptive threshold=0.5631
+[Test] adaptive threshold=0.5732
+[Test] adaptive threshold=0.4356
+[Test] adaptive threshold=0.5022
+[Test] adaptive threshold=0.5628
+[Test] adaptive threshold=0.5213
+[Test] adaptive threshold=0.4743
+[Test] adaptive threshold=0.4799
+[Test] adaptive threshold=0.5154
+[Test] adaptive threshold=0.5409
+[Test] adaptive threshold=0.4769
+[Test] adaptive threshold=0.4778
+[Test] adaptive threshold=0.4690
+[Test] adaptive threshold=0.3943
+[Test] adaptive threshold=0.4611
+[Test] adaptive threshold=0.4155
+[Test] adaptive threshold=0.3163
+[Test] adaptive threshold=0.2429
+[Test] adaptive threshold=0.2301
+[Test] adaptive threshold=0.2396
+[Test] adaptive threshold=0.1786
+[Test] adaptive threshold=0.1601
+[Test] adaptive threshold=0.0669
+[Test] adaptive threshold=0.0585
+[Test] adaptive threshold=0.0488
+[Test] adaptive threshold=0.0090
+[Test] adaptive threshold=0.0148
+[Test] adaptive threshold=0.1269
+[Test] adaptive threshold=0.1001
+[Test] adaptive threshold=0.2988
+[Test] adaptive threshold=0.2739
+[Test] adaptive threshold=0.0134
+[Test] adaptive threshold=0.0520
+[Test] adaptive threshold=0.1775
+[Test] adaptive threshold=0.0092
+[Test] adaptive threshold=0.0687
+[Test] adaptive threshold=0.0426
+[Test] adaptive threshold=0.0316
+[Test] adaptive threshold=0.1419
+[Test] adaptive threshold=0.0258
+[Test] adaptive threshold=0.0120
+[Test] adaptive threshold=0.0539
+[Test] adaptive threshold=0.0245
+[Test] adaptive threshold=0.0134
+[Test] adaptive threshold=0.0104
+[Test] adaptive threshold=0.0339
+[Test] adaptive threshold=0.0308
+[Test] adaptive threshold=0.0296
+[Test] adaptive threshold=0.0348
+[Test] adaptive threshold=0.0502
+[Test] adaptive threshold=0.0857
+[Test] adaptive threshold=0.1481
+[Test] adaptive threshold=0.1167
+[Test] adaptive threshold=0.0385
+[Test] adaptive threshold=0.0425
+[Test] adaptive threshold=0.0244
+[Test] adaptive threshold=0.0434
+[Test] adaptive threshold=0.0456
+[Test] adaptive threshold=0.0259
+[Test] adaptive threshold=0.0581
+[Test] adaptive threshold=0.0599
+[Test] adaptive threshold=0.0184
+[Test] adaptive threshold=0.0219
+[Test] adaptive threshold=0.1048
+[Test] adaptive threshold=0.0754
+[Test] adaptive threshold=0.0211
+[Test] adaptive threshold=0.0234
+[Test] adaptive threshold=0.0407
+[Test] adaptive threshold=0.0544
+[Test] adaptive threshold=0.0301
+[Test] adaptive threshold=0.0418
+[Test] adaptive threshold=0.0233
+[Test] adaptive threshold=0.0227
+[Test] adaptive threshold=0.0280
+[Test] adaptive threshold=0.0190
+[Test] adaptive threshold=0.0191
+[Test] adaptive threshold=0.0237
+[Test] adaptive threshold=0.0306
+[Test] adaptive threshold=0.0225
+[Test] adaptive threshold=0.0173
+[Test] adaptive threshold=0.0257
+[Test] adaptive threshold=0.4079

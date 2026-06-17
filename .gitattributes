@@ -3,3 +3,7 @@
 /data/QinN_2014/QN_graphdataF.bin filter=lfs diff=lfs merge=lfs -text
 /data/QinN_2014/sample_path_tax_gene.csv filter=lfs diff=lfs merge=lfs -text
 /data/QinN_2014/sample_path_tax_gene_weight.csv filter=lfs diff=lfs merge=lfs -text
+/data/LifeLD_VilaAV_2018/LL_graphdata.bin filter=lfs diff=lfs merge=lfs -text
+/data/LifeLD_VilaAV_2018/LL_graphdataF.bin filter=lfs diff=lfs merge=lfs -text
+/data/LifeLD_VilaAV_2018/sample_path_tax_gene.csv filter=lfs diff=lfs merge=lfs -text
+/data/LifeLD_VilaAV_2018/sample_path_tax_gene_weight.csv filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,34 @@
+[17:17:49] /opt/dgl/src/runtime/tensordispatch.cc:43: TensorDispatcher: dlopen failed: /home/24031212340/.conda/envs/MGP2/lib/python3.9/site-packages/dgl/tensoradapter/pytorch/libtensoradapter_pytorch_1.12.1.so: cannot open shared object file: No such file or directory
+Using backend: pytorch
+Traceback (most recent call last):
+  File "/home/24031212340/MGPAN/main.py", line 373, in <module>
+    main()
+  File "/home/24031212340/MGPAN/main.py", line 40, in main
+    run_cross_validation(config)
+  File "/home/24031212340/MGPAN/main.py", line 48, in run_cross_validation
+    raw_graphs, homogeneous_graphs, labels, meta = prepare_base_graphs(config)
+  File "/home/24031212340/MGPAN/main.py", line 305, in prepare_base_graphs
+    all_graphs, all_labels, all_meta = load_graphs_and_metadata(
+  File "/home/24031212340/MGPAN/utils/data_loader.py", line 94, in load_graphs_and_metadata
+    graphs, label_dict = dgl.load_graphs(str(dataset_dir / graphdata))
+  File "/home/24031212340/.conda/envs/MGP2/lib/python3.9/site-packages/dgl/data/graph_serialize.py", line 182, in load_graphs
+    return load_graph_v2(filename, idx_list)
+  File "/home/24031212340/.conda/envs/MGP2/lib/python3.9/site-packages/dgl/data/graph_serialize.py", line 192, in load_graph_v2
+    heterograph_list = _CAPI_LoadGraphFiles_V2(filename, idx_list)
+  File "dgl/_ffi/_cython/./function.pxi", line 287, in dgl._ffi._cy3.core.FunctionBase.__call__
+  File "dgl/_ffi/_cython/./function.pxi", line 222, in dgl._ffi._cy3.core.FuncCall
+  File "dgl/_ffi/_cython/./function.pxi", line 211, in dgl._ffi._cy3.core.FuncCall3
+  File "dgl/_ffi/_cython/./base.pxi", line 155, in dgl._ffi._cy3.core.CALL
+dgl._ffi.base.DGLError: [17:17:57] /opt/dgl/src/graph/heterograph.cc:508: Check failed: fs->Read(&magicNum): Invalid Magic Number
+Stack trace:
+  [bt] (0) /home/24031212340/.conda/envs/MGP2/lib/python3.9/site-packages/dgl/libdgl.so(dmlc::LogMessageFatal::~LogMessageFatal()+0x4f) [0x2afd6540b3bf]
+  [bt] (1) /home/24031212340/.conda/envs/MGP2/lib/python3.9/site-packages/dgl/libdgl.so(dgl::HeteroGraph::Load(dmlc::Stream*)+0x91) [0x2afd65c5a481]
+  [bt] (2) /home/24031212340/.conda/envs/MGP2/lib/python3.9/site-packages/dgl/libdgl.so(dgl::serialize::LoadHeteroGraphs(std::string const&, std::vector<unsigned long, std::allocator<unsigned long> >)+0x1335) [0x2afd65cf1055]
+  [bt] (3) /home/24031212340/.conda/envs/MGP2/lib/python3.9/site-packages/dgl/libdgl.so(+0xe913cf) [0x2afd65ce93cf]
+  [bt] (4) /home/24031212340/.conda/envs/MGP2/lib/python3.9/site-packages/dgl/libdgl.so(DGLFuncCall+0x48) [0x2afd65bf1518]
+  [bt] (5) /home/24031212340/.conda/envs/MGP2/lib/python3.9/site-packages/dgl/_ffi/_cy3/core.cpython-39-x86_64-linux-gnu.so(+0x15f89) [0x2afd93a5cf89]
+  [bt] (6) /home/24031212340/.conda/envs/MGP2/lib/python3.9/site-packages/dgl/_ffi/_cy3/core.cpython-39-x86_64-linux-gnu.so(+0x1626b) [0x2afd93a5d26b]
+  [bt] (7) python(_PyObject_MakeTpCall+0x2ec) [0x4f03bc]
+  [bt] (8) python(_PyEval_EvalFrameDefault+0x4c94) [0x4ec2c4]
+
+
