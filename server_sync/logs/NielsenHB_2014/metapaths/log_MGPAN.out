@@ -1,0 +1,117 @@
+2026-06-17 16:53:09,539 INFO MGPANConfig(dataset='NielsenHB_2014', graphdata='NH_graphdataF.bin', metadata='NH_graphdata_metaF.pkl', subject_ids='subject_ids.csv', metapath_cache='MGPAN_metapath_graphs8', experiment='MGPAN_metapath8_typepooling_graphaugment_posweight_cl', log='log_MGPAN', model_name='MGPAN', seed=66, n_splits=10, gnn='sage', num_gnn_layer=1, feat_dim=5, embed_dim=192, dim_a=56, num_node_types=3, type_emb_dim=4, node_id_emb_dim=64, abundance_proj_dim=64, edge_drop_prob=0.05, node_drop_prob=0.0, feat_mask_prob=0.0, dropout1=0.5, dropout2=0.45, dropout3=0.45, attdropout=0.4, activation='elu', batch_size=64, epochs=100, lr=0.001, weight_decay=0.005, accum_steps=1, num_workers=0, contrastive_weight=1.0, min_epochs=70, patience=10, min_delta=1e-07, data_dir='./data', metapath_dir='./metapaths', saved_model_dir='./saved_models', log_dir='./logs')
+2026-06-17 16:53:11,636 INFO MGPANConfig(dataset='NielsenHB_2014', graphdata='NH_graphdataF.bin', metadata='NH_graphdata_metaF.pkl', subject_ids='subject_ids.csv', metapath_cache='MGPAN_metapath_graphs8', experiment='MGPAN_metapath8_typepooling_graphaugment_posweight_cl', log='log_MGPAN', model_name='MGPAN', seed=66, n_splits=10, gnn='sage', num_gnn_layer=1, feat_dim=5, embed_dim=192, dim_a=56, num_node_types=3, type_emb_dim=4, node_id_emb_dim=64, abundance_proj_dim=64, edge_drop_prob=0.05, node_drop_prob=0.0, feat_mask_prob=0.0, dropout1=0.5, dropout2=0.45, dropout3=0.45, attdropout=0.4, activation='elu', batch_size=64, epochs=100, lr=0.001, weight_decay=0.005, accum_steps=1, num_workers=0, contrastive_weight=1.0, min_epochs=70, patience=10, min_delta=1e-07, data_dir='./data', metapath_dir='./metapaths', saved_model_dir='./saved_models', log_dir='./logs')
+2026-06-17 16:53:12,181 INFO Train sample count: 358
+2026-06-17 16:53:12,181 INFO   Label 0: 131 (36.59%)
+2026-06-17 16:53:12,181 INFO   Label 1: 227 (63.41%)
+2026-06-17 16:53:12,181 INFO Test sample count: 38
+2026-06-17 16:53:12,182 INFO   Label 0: 17 (44.74%)
+2026-06-17 16:53:12,182 INFO   Label 1: 21 (55.26%)
+2026-06-17 16:53:22,650 INFO pos_class_weight: 0.5770925110132159
+2026-06-17 16:53:25,377 INFO Device: cuda
+2026-06-17 16:53:55,464 INFO [Fold 9] Epoch 01 Summary: Avg Total Loss: 4.5972, Avg BCE Loss: 0.5411, Avg Contrastive Loss: 4.0561
+2026-06-17 16:53:55,464 INFO [Fold 9] Epoch 01: Acc: 0.6732 | Prec: 0.6667 | Recall: 0.9692 | F1: 0.7899 | AUC: 0.6627 | AUPR: 0.7461
+2026-06-17 16:53:55,909 INFO [Fold 9] Test Epoch 01: Acc: 0.5263 | Prec: 0.5429 | Recall: 0.9048 | F1: 0.6786 | AUC: 0.6359 | AUPR: 0.7509
+2026-06-17 16:53:56,659 INFO [EarlyStopping] New best train_loss: 4.5972 at epoch 0
+2026-06-17 16:54:21,062 INFO [Fold 9] Epoch 02 Summary: Avg Total Loss: 4.5565, Avg BCE Loss: 0.5017, Avg Contrastive Loss: 4.0548
+2026-06-17 16:54:21,071 INFO [Fold 9] Epoch 02: Acc: 0.7318 | Prec: 0.7120 | Recall: 0.9692 | F1: 0.8209 | AUC: 0.7480 | AUPR: 0.8016
+2026-06-17 16:54:21,399 INFO [Fold 9] Test Epoch 02: Acc: 0.5526 | Prec: 0.5625 | Recall: 0.8571 | F1: 0.6792 | AUC: 0.6527 | AUPR: 0.7203
+2026-06-17 16:54:22,539 INFO [EarlyStopping] New best train_loss: 4.5565 at epoch 1
+2026-06-17 16:54:47,912 INFO [Fold 9] Epoch 03 Summary: Avg Total Loss: 4.5705, Avg BCE Loss: 0.5161, Avg Contrastive Loss: 4.0544
+2026-06-17 16:54:47,912 INFO [Fold 9] Epoch 03: Acc: 0.7765 | Prec: 0.7732 | Recall: 0.9163 | F1: 0.8387 | AUC: 0.7990 | AUPR: 0.8465
+2026-06-17 16:54:48,243 INFO [Fold 9] Test Epoch 03: Acc: 0.7105 | Prec: 0.6786 | Recall: 0.9048 | F1: 0.7755 | AUC: 0.6583 | AUPR: 0.6864
+2026-06-17 16:55:12,773 INFO [Fold 9] Epoch 04 Summary: Avg Total Loss: 4.5657, Avg BCE Loss: 0.5113, Avg Contrastive Loss: 4.0544
+2026-06-17 16:55:12,777 INFO [Fold 9] Epoch 04: Acc: 0.7905 | Prec: 0.7857 | Recall: 0.9207 | F1: 0.8479 | AUC: 0.8103 | AUPR: 0.8513
+2026-06-17 16:55:13,192 INFO [Fold 9] Test Epoch 04: Acc: 0.7105 | Prec: 0.6786 | Recall: 0.9048 | F1: 0.7755 | AUC: 0.6919 | AUPR: 0.6806
+2026-06-17 16:55:38,746 INFO [Fold 9] Epoch 05 Summary: Avg Total Loss: 4.5597, Avg BCE Loss: 0.5053, Avg Contrastive Loss: 4.0544
+2026-06-17 16:55:38,747 INFO [Fold 9] Epoch 05: Acc: 0.7905 | Prec: 0.7774 | Recall: 0.9383 | F1: 0.8503 | AUC: 0.8165 | AUPR: 0.8502
+2026-06-17 16:55:39,084 INFO [Fold 9] Test Epoch 05: Acc: 0.6842 | Prec: 0.6552 | Recall: 0.9048 | F1: 0.7600 | AUC: 0.7115 | AUPR: 0.7467
+2026-06-17 16:56:02,580 INFO [Fold 9] Epoch 06 Summary: Avg Total Loss: 4.5674, Avg BCE Loss: 0.5131, Avg Contrastive Loss: 4.0543
+2026-06-17 16:56:02,581 INFO [Fold 9] Epoch 06: Acc: 0.7877 | Prec: 0.7726 | Recall: 0.9427 | F1: 0.8492 | AUC: 0.8304 | AUPR: 0.8581
+2026-06-17 16:56:02,913 INFO [Fold 9] Test Epoch 06: Acc: 0.7368 | Prec: 0.6897 | Recall: 0.9524 | F1: 0.8000 | AUC: 0.7283 | AUPR: 0.7524
+2026-06-17 16:56:27,039 INFO [Fold 9] Epoch 07 Summary: Avg Total Loss: 4.5642, Avg BCE Loss: 0.5099, Avg Contrastive Loss: 4.0543
+2026-06-17 16:56:27,040 INFO [Fold 9] Epoch 07: Acc: 0.7933 | Prec: 0.8072 | Recall: 0.8855 | F1: 0.8445 | AUC: 0.8402 | AUPR: 0.8706
+2026-06-17 16:56:27,674 INFO [Fold 9] Test Epoch 07: Acc: 0.7105 | Prec: 0.6923 | Recall: 0.8571 | F1: 0.7660 | AUC: 0.7451 | AUPR: 0.7705
+2026-06-17 16:56:52,995 INFO [Fold 9] Epoch 08 Summary: Avg Total Loss: 4.5628, Avg BCE Loss: 0.5089, Avg Contrastive Loss: 4.0539
+2026-06-17 16:56:52,996 INFO [Fold 9] Epoch 08: Acc: 0.7821 | Prec: 0.7596 | Recall: 0.9604 | F1: 0.8482 | AUC: 0.8443 | AUPR: 0.8767
+2026-06-17 16:56:53,335 INFO [Fold 9] Test Epoch 08: Acc: 0.7632 | Prec: 0.7000 | Recall: 1.0000 | F1: 0.8235 | AUC: 0.7591 | AUPR: 0.7923
+2026-06-17 16:57:18,682 INFO [Fold 9] Epoch 09 Summary: Avg Total Loss: 4.5596, Avg BCE Loss: 0.5059, Avg Contrastive Loss: 4.0537
+2026-06-17 16:57:18,682 INFO [Fold 9] Epoch 09: Acc: 0.8156 | Prec: 0.8084 | Recall: 0.9295 | F1: 0.8648 | AUC: 0.8577 | AUPR: 0.8947
+2026-06-17 16:57:19,159 INFO [Fold 9] Test Epoch 09: Acc: 0.6842 | Prec: 0.6667 | Recall: 0.8571 | F1: 0.7500 | AUC: 0.7507 | AUPR: 0.7916
+2026-06-17 16:57:45,353 INFO [Fold 9] Epoch 10 Summary: Avg Total Loss: 4.5615, Avg BCE Loss: 0.5079, Avg Contrastive Loss: 4.0536
+2026-06-17 16:57:45,353 INFO [Fold 9] Epoch 10: Acc: 0.8017 | Prec: 0.8023 | Recall: 0.9119 | F1: 0.8536 | AUC: 0.8536 | AUPR: 0.8949
+2026-06-17 16:57:45,859 INFO [Fold 9] Test Epoch 10: Acc: 0.7368 | Prec: 0.7037 | Recall: 0.9048 | F1: 0.7917 | AUC: 0.7731 | AUPR: 0.8152
+2026-06-17 16:58:11,020 INFO [Fold 9] Epoch 11 Summary: Avg Total Loss: 4.5557, Avg BCE Loss: 0.5050, Avg Contrastive Loss: 4.0507
+2026-06-17 16:58:11,021 INFO [Fold 9] Epoch 11: Acc: 0.7933 | Prec: 0.7802 | Recall: 0.9383 | F1: 0.8520 | AUC: 0.8607 | AUPR: 0.9062
+2026-06-17 16:58:11,356 INFO [Fold 9] Test Epoch 11: Acc: 0.7895 | Prec: 0.7241 | Recall: 1.0000 | F1: 0.8400 | AUC: 0.7675 | AUPR: 0.8037
+2026-06-17 16:58:11,542 INFO [EarlyStopping] New best train_loss: 4.5557 at epoch 10
+2026-06-17 16:58:37,801 INFO [Fold 9] Epoch 12 Summary: Avg Total Loss: 4.5306, Avg BCE Loss: 0.5043, Avg Contrastive Loss: 4.0263
+2026-06-17 16:58:37,818 INFO [Fold 9] Epoch 12: Acc: 0.8045 | Prec: 0.8031 | Recall: 0.9163 | F1: 0.8560 | AUC: 0.8771 | AUPR: 0.9203
+2026-06-17 16:58:38,234 INFO [Fold 9] Test Epoch 12: Acc: 0.7368 | Prec: 0.7037 | Recall: 0.9048 | F1: 0.7917 | AUC: 0.7507 | AUPR: 0.8018
+2026-06-17 16:58:38,440 INFO [EarlyStopping] New best train_loss: 4.5306 at epoch 11
+2026-06-17 16:59:02,899 INFO [Fold 9] Epoch 13 Summary: Avg Total Loss: 4.5322, Avg BCE Loss: 0.4998, Avg Contrastive Loss: 4.0324
+2026-06-17 16:59:02,902 INFO [Fold 9] Epoch 13: Acc: 0.8380 | Prec: 0.8288 | Recall: 0.9383 | F1: 0.8802 | AUC: 0.9011 | AUPR: 0.9378
+2026-06-17 16:59:03,334 INFO [Fold 9] Test Epoch 13: Acc: 0.7368 | Prec: 0.7037 | Recall: 0.9048 | F1: 0.7917 | AUC: 0.8039 | AUPR: 0.8422
+2026-06-17 16:59:29,666 INFO [Fold 9] Epoch 14 Summary: Avg Total Loss: 4.5084, Avg BCE Loss: 0.4980, Avg Contrastive Loss: 4.0105
+2026-06-17 16:59:29,681 INFO [Fold 9] Epoch 14: Acc: 0.8408 | Prec: 0.8295 | Recall: 0.9427 | F1: 0.8825 | AUC: 0.9072 | AUPR: 0.9422
+2026-06-17 16:59:30,396 INFO [Fold 9] Test Epoch 14: Acc: 0.7368 | Prec: 0.7037 | Recall: 0.9048 | F1: 0.7917 | AUC: 0.8151 | AUPR: 0.8629
+2026-06-17 16:59:30,643 INFO [EarlyStopping] New best train_loss: 4.5084 at epoch 13
+2026-06-17 16:59:56,087 INFO [Fold 9] Epoch 15 Summary: Avg Total Loss: 4.4820, Avg BCE Loss: 0.4948, Avg Contrastive Loss: 3.9872
+2026-06-17 16:59:56,087 INFO [Fold 9] Epoch 15: Acc: 0.8408 | Prec: 0.8346 | Recall: 0.9339 | F1: 0.8815 | AUC: 0.9163 | AUPR: 0.9496
+2026-06-17 16:59:56,583 INFO [Fold 9] Test Epoch 15: Acc: 0.7368 | Prec: 0.7037 | Recall: 0.9048 | F1: 0.7917 | AUC: 0.8263 | AUPR: 0.8706
+2026-06-17 16:59:56,798 INFO [EarlyStopping] New best train_loss: 4.4820 at epoch 14
+2026-06-17 17:00:21,476 INFO [Fold 9] Epoch 16 Summary: Avg Total Loss: 4.4679, Avg BCE Loss: 0.4870, Avg Contrastive Loss: 3.9808
+2026-06-17 17:00:21,477 INFO [Fold 9] Epoch 16: Acc: 0.8631 | Prec: 0.8532 | Recall: 0.9471 | F1: 0.8977 | AUC: 0.9304 | AUPR: 0.9588
+2026-06-17 17:00:21,995 INFO [Fold 9] Test Epoch 16: Acc: 0.7368 | Prec: 0.7037 | Recall: 0.9048 | F1: 0.7917 | AUC: 0.8431 | AUPR: 0.8826
+2026-06-17 17:00:22,205 INFO [EarlyStopping] New best train_loss: 4.4679 at epoch 15
+2026-06-17 17:00:47,660 INFO [Fold 9] Epoch 17 Summary: Avg Total Loss: 4.4633, Avg BCE Loss: 0.4801, Avg Contrastive Loss: 3.9831
+2026-06-17 17:00:47,660 INFO [Fold 9] Epoch 17: Acc: 0.8827 | Prec: 0.8903 | Recall: 0.9295 | F1: 0.9095 | AUC: 0.9429 | AUPR: 0.9661
+2026-06-17 17:00:48,157 INFO [Fold 9] Test Epoch 17: Acc: 0.7895 | Prec: 0.7600 | Recall: 0.9048 | F1: 0.8261 | AUC: 0.8599 | AUPR: 0.8924
+2026-06-17 17:00:48,360 INFO [EarlyStopping] New best train_loss: 4.4633 at epoch 16
+2026-06-17 17:01:12,599 INFO [Fold 9] Epoch 18 Summary: Avg Total Loss: 4.4439, Avg BCE Loss: 0.4816, Avg Contrastive Loss: 3.9623
+2026-06-17 17:01:12,600 INFO [Fold 9] Epoch 18: Acc: 0.8966 | Prec: 0.9241 | Recall: 0.9119 | F1: 0.9180 | AUC: 0.9483 | AUPR: 0.9697
+2026-06-17 17:01:12,927 INFO [Fold 9] Test Epoch 18: Acc: 0.7632 | Prec: 0.7500 | Recall: 0.8571 | F1: 0.8000 | AUC: 0.8711 | AUPR: 0.9038
+2026-06-17 17:01:13,143 INFO [EarlyStopping] New best train_loss: 4.4439 at epoch 17
+2026-06-17 17:01:38,991 INFO [Fold 9] Epoch 19 Summary: Avg Total Loss: 4.4035, Avg BCE Loss: 0.4759, Avg Contrastive Loss: 3.9275
+2026-06-17 17:01:39,000 INFO [Fold 9] Epoch 19: Acc: 0.8994 | Prec: 0.9244 | Recall: 0.9163 | F1: 0.9204 | AUC: 0.9507 | AUPR: 0.9712
+2026-06-17 17:01:39,400 INFO [Fold 9] Test Epoch 19: Acc: 0.7632 | Prec: 0.7500 | Recall: 0.8571 | F1: 0.8000 | AUC: 0.8936 | AUPR: 0.9225
+2026-06-17 17:01:40,377 INFO [EarlyStopping] New best train_loss: 4.4035 at epoch 18
+2026-06-17 17:02:04,940 INFO [Fold 9] Epoch 20 Summary: Avg Total Loss: 4.4117, Avg BCE Loss: 0.4691, Avg Contrastive Loss: 3.9426
+2026-06-17 17:02:04,940 INFO [Fold 9] Epoch 20: Acc: 0.8994 | Prec: 0.9244 | Recall: 0.9163 | F1: 0.9204 | AUC: 0.9543 | AUPR: 0.9734
+2026-06-17 17:02:05,406 INFO [Fold 9] Test Epoch 20: Acc: 0.7632 | Prec: 0.7500 | Recall: 0.8571 | F1: 0.8000 | AUC: 0.8992 | AUPR: 0.9280
+2026-06-17 17:02:32,949 INFO [Fold 9] Epoch 21 Summary: Avg Total Loss: 4.4036, Avg BCE Loss: 0.4631, Avg Contrastive Loss: 3.9405
+2026-06-17 17:02:32,951 INFO [Fold 9] Epoch 21: Acc: 0.9022 | Prec: 0.9286 | Recall: 0.9163 | F1: 0.9224 | AUC: 0.9561 | AUPR: 0.9747
+2026-06-17 17:02:33,515 INFO [Fold 9] Test Epoch 21: Acc: 0.7632 | Prec: 0.7500 | Recall: 0.8571 | F1: 0.8000 | AUC: 0.8936 | AUPR: 0.9218
+2026-06-17 17:02:57,928 INFO [Fold 9] Epoch 22 Summary: Avg Total Loss: 4.3833, Avg BCE Loss: 0.4450, Avg Contrastive Loss: 3.9383
+2026-06-17 17:02:57,929 INFO [Fold 9] Epoch 22: Acc: 0.9050 | Prec: 0.9251 | Recall: 0.9251 | F1: 0.9251 | AUC: 0.9573 | AUPR: 0.9757
+2026-06-17 17:02:58,279 INFO [Fold 9] Test Epoch 22: Acc: 0.7632 | Prec: 0.7500 | Recall: 0.8571 | F1: 0.8000 | AUC: 0.8880 | AUPR: 0.9134
+2026-06-17 17:02:58,468 INFO [EarlyStopping] New best train_loss: 4.3833 at epoch 21
+2026-06-17 17:03:23,185 INFO [Fold 9] Epoch 23 Summary: Avg Total Loss: 4.3612, Avg BCE Loss: 0.4403, Avg Contrastive Loss: 3.9209
+2026-06-17 17:03:23,186 INFO [Fold 9] Epoch 23: Acc: 0.9162 | Prec: 0.9417 | Recall: 0.9251 | F1: 0.9333 | AUC: 0.9623 | AUPR: 0.9787
+2026-06-17 17:03:23,627 INFO [Fold 9] Test Epoch 23: Acc: 0.7632 | Prec: 0.7500 | Recall: 0.8571 | F1: 0.8000 | AUC: 0.8936 | AUPR: 0.9202
+2026-06-17 17:03:23,815 INFO [EarlyStopping] New best train_loss: 4.3612 at epoch 22
+2026-06-17 17:03:49,369 INFO [Fold 9] Epoch 24 Summary: Avg Total Loss: 4.3234, Avg BCE Loss: 0.4276, Avg Contrastive Loss: 3.8958
+2026-06-17 17:03:49,369 INFO [Fold 9] Epoch 24: Acc: 0.9162 | Prec: 0.9264 | Recall: 0.9427 | F1: 0.9345 | AUC: 0.9678 | AUPR: 0.9817
+2026-06-17 17:03:49,708 INFO [Fold 9] Test Epoch 24: Acc: 0.8158 | Prec: 0.7917 | Recall: 0.9048 | F1: 0.8444 | AUC: 0.9160 | AUPR: 0.9383
+2026-06-17 17:03:49,891 INFO [EarlyStopping] New best train_loss: 4.3234 at epoch 23
+2026-06-17 17:04:14,016 INFO [Fold 9] Epoch 25 Summary: Avg Total Loss: 4.2884, Avg BCE Loss: 0.4214, Avg Contrastive Loss: 3.8670
+2026-06-17 17:04:14,022 INFO [Fold 9] Epoch 25: Acc: 0.9246 | Prec: 0.9348 | Recall: 0.9471 | F1: 0.9409 | AUC: 0.9728 | AUPR: 0.9846
+2026-06-17 17:04:14,421 INFO [Fold 9] Test Epoch 25: Acc: 0.8158 | Prec: 0.7917 | Recall: 0.9048 | F1: 0.8444 | AUC: 0.9132 | AUPR: 0.9350
+2026-06-17 17:04:14,722 INFO [EarlyStopping] New best train_loss: 4.2884 at epoch 24
+2026-06-17 17:04:40,187 INFO [Fold 9] Epoch 26 Summary: Avg Total Loss: 4.3076, Avg BCE Loss: 0.4025, Avg Contrastive Loss: 3.9050
+2026-06-17 17:04:40,219 INFO [Fold 9] Epoch 26: Acc: 0.9385 | Prec: 0.9515 | Recall: 0.9515 | F1: 0.9515 | AUC: 0.9772 | AUPR: 0.9869
+2026-06-17 17:04:40,692 INFO [Fold 9] Test Epoch 26: Acc: 0.7632 | Prec: 0.7500 | Recall: 0.8571 | F1: 0.8000 | AUC: 0.9188 | AUPR: 0.9412
+2026-06-17 17:05:06,927 INFO [Fold 9] Epoch 27 Summary: Avg Total Loss: 4.2793, Avg BCE Loss: 0.4057, Avg Contrastive Loss: 3.8736
+2026-06-17 17:05:06,928 INFO [Fold 9] Epoch 27: Acc: 0.9385 | Prec: 0.9596 | Recall: 0.9427 | F1: 0.9511 | AUC: 0.9776 | AUPR: 0.9872
+2026-06-17 17:05:07,280 INFO [Fold 9] Test Epoch 27: Acc: 0.7632 | Prec: 0.7500 | Recall: 0.8571 | F1: 0.8000 | AUC: 0.9188 | AUPR: 0.9392
+2026-06-17 17:05:07,474 INFO [EarlyStopping] New best train_loss: 4.2793 at epoch 26
+2026-06-17 17:05:33,483 INFO [Fold 9] Epoch 28 Summary: Avg Total Loss: 4.2519, Avg BCE Loss: 0.3905, Avg Contrastive Loss: 3.8614
+2026-06-17 17:05:33,484 INFO [Fold 9] Epoch 28: Acc: 0.9413 | Prec: 0.9640 | Recall: 0.9427 | F1: 0.9532 | AUC: 0.9781 | AUPR: 0.9874
+2026-06-17 17:05:34,024 INFO [Fold 9] Test Epoch 28: Acc: 0.7895 | Prec: 0.7826 | Recall: 0.8571 | F1: 0.8182 | AUC: 0.9160 | AUPR: 0.9365
+2026-06-17 17:05:34,922 INFO [EarlyStopping] New best train_loss: 4.2519 at epoch 27
+2026-06-17 17:05:59,563 INFO [Fold 9] Epoch 29 Summary: Avg Total Loss: 4.2781, Avg BCE Loss: 0.3907, Avg Contrastive Loss: 3.8874
+2026-06-17 17:05:59,585 INFO [Fold 9] Epoch 29: Acc: 0.9441 | Prec: 0.9481 | Recall: 0.9648 | F1: 0.9563 | AUC: 0.9802 | AUPR: 0.9886
+2026-06-17 17:05:59,923 INFO [Fold 9] Test Epoch 29: Acc: 0.7632 | Prec: 0.7500 | Recall: 0.8571 | F1: 0.8000 | AUC: 0.9160 | AUPR: 0.9390
+2026-06-17 17:06:24,365 INFO [Fold 9] Epoch 30 Summary: Avg Total Loss: 4.2098, Avg BCE Loss: 0.3745, Avg Contrastive Loss: 3.8353
+2026-06-17 17:06:24,366 INFO [Fold 9] Epoch 30: Acc: 0.9497 | Prec: 0.9524 | Recall: 0.9692 | F1: 0.9607 | AUC: 0.9815 | AUPR: 0.9894
+2026-06-17 17:06:25,200 INFO [Fold 9] Test Epoch 30: Acc: 0.7632 | Prec: 0.7500 | Recall: 0.8571 | F1: 0.8000 | AUC: 0.9160 | AUPR: 0.9381
+2026-06-17 17:06:25,562 INFO [EarlyStopping] New best train_loss: 4.2098 at epoch 29

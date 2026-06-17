@@ -1,0 +1,15 @@
+--extra-index-url https://download.pytorch.org/whl/cu113
+-f https://data.dgl.ai/wheels/repo.html
+
+torch==1.12.1+cu113
+dgl-cu113==0.7.2
+numpy==1.22.3
+pandas==2.0.3
+scipy==1.10.1
+scikit-learn==1.0.2
+matplotlib==3.8.4
+seaborn==0.13.2
+tqdm==4.67.1
+pydantic==1.10.24
+humann==3.9
+
