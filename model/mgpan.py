@@ -1,226 +1,838 @@
-"""Core MGPAN model definition."""
+"""Core MGPAN model and training helpers."""
 
-from __future__ import annotations
-
+import logging
+import os
+from collections import defaultdict
+from time import time
+import pandas as pd
 import dgl
-import dgl.function as fn
+import numpy as np
 import torch
 import torch.nn.functional as F
-from dgl.nn.functional import edge_softmax
-from dgl.nn.pytorch import GINConv, SAGEConv
-from torch import nn
+from sklearn.metrics import auc, f1_score, precision_recall_curve, roc_auc_score
+from torch import nn, optim
 from torch.utils.data import DataLoader
+from tqdm import tqdm
 
+from model.attention import GATv2ConvEdgeOnly, MetaPathAttention, NodeTypeAwarePooling
+from dgl.dataloading import GraphDataLoader
+from dgl.nn.pytorch import GINConv, SAGEConv
+from sklearn.metrics import (
+    accuracy_score,
+    confusion_matrix,
+    precision_score,
+    recall_score,
+    roc_curve,
+)
+from torch.optim.lr_scheduler import StepLR
+
+from config import MGPANConfig
+from utils.data_loader import set_seed
+
+
+_DEFAULT_CONFIG = MGPANConfig()
 
 class MGPAN(nn.Module):
-    """Meta-path guided and type-aware graph classifier."""
-
     def __init__(
-        self,
-        gnn_type,
-        num_gnn_layers,
-        relations,
-        feat_dim,
-        embed_dim,
-        dim_a,
-        dropout1,
-        dropout2,
-        dropout3,
-        attdropout,
-        activation,
-        num_node_types,
-        type_emb_dim,
-        num_node_ids,
-        node_id_emb_dim,
-        abundance_proj_dim,
-        metapaths,
+            self,
+            gnn_type,
+            num_gnn_layers,
+            relations,
+            feat_dim,
+            embed_dim,
+            dim_a,
+            dropout1,
+            dropout2,
+            dropout3,
+            attdropout,
+            activation,
+            num_node_types,
+            type_emb_dim,
+            num_node_ids,
+            node_id_emb_dim,
+            abundance_proj_dim,
+            metapaths,
+            type_emb_hidden_dim=_DEFAULT_CONFIG.type_emb_hidden_dim,
+            abundance_input_dim=_DEFAULT_CONFIG.abundance_input_dim,
+            classifier_dropout=_DEFAULT_CONFIG.classifier_dropout,
+            graph_pool_hidden_dim=_DEFAULT_CONFIG.graph_pool_hidden_dim,
+            graph_readout_num_types=_DEFAULT_CONFIG.graph_readout_num_types,
+            gat_num_heads=_DEFAULT_CONFIG.gat_num_heads,
+            sage_aggregator=_DEFAULT_CONFIG.sage_aggregator,
+            residual_dropout=_DEFAULT_CONFIG.residual_dropout
+
+
     ):
-        super().__init__()
-        self.num_node_ids = num_node_ids
+        super(MGPAN, self).__init__()
+        self.gnn_type = gnn_type
+        self.num_gnn_layers = num_gnn_layers
+        self.relations = relations
+        self.num_relations = len(relations)
+        self.metapaths = metapaths
+        self.feat_dim = feat_dim
+        self.embed_dim = embed_dim
+        self.dim_a = dim_a
+        self.num_node_types=num_node_types
+        self.num_node_ids=num_node_ids
+        self.abundance_input_dim = abundance_input_dim
         self.dropout1 = dropout1
-
+        self.dropout2 = dropout2
+        self.dropout3 = dropout3
+        self.attdropout=attdropout
+        self.activation = activation.casefold()
         self.embedder = MGPANGraph(
-            gnn_type=gnn_type,
-            num_gnn_layers=num_gnn_layers,
-            relations=relations,
-            feat_dim=embed_dim,
-            embed_dim=embed_dim,
-            dim_a=dim_a,
-            dropout2=dropout2,
-            dropout3=dropout3,
-            attdropout=attdropout,
-            activation=activation.casefold(),
-            metapaths=metapaths,
+            gnn_type=self.gnn_type,
+            num_gnn_layers=self.num_gnn_layers,
+            relations=self.relations,
+            feat_dim=self.embed_dim,
+            embed_dim=self.embed_dim,
+            dim_a=self.dim_a,
+            dropout2=self.dropout2,
+            dropout3=self.dropout3,
+            attdropout=self.attdropout,
+            activation=self.activation,
+            metapaths=self.metapaths,
+            graph_pool_hidden_dim=graph_pool_hidden_dim,
+            graph_readout_num_types=graph_readout_num_types,
+            gat_num_heads=gat_num_heads,
+            sage_aggregator=sage_aggregator,
+            residual_dropout=residual_dropout
+        )
+        # self.type_emb = nn.Embedding(num_node_types,type_emb_dim)
+        # self.type_emb_mlp = nn.Sequential(
+        #     nn.Linear(type_emb_dim, type_emb_hidden_dim),
+        #     nn.ReLU(),
+        #     nn.Linear(type_emb_hidden_dim, type_emb_dim)
+        # )
+        # self.node_id_emb = nn.Embedding(num_node_ids+1, node_id_emb_dim)
+        # self.node_id_emb_mlp = nn.Sequential(
+        #     nn.Linear(node_id_emb_dim, node_id_emb_dim),
+        #     nn.ReLU(),
+        #     nn.Dropout(self.dropout1)
+        # )
+        # self.abundance_proj = nn.Sequential(
+        #     nn.Linear(abundance_input_dim, abundance_proj_dim),
+        #     nn.ReLU(),
+        #     nn.Linear(abundance_proj_dim, abundance_proj_dim),
+        #     nn.ReLU()
+        # )
+
+        self.type_emb = nn.Embedding(num_node_types, type_emb_dim)
+
+        self.type_emb_mlp = nn.Sequential(
+            nn.Linear(type_emb_dim, type_emb_hidden_dim),
+            nn.ReLU(),
+            nn.Linear(type_emb_hidden_dim, type_emb_dim),
+            nn.Dropout(self.dropout1)
         )
 
-        hidden_dim = 8
-        self.type_emb = nn.Embedding(num_node_types, type_emb_dim)
-        self.type_emb_mlp = nn.Sequential(
-            nn.Linear(type_emb_dim, hidden_dim),
-            nn.ReLU(),
-            nn.Linear(hidden_dim, type_emb_dim),
-        )
         self.node_id_emb = nn.Embedding(num_node_ids + 1, node_id_emb_dim)
+
         self.node_id_emb_mlp = nn.Sequential(
-            nn.Linear(node_id_emb_dim, node_id_emb_dim),
+            nn.LayerNorm(node_id_emb_dim),
+            nn.Dropout(self.dropout1)
+        )
+
+        self.abundance_proj = nn.Sequential(
+            nn.Linear(abundance_input_dim, abundance_proj_dim),
+            nn.LayerNorm(abundance_proj_dim),
             nn.ReLU(),
             nn.Dropout(self.dropout1),
-        )
-        self.abundance_proj = nn.Sequential(
-            nn.Linear(3, abundance_proj_dim),
-            nn.ReLU(),
             nn.Linear(abundance_proj_dim, abundance_proj_dim),
-            nn.ReLU(),
+            nn.LayerNorm(abundance_proj_dim),
+            nn.ReLU()
         )
+        
+        total_input_dim = abundance_proj_dim +type_emb_dim+node_id_emb_dim
+        self.node_feat_proj = nn.Linear(total_input_dim, self.embed_dim)
+        self.node_feat_norm = nn.LayerNorm(self.embed_dim)
+        
+        final_embed_dim=int(self.embed_dim)
+        self.classifier = MinimalClassifier(embed_dim=final_embed_dim, dropout=classifier_dropout)
+    def forward(self, graph,mp_graphs_list=None, return_attn=False):
+        # feat = graph.ndata['feat'].float()
+        # check_tensor(feat, "raw feat")
+        # x = feat[:, :self.abundance_input_dim]
+        # abundance_feats = self.abundance_proj(x)
+        # check_tensor(abundance_feats, "abundance_feats")
+        # node_type=feat[:, self.abundance_input_dim].long() 
+        # type_feats = self.type_emb_mlp(self.type_emb(node_type))
+        # node_ids=feat[:, self.abundance_input_dim + 1].long()
+        # unk_id = self.num_node_ids
+        # node_ids = torch.where(node_ids >= unk_id, torch.tensor(unk_id, device=node_ids.device), node_ids)
 
-        total_input_dim = abundance_proj_dim + type_emb_dim + node_id_emb_dim
-        self.node_feat_proj = nn.Linear(total_input_dim, embed_dim)
-        self.node_feat_norm = nn.LayerNorm(embed_dim)
-        self.classifier = MinimalClassifier(embed_dim=embed_dim, dropout=0.45)
+        # node_id_feats = self.node_id_emb(node_ids)
+        # node_id_feats  = self.node_id_emb_mlp(node_id_feats)
+        # check_tensor(node_id_feats, "node_id_feats")
+        # h = torch.cat([abundance_feats,type_feats,node_id_feats], dim=1)
 
-    def forward(self, graph, mp_graphs_list=None, return_attn=False):
-        feat = graph.ndata["feat"].float()
+        # h = self.node_feat_proj(h)
+        # check_tensor(h, "node_feat_proj")
+        # h = self.node_feat_norm(h)
+        # check_tensor(h, "node_feat_norm")
+        # h = F.relu(h)
+        # check_tensor(h, "relu h")
+        # h = F.dropout(h, p=self.dropout1, training=self.training)
+
+        feat = graph.ndata['feat'].float()
         check_tensor(feat, "raw feat")
 
-        abundance_feats = self.abundance_proj(feat[:, :3])
+        # abundance features
+        x = feat[:, :self.abundance_input_dim]
+        abundance_feats = self.abundance_proj(x)
         check_tensor(abundance_feats, "abundance_feats")
 
-        node_type = feat[:, 3].long()
-        type_feats = self.type_emb_mlp(self.type_emb(node_type))
+        # node type
+        node_type = feat[:, self.abundance_input_dim].long()
 
-        node_ids = feat[:, 4].long()
+        if self.training:
+            assert node_type.min() >= 0
+            assert node_type.max() < self.num_node_types
+
+        raw_type_feats = self.type_emb(node_type)
+        type_feats = raw_type_feats + self.type_emb_mlp(raw_type_feats)
+        check_tensor(type_feats, "type_feats")
+
+        # node id
+        node_ids = feat[:, self.abundance_input_dim + 1].long()
         unk_id = self.num_node_ids
+
+        invalid_mask = (node_ids < 0) | (node_ids >= unk_id)
         node_ids = torch.where(
-            node_ids >= unk_id,
+            invalid_mask,
             node_ids.new_full(node_ids.shape, unk_id),
-            node_ids,
+            node_ids
         )
-        node_id_feats = self.node_id_emb_mlp(self.node_id_emb(node_ids))
+
+        node_id_feats = self.node_id_emb(node_ids)
+        node_id_feats = self.node_id_emb_mlp(node_id_feats)
         check_tensor(node_id_feats, "node_id_feats")
 
+        # concat
         h = torch.cat([abundance_feats, type_feats, node_id_feats], dim=1)
+
         h = self.node_feat_proj(h)
         check_tensor(h, "node_feat_proj")
+
         h = self.node_feat_norm(h)
         check_tensor(h, "node_feat_norm")
+
         h = F.relu(h)
         check_tensor(h, "relu h")
+
         h = F.dropout(h, p=self.dropout1, training=self.training)
 
         if return_attn:
             embed, att_dict = self.embedder(
-                graph,
-                h,
+                graph, h,
                 return_attn=True,
-                mp_graphs_list=mp_graphs_list,
+                mp_graphs_list=mp_graphs_list
             )
             out = self.classifier(embed)
             return out, embed, att_dict
+        else:
+            embed = self.embedder(graph, h, mp_graphs_list=mp_graphs_list)
+            out = self.classifier(embed)
+            return out, embed
 
-        embed = self.embedder(graph, h, mp_graphs_list=mp_graphs_list)
-        out = self.classifier(embed)
-        return out, embed
+
+    def train_model(
+            self,
+            train_dataset,
+            test_dataset,
+            fold,
+            batch_size=_DEFAULT_CONFIG.batch_size,
+            EPOCHS=_DEFAULT_CONFIG.epochs,
+            lr=_DEFAULT_CONFIG.lr,
+            weight_decay=_DEFAULT_CONFIG.weight_decay,
+            accum_steps=_DEFAULT_CONFIG.accum_steps,
+            num_workers=_DEFAULT_CONFIG.num_workers,
+            pos_class_weight=_DEFAULT_CONFIG.pos_class_weight,
+            device='cpu',
+            model_dir=None,
+            model_name=_DEFAULT_CONFIG.model_name,
+            seed=_DEFAULT_CONFIG.seed,
+            contrastive_weight=_DEFAULT_CONFIG.contrastive_weight,
+            contrastive_temperature=_DEFAULT_CONFIG.contrastive_temperature,
+            contrastive_eps=_DEFAULT_CONFIG.contrastive_eps,
+            scheduler_eta_min=_DEFAULT_CONFIG.scheduler_eta_min,
+            grad_clip_norm=_DEFAULT_CONFIG.grad_clip_norm,
+            min_epochs=_DEFAULT_CONFIG.min_epochs,
+            patience=_DEFAULT_CONFIG.patience,
+            min_delta=_DEFAULT_CONFIG.min_delta,
+            threshold_min_recall=_DEFAULT_CONFIG.threshold_min_recall,
+            threshold_eps=_DEFAULT_CONFIG.threshold_eps,
+            train_loader_shuffle=_DEFAULT_CONFIG.train_loader_shuffle,
+            train_pin_memory=_DEFAULT_CONFIG.train_pin_memory,
+            eval_pin_memory=_DEFAULT_CONFIG.eval_pin_memory
+    ):
+        if model_dir is None:
+            model_dir = os.path.join(_DEFAULT_CONFIG.saved_model_dir, _DEFAULT_CONFIG.model_name)
+
+        set_seed(seed)
+
+        g = torch.Generator()
+        g.manual_seed(seed)
+
+        self.to(device)
+
+        os.makedirs(model_dir, exist_ok=True)
+        logging.info(f'Device: {device}')
+        optimizer = optim.Adam(self.parameters(), lr=lr, weight_decay=weight_decay)
+        scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+            optimizer, T_max=EPOCHS, eta_min=scheduler_eta_min
+        )
+
+        train_loader = DataLoader(
+            train_dataset,
+            batch_size=batch_size,
+            shuffle=train_loader_shuffle,
+            num_workers=num_workers,
+            pin_memory=train_pin_memory,
+            collate_fn=custom_collate,
+            worker_init_fn=seed_worker,   # ⭐ 确保 DataLoader 多线程可复现
+            generator=g                   # ⭐ 确保 shuffle 可复现
+        )
+
+        start_train = time()
+        train_acc, train_p, train_r, train_f1,train_auc,train_aupr,train_loss = [], [], [], [],[],[],[]
+        train_score = 0
+        if pos_class_weight is not None and pos_class_weight != 1:
+            pos_weight_tensor = torch.tensor(pos_class_weight, device=device, dtype=torch.float)
+            criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight_tensor)
+        else:
+            criterion = nn.BCEWithLogitsLoss()
+        
+        contrastive_criterion = SupConLoss(
+            temperature=contrastive_temperature,
+            eps=contrastive_eps
+        )
+        best_train_loss = float('inf')
+        trigger_times = 0
+        
+        for epoch in range(EPOCHS):
+            self.train()
+            self.to(device)
+
+            data_iter = tqdm(
+                train_loader,
+                desc=f'Epoch: {epoch:02}',
+                total=len(train_loader),
+                position=0
+            )
+
+            raw_loss_sum, bce_loss_sum, focal_loss_sum,contrastive_loss_sum,ranking_loss_sum = 0.0, 0.0, 0.0 ,0.0,0.0# accumulate raw (un-divided) loss for reporting
+            n_batches = 0
+            for i, (batch_graph, labels,batch_mp_graphs) in enumerate(data_iter):
+                batch_graph = batch_graph.to(device)
+                labels = labels.float().view(-1).to(device)  # ensure 1D float
+
+                logits,embed= self(batch_graph,mp_graphs_list=batch_mp_graphs)
+
+
+                if torch.isnan(embed).any() or torch.isinf(embed).any():
+                    raise ValueError("embed contains NaN or Inf")
+
+                if torch.isnan(logits).any() or torch.isinf(logits).any():
+                    print("logits min/max:", logits.min().item(), logits.max().item())
+                    raise ValueError("logits contains NaN or Inf")
+
+               
+                if logits.dim() > 1 and logits.size(-1) == 1:
+                    logits = logits.view(-1)
+                elif logits.dim() > 1 and logits.size(0) > 1 and logits.size(1) != 1:
+                    print("WARNING: logits shape unexpected:", logits.shape)
+                    logits = logits.view(-1)
+                if torch.isnan(logits).any():
+                    raise ValueError("logits contains NaN")
+
+                bce_loss = criterion(logits, labels)
+             
+                contrastive_loss = contrastive_criterion(embed, labels)
+         
+               
+                loss_raw = bce_loss + contrastive_weight*contrastive_loss
+
+
+                if torch.isnan(contrastive_loss) or torch.isinf(contrastive_loss):
+                    print("❌ NaN/Inf contrastive_loss — skip batch")
+                    optimizer.zero_grad()
+                    continue
+
+                loss = loss_raw / accum_steps
+                loss.backward()
+                if torch.isnan(loss) or torch.isinf(loss):
+                    print("❌ NaN/Inf total loss — skip batch")
+                    optimizer.zero_grad()
+                    continue
+
+                raw_loss_sum += loss.item()
+                bce_loss_sum += bce_loss.item()
+                contrastive_loss_sum += contrastive_loss.item()
+                n_batches += 1
+
+
+                if ((i + 1) % accum_steps == 0) or ((i + 1) == len(data_iter)):
+
+                    torch.nn.utils.clip_grad_norm_(
+                        self.parameters(),
+                        max_norm=grad_clip_norm
+                    )
+
+                    if torch.isnan(self.abundance_proj[0].weight).any():
+                        print("❌ abundance_proj Linear weight NaN — skip optimizer.step()")
+                        optimizer.zero_grad()
+                        continue
+
+                    optimizer.step()
+                    optimizer.zero_grad()
+
+                data_iter.set_postfix({
+                    'train_score': train_score,
+                    'avg_loss': raw_loss_sum / n_batches
+                })
+            
+            avg_total_loss = raw_loss_sum / n_batches
+            avg_bce_loss = bce_loss_sum / n_batches
+            avg_contrastive_loss = contrastive_loss_sum / n_batches
+
+            acc, p, r, f1,auc,aupr = self.eval_model(
+                train_dataset,
+                batch_size=batch_size,
+                num_workers=num_workers,
+                device=device,
+                flag=False,
+                min_recall=threshold_min_recall,
+                threshold_eps=threshold_eps,
+                pin_memory=eval_pin_memory
+            )
+            train_score = acc
+            logging.info(
+                f"[Fold {fold+1}] Epoch {epoch+1:02} Summary: "
+                f"Avg Total Loss: {avg_total_loss:.4f}, "
+                f"Avg BCE Loss: {avg_bce_loss  :.4f}, "
+                f"Avg Contrastive Loss: {avg_contrastive_loss:.4f} "
+            )
+   
+
+            logging.info(f'[Fold {fold+1}]: Epoch{epoch+1:02}:  Acc: {acc:.4f} | Prec: {p:.4f} | Recall: {r:.4f} | F1: {f1:.4f} | AUC: {auc:.4f}| AUPR: {aupr:.4f}')
+            
+            test_acc, test_p, test_r, test_f1,test_auc,_,_,_,_,_,test_aupr= self.eval_model(
+                    test_dataset,
+                    batch_size=batch_size,
+                    num_workers=num_workers,
+                    device=device,
+                    flag=True,
+                    min_recall=threshold_min_recall,
+                    threshold_eps=threshold_eps,
+                    pin_memory=eval_pin_memory
+            )
+            logging.info(f'[Fold {fold+1}]: test Epoch{epoch+1:02}: Acc: {test_acc:.4f} | Prec: {test_p:.4f} | Recall: {test_r:.4f} | F1: {test_f1:.4f}| AUC: {test_auc:.4f}| AUPR: {test_aupr:.4f}')
+            scheduler.step()
+            train_loss.append(avg_total_loss)
+            train_acc.append(acc)
+            train_p.append(p)
+            train_r.append(r)
+            train_f1.append(f1)
+            train_auc.append(auc)
+            train_aupr.append(aupr)
+            torch.save({
+                'epoch': epoch,
+                'loss': loss,
+                'model_state_dict': self.state_dict(),
+                'optimizer_state_dict': optimizer.state_dict()
+            }, f'{model_dir}/checkpoint.pt')
+                
+
+            if best_train_loss - avg_total_loss > min_delta:
+                best_train_loss = avg_total_loss
+                trigger_times = 0
+                torch.save({
+                    'epoch': epoch,
+                    'model_state_dict': self.state_dict(),
+                    'optimizer_state_dict': optimizer.state_dict(),
+                    'train_loss': best_train_loss
+                }, f'{model_dir}/best_model_fold{fold}.pt')
+                logging.info(f"[EarlyStopping] 🟢 New best train_loss: {best_train_loss:.4f} at epoch {epoch}")
+            else:
+                if epoch >= min_epochs:  # 🔹加入最低训练轮数限制
+                    trigger_times += 1
+                    logging.info(f"[EarlyStopping] No improvement for {trigger_times}/{patience} epochs")
+                    if trigger_times >= patience:
+                        logging.info(f"[EarlyStopping] 🛑 Triggered at epoch {epoch}")
+                        checkpoint = torch.load(f'{model_dir}/best_model_fold{fold}.pt', map_location=device)
+                        self.load_state_dict(checkpoint['model_state_dict'])
+                        break
+        
+        end_train = time()
+        logging.info(f'Total training time... {end_train - start_train:.2f}s')
+
+        torch.save(self.state_dict(), f'{model_dir}/{model_name}.pt')
+
+        return train_acc, train_p, train_r, train_f1,train_auc,train_loss,train_aupr
+    
+
+
+
+    def find_best_threshold_with_recall_constraint(
+        self,
+        y_true,
+        pred_probs,
+        min_recall=_DEFAULT_CONFIG.threshold_min_recall,
+        eps=_DEFAULT_CONFIG.threshold_eps
+    ):
+        precision, recall, thresholds = precision_recall_curve(y_true, pred_probs)
+
+        precision = precision[:-1]
+        recall = recall[:-1]
+
+        f1 = 2 * precision * recall / (precision + recall + eps)
+
+        valid = recall >= min_recall
+
+        if valid.sum() == 0:
+            best_idx = np.argmax(f1)
+        else:
+            best_idx = np.argmax(f1 * valid)
+
+        best_threshold = thresholds[best_idx]
+
+        return best_threshold, f1[best_idx], precision[best_idx], recall[best_idx]
+    
+    def find_best_threshold_f1(self,y_true, pred_probs, eps=_DEFAULT_CONFIG.threshold_eps):
+        precision, recall, thresholds = precision_recall_curve(y_true, pred_probs)
+
+        precision = precision[:-1]
+        recall = recall[:-1]
+
+        f1 = 2 * precision * recall / (precision + recall + eps)
+
+        best_idx = np.argmax(f1)
+        best_threshold = thresholds[best_idx]
+
+        return best_threshold, f1[best_idx]
+
+
+    def eval_model(
+        self,
+        eval_dataset,
+        batch_size=_DEFAULT_CONFIG.batch_size,
+        num_workers=_DEFAULT_CONFIG.num_workers,
+        device='cuda',
+        flag=False,   # False=train, True=test
+        min_recall=_DEFAULT_CONFIG.threshold_min_recall,
+        threshold_eps=_DEFAULT_CONFIG.threshold_eps,
+        pin_memory=_DEFAULT_CONFIG.eval_pin_memory
+    ):
+        """
+        flag=False (train):
+            - Recall约束 + F1最优阈值
+            - 保存 threshold + 正类比例
+            - 返回: acc, prec, rec, f1, auc
+
+        flag=True (test):
+            - 使用 Quantile 自适应阈值（分布漂移）
+            - 返回: acc, prec, rec, f1, auc, fpr, tpr, precision_curve, recall_curve, cm
+        """
+
+        self.eval()
+        self.to(device)
+
+        eval_loader = GraphDataLoader(
+            eval_dataset,
+            batch_size=batch_size,
+            shuffle=False,
+            num_workers=num_workers,
+            pin_memory=pin_memory,
+            collate_fn=custom_collate
+        )
+
+        pred_probs, y_true = self.predict(eval_loader, device=device)
+
+        pred_probs = np.asarray(pred_probs)
+        y_true = np.asarray(y_true)
+
+        if np.isnan(pred_probs).any():
+            raise ValueError("pred_probs contains NaN")
+        if np.isinf(pred_probs).any():
+            raise ValueError("pred_probs contains Inf")
+
+        if flag is False:
+            best_thresh, best_f1,_,_ = \
+                self.find_best_threshold_with_recall_constraint(
+                    y_true,
+                    pred_probs,     # ⭐ 可以调
+                    min_recall=min_recall,
+                    eps=threshold_eps
+                )
+
+            self.best_threshold = best_thresh
+
+            self.pos_ratio = (pred_probs >= best_thresh).mean()
+
+
+            y_pred = (pred_probs >=  best_thresh).astype(int)
+
+        else:
+            if not hasattr(self, "pos_ratio"):
+                raise ValueError("Run train eval first!")
+
+            adaptive_thresh = np.quantile(pred_probs, 1 - self.pos_ratio)
+
+            print(f"[Test] adaptive threshold={adaptive_thresh:.4f}")
+
+            y_pred = (pred_probs >= adaptive_thresh).astype(int)
+
+        accuracy = accuracy_score(y_true, y_pred)
+        precision = precision_score(y_true, y_pred, zero_division=0)
+        recall = recall_score(y_true, y_pred, zero_division=0)
+        f1 = f1_score(y_true, y_pred, zero_division=0)
+        auc1 = roc_auc_score(y_true, pred_probs)
+        precision_curve, recall_curve, _ = precision_recall_curve(y_true, pred_probs)
+        aupr = auc(recall_curve, precision_curve)
+        if flag is False:
+            return accuracy, precision, recall, f1, auc1,aupr
+        else:
+            fpr, tpr, _ = roc_curve(y_true, pred_probs)
+            precision_curve, recall_curve, _ = precision_recall_curve(
+                y_true, pred_probs
+            )
+            cm = confusion_matrix(y_true, y_pred)
+            return (
+                accuracy,
+                precision,
+                recall,
+                f1,
+                auc1,
+                fpr,
+                tpr,
+                precision_curve,
+                recall_curve,
+                cm,
+                aupr
+            )
+
+
+
+
+
+
+
+
+
+
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    def extract_raw_predictions(
+        self,
+        test_dataset,
+        fold,
+        batch_size,
+        num_workers,
+        device,
+        pin_memory=_DEFAULT_CONFIG.eval_pin_memory
+    ):
+        self.eval()
+        self.to(device)
+
+        test_loader = GraphDataLoader(
+            test_dataset,
+            batch_size=batch_size,
+            shuffle=False,
+            num_workers=num_workers,
+            pin_memory=pin_memory,
+            collate_fn=custom_collate
+        )
+
+        with torch.no_grad():
+            pred_probs, y_true = self.predict(test_loader, device=device)
+
+        pred_probs = np.asarray(pred_probs)
+        y_true = np.asarray(y_true)
+
+        df_fold = pd.DataFrame({
+            "Fold": fold + 1,
+            "y_true": y_true.astype(int),
+            "y_prob": pred_probs.astype(float)
+        })
+
+        return df_fold
+
+    def predict(self, graph_loader, device='cpu'):
+        self.eval()
+        self.to(device)
+
+        all_preds, all_labels = [], []
+
+        with torch.no_grad():
+            for batch_graph, batch_labels, batch_mp_graphs in tqdm(graph_loader, desc='Predicting', total=len(graph_loader)):
+                batch_graph = batch_graph.to(device)
+                
+                logits, _ = self(batch_graph, mp_graphs_list=batch_mp_graphs)
+                batch_preds = torch.sigmoid(logits)  # 只对 logits 做 sigmoid
+                all_preds.extend(batch_preds.cpu().tolist())
+                all_labels.extend(batch_labels.tolist())
+
+        return all_preds, all_labels
 
 
 class MGPANGraph(nn.Module):
-    """Node-level MGPAN encoder followed by type-aware graph pooling."""
-
     def __init__(
-        self,
-        gnn_type,
-        num_gnn_layers,
-        relations,
-        feat_dim,
-        embed_dim,
-        dim_a,
-        dropout2=0.0,
-        dropout3=0.0,
-        attdropout=0.0,
-        activation=None,
-        metapaths=None,
+            self,
+            gnn_type,
+            num_gnn_layers,
+            relations,
+            feat_dim,
+            embed_dim,
+            dim_a,
+            dropout2=0,
+            dropout3=0,
+            attdropout=0,
+            activation=None,
+            metapaths=None,
+            graph_pool_hidden_dim=_DEFAULT_CONFIG.graph_pool_hidden_dim,
+            graph_readout_num_types=_DEFAULT_CONFIG.graph_readout_num_types,
+            gat_num_heads=_DEFAULT_CONFIG.gat_num_heads,
+            sage_aggregator=_DEFAULT_CONFIG.sage_aggregator,
+            residual_dropout=_DEFAULT_CONFIG.residual_dropout
     ):
-        super().__init__()
-        self.layers = nn.ModuleList()
-        self.layers.append(
+        super(MGPANGraph, self).__init__()
+        self.gnn_type = gnn_type
+        self.num_gnn_layers = num_gnn_layers
+        self.relations = relations
+        self.num_relations = len(self.relations)
+        self.feat_dim = feat_dim
+        self.embed_dim = embed_dim
+        self.dim_a = dim_a
+        self.activation = activation
+        self.dropout2 = dropout2
+        self.dropout3 = dropout3
+        self.attdropout = attdropout
+        self.metapaths = metapaths
+        self.layers = nn.ModuleList([
             MGPANLayer(
-                gnn_type=gnn_type,
-                relations=relations,
-                in_dim=feat_dim,
-                out_dim=embed_dim,
-                dim_a=dim_a,
-                attdropout=attdropout,
-                dropout3=dropout3,
-                activation=activation,
-                metapaths=metapaths,
+                gnn_type=self.gnn_type,
+                relations=self.relations,
+                in_dim=self.feat_dim,
+                out_dim=self.embed_dim,
+                dim_a=self.dim_a,
+                attdropout=self.attdropout,
+                dropout3=self.dropout3,
+                activation=self.activation,
+                metapaths=self.metapaths,
+                gat_num_heads=gat_num_heads,
+                sage_aggregator=sage_aggregator,
+                residual_dropout=residual_dropout
             )
-        )
-        for _ in range(1, num_gnn_layers):
+        ])
+        for _ in range(1, self.num_gnn_layers):
             self.layers.append(
                 MGPANLayer(
-                    gnn_type=gnn_type,
-                    relations=relations,
-                    in_dim=embed_dim,
-                    out_dim=embed_dim,
-                    dim_a=dim_a,
-                    attdropout=attdropout,
-                    dropout3=dropout3,
-                    activation=activation,
-                    metapaths=metapaths,
+                    gnn_type=self.gnn_type,
+                    relations=self.relations,
+                    in_dim=self.embed_dim,
+                    out_dim=self.embed_dim,
+                    dim_a=self.dim_a,
+                    attdropout=self.attdropout,
+                    dropout3=self.dropout3,
+                    activation=self.activation,
+                    metapaths=self.metapaths,
+                    gat_num_heads=gat_num_heads,
+                    sage_aggregator=sage_aggregator,
+                    residual_dropout=residual_dropout
                 )
             )
-
-        self.type_pool = NodeTypeAwarePooling(
+        self.type_att_pool = NodeTypeAwarePooling(
             embed_dim=embed_dim,
-            att_hidden_dim=64,
-            att_dropout=attdropout,
+            att_hidden_dim=graph_pool_hidden_dim,
+            att_dropout=self.attdropout
         )
-        self.graph_feat_proj = nn.Linear(embed_dim * 3, embed_dim)
+        self.graph_feat_proj = nn.Linear(embed_dim * graph_readout_num_types, int(embed_dim))
 
-    def forward(self, graph, feat, return_attn=False, mp_graphs_list=None):
+    @staticmethod
+    def _get_activation_fn(activation):
+        if activation is None:
+            act_fn = None
+        elif activation == 'relu':
+            act_fn = nn.ReLU()
+        elif activation == 'elu':
+            act_fn = nn.ELU()
+        elif activation == 'gelu':
+            act_fn = nn.GELU()
+        else:
+            raise ValueError('Invalid activation function.')
+
+        return act_fn
+    
+    def forward(self, graph, feat,node_type=None, return_attn=False,mp_graphs_list=None):
+
+        
         h = feat
-        for layer in self.layers:
-            h = layer(graph, h, mp_graphs_list=mp_graphs_list)
+        for i, layer in enumerate(self.layers):
+            h = layer(graph, h,mp_graphs_list=mp_graphs_list)
+        
 
         if return_attn:
-            h_readout, att_dict = self.type_pool(graph, h, return_attn=True)
+            h_Tyattn, att_dict = self.type_att_pool(graph, h, return_attn=True)
         else:
-            h_readout = self.type_pool(graph, h)
-
+            h_Tyattn = self.type_att_pool(graph, h)
+        h_readout = h_Tyattn
         h_readout = F.relu(self.graph_feat_proj(h_readout))
+
         if return_attn:
             return h_readout, att_dict
-        return h_readout
+        else:
+            return h_readout        
+
+
 
 
 class MGPANLayer(nn.Module):
-    """One MGPAN layer over fixed meta-path graphs."""
-
-    def __init__(
-        self,
-        gnn_type,
-        relations,
-        in_dim,
-        out_dim,
-        dim_a,
-        attdropout,
-        dropout3=0.0,
-        activation="relu",
-        metapaths=None,
-    ):
-        super().__init__()
+    def __init__(self,
+                 gnn_type,
+                 relations,
+                 in_dim,
+                 out_dim,
+                 dim_a,
+                 attdropout,
+                 dropout3=0.0,
+                 activation='relu',
+                 metapaths=None,
+                 gat_num_heads=_DEFAULT_CONFIG.gat_num_heads,
+                 sage_aggregator=_DEFAULT_CONFIG.sage_aggregator,
+                 residual_dropout=_DEFAULT_CONFIG.residual_dropout
+                 ):
+        super(MGPANLayer, self).__init__()
         self.gnn_type = gnn_type
-        self.relations = relations
+        self.relations = relations  
         self.in_dim = in_dim
         self.out_dim = out_dim
         self.dim_a = dim_a
-        self.dropout3 = dropout3
-        self.attdropout = attdropout
+        self.dropout3=dropout3
+        self.attdropout=attdropout
         self.activation = self._get_activation_fn(activation)
-        self.num_metapaths = len(metapaths)
+        self.num_metapaths=len(metapaths)
 
         self.mp_layers = nn.ModuleList()
         for _ in range(self.num_metapaths):
-            if self.gnn_type == "gin":
+            if self.gnn_type == 'gin':
                 conv = GINConv(
                     apply_func=nn.Sequential(
                         nn.Linear(in_dim, out_dim),
@@ -230,106 +842,95 @@ class MGPANLayer(nn.Module):
                         nn.Dropout(p=self.dropout3),
                         self.activation,
                     ),
-                    aggregator_type="sum",
+                    aggregator_type='sum',
                 )
-            elif self.gnn_type == "gatv2":
+            elif self.gnn_type == 'gatv2':
                 conv = GATv2ConvEdgeOnly(
                     in_feats=in_dim,
                     out_feats=out_dim,
-                    num_heads=1,
+                    num_heads=gat_num_heads,           # 如果需要多头，可以改为 >1
                     feat_drop=self.dropout3,
                     attn_drop=self.dropout3,
                     residual=False,
                     activation=self.activation,
-                    allow_zero_in_degree=True,
+                    allow_zero_in_degree=True
                 )
-            elif self.gnn_type == "sage":
+            elif self.gnn_type == 'sage':
                 conv = SAGEConv(
                     in_feats=in_dim,
                     out_feats=out_dim,
-                    aggregator_type="pool",
+                    aggregator_type=sage_aggregator,  # 可选 'mean', 'pool', 'lstm', 'gcn'
                     feat_drop=self.dropout3,
-                    activation=self.activation,
+                    activation=self.activation
                 )
             else:
-                raise ValueError(
-                    f"Invalid gnn_type: {gnn_type}. Choose 'gin', 'gatv2', or 'sage'."
-                )
+                raise ValueError(f"Invalid gnn_type: {gnn_type}. Choose 'gin' or 'sage'.")
             self.mp_layers.append(conv)
 
-
+        self.proj = nn.Linear(out_dim, out_dim)
+        self.pre_attn_norm = nn.LayerNorm(out_dim)        
+        self.post_attn_norm = nn.LayerNorm(out_dim)        
+        self.input_residual_proj = nn.Linear(in_dim, out_dim, bias=False)
+        self.residual_dropout = nn.Dropout(residual_dropout)
+        self.output_norm = nn.LayerNorm(out_dim)
         self.attention = MetaPathAttention(
             num_metapaths=self.num_metapaths,
-            embed_dim=out_dim,
-            dim_a=self.dim_a,
-            dropout=self.attdropout,
+            embed_dim=out_dim,   # out_dim 就是 GNN 层输出的维度
+            dim_a=self.dim_a,            # 可调，hidden_dim
+            dropout=self.attdropout          # 可调
         )
 
     @staticmethod
     def _get_activation_fn(activation):
         if activation is None:
             return None
-        if activation == "relu":
+        elif activation == 'relu':
             return nn.ReLU()
-        if activation == "elu":
+        elif activation == 'elu':
             return nn.ELU()
-        if activation == "gelu":
+        elif activation == 'gelu':
             return nn.GELU()
-        raise ValueError(f"Invalid activation function: {activation}")
+        else:
+            raise ValueError(f'Invalid activation function: {activation}')
 
-    @staticmethod
-    def _align_batched_features(feat, batched_mp_graph):
-        if "_ID" not in batched_mp_graph.ndata:
-            return feat
-
-        local_ids = batched_mp_graph.ndata["_ID"].to(feat.device)
-        batch_num_nodes = batched_mp_graph.batch_num_nodes().to(feat.device)
-        offsets = torch.cumsum(
-            torch.cat(
-                [
-                    batch_num_nodes.new_zeros(1),
-                    batch_num_nodes[:-1],
-                ]
-            ),
-            dim=0,
-        )
-        offsets = torch.repeat_interleave(offsets, batch_num_nodes)
-        return feat[local_ids + offsets]
 
     def forward(self, graph, feat, mp_graphs_list, device=None):
-        if mp_graphs_list is None:
-            raise ValueError("mp_graphs_list is required for MGPAN.")
 
         if device is None:
             device = graph.device
 
         mp_node_embs = []
-        for path_idx, gnn_layer in enumerate(self.mp_layers):
-            graphs_i = [
-                sample_graphs[path_idx].to(device)
-                for sample_graphs in mp_graphs_list
-            ]
+
+        num_metapaths = len(self.mp_layers)
+
+        for i, gnn_layer in enumerate(self.mp_layers):
+
+            graphs_i = []
+            for sample_graphs in mp_graphs_list:
+                gi = sample_graphs[i].to(device)
+
+                if gi.num_nodes() > 0 :
+                    graphs_i.append(gi)
+
+            if len(graphs_i) == 0:
+                continue
+
             batched_mp_graph = dgl.batch(graphs_i)
-            feat_mp = self._align_batched_features(feat, batched_mp_graph)
 
-            if feat_mp.shape[0] != batched_mp_graph.num_nodes():
-                raise RuntimeError(
-                    f"[Metapath {path_idx}] feature mismatch: "
-                    f"{feat_mp.shape[0]} vs {batched_mp_graph.num_nodes()}"
-                )
+            assert feat.shape[0] == batched_mp_graph.num_nodes(), \
+                f"[Metapath {i}] feat mismatch: {feat.shape[0]} vs {batched_mp_graph.num_nodes()}"
 
-            feat_mp = F.dropout(feat_mp, p=self.dropout3, training=self.training)
-            edge_weight = batched_mp_graph.edata.get("weight", None)
-            if edge_weight is not None and not torch.isfinite(edge_weight).all():
-                raise RuntimeError(
-                    f"[Metapath {path_idx}] edge_weight contains NaN or Inf."
-                )
+            feat_mp = torch.nn.functional.dropout(
+                feat,
+                p=self.dropout3,                   # 推荐 0.2~0.3
+                training=self.training
+            )
 
             if isinstance(gnn_layer, GATv2ConvEdgeOnly):
                 h_out = gnn_layer(
                     batched_mp_graph,
                     feat_mp,
-                    edge_weight=edge_weight,
+                    edge_weight=batched_mp_graph.edata.get("weight", None)
                 )
                 if h_out.dim() == 3:
                     h_out = h_out.mean(dim=1)
@@ -337,323 +938,144 @@ class MGPANLayer(nn.Module):
                 h_out = gnn_layer(
                     batched_mp_graph,
                     feat_mp,
-                    edge_weight=edge_weight,
+                    edge_weight=batched_mp_graph.edata.get("weight", None)
                 )
 
             mp_node_embs.append(h_out.unsqueeze(0))
 
+        if len(mp_node_embs) == 0:
+            return torch.zeros(
+                feat.shape[0],
+                self.out_dim,
+                device=device
+            )
+
         h_views = torch.cat(mp_node_embs, dim=0)
-        h_views = F.layer_norm(h_views, h_views.shape[-1:])
-        h_views = F.dropout(h_views, p=self.dropout3, training=self.training)
+
+        h_views = torch.nn.functional.layer_norm(
+            h_views,
+            h_views.shape[-1:]
+        )
+
+        h_views = torch.nn.functional.dropout(
+            h_views,
+            p=self.dropout3,                       # 推荐 0.3~0.4
+            training=self.training
+        )
 
         fused_h = self.attention(h_views)
-        h_out=fused_h + feat
+
+        h_out = self.output_norm(fused_h  + self.residual_dropout(feat))
+        #h_out=fused_h
+
         return h_out
 
 
-class MetaPathAttention(nn.Module):
-    """Node-level attention over a fixed set of meta-path views."""
-
-    def __init__(
-        self,
-        num_metapaths: int,
-        embed_dim: int,
-        dim_a: int = 64,
-        dropout: float = 0.0,
-    ):
-        super().__init__()
-        self.num_metapaths = num_metapaths
-        self.embed_dim = embed_dim
-        self.dim_a = dim_a
-        self.dropout = nn.Dropout(dropout)
-        self.weights_s1 = nn.Parameter(torch.empty(num_metapaths, embed_dim, dim_a))
-        self.weights_s2 = nn.Parameter(torch.empty(num_metapaths, dim_a, 1))
-        self.reset_parameters()
-
-    def reset_parameters(self) -> None:
-        gain = nn.init.calculate_gain("tanh")
-        nn.init.xavier_uniform_(self.weights_s1.data, gain=gain)
-        nn.init.xavier_uniform_(self.weights_s2.data)
-
-    def forward(
-        self,
-        h_views: torch.Tensor,
-        batch_size: int = 32,
-        return_alpha: bool = False,
-    ):
-        num_metapaths, num_nodes, embed_dim = h_views.shape
-        fused_h = torch.zeros(num_nodes, embed_dim, device=h_views.device)
-        alpha_sum = torch.zeros(num_metapaths, device=h_views.device)
-        node_count = 0
-
-        node_loader = DataLoader(
-            list(range(num_nodes)),
-            batch_size=batch_size,
-            shuffle=False,
-        )
-
-        for node_batch in node_loader:
-            h_batch = h_views[:, node_batch, :]
-            alpha = torch.matmul(
-                torch.tanh(torch.matmul(h_batch, self.weights_s1)),
-                self.weights_s2,
-            )
-            alpha = F.softmax(alpha, dim=0).squeeze(-1)
-            alpha = self.dropout(alpha)
-
-            fused_h[node_batch] = torch.einsum("rb,rbd->bd", alpha, h_batch)
-            alpha_sum += alpha.sum(dim=1)
-            node_count += alpha.shape[1]
-
-        if return_alpha:
-            return fused_h, alpha_sum / max(node_count, 1)
-
-        return fused_h
+        
 
 
-class NodeTypeAwarePooling(nn.Module):
-    """Graph readout that pools nodes separately for each node type."""
-
-    def __init__(
-        self,
-        embed_dim: int,
-        att_hidden_dim: int = 64,
-        att_dropout: float = 0.35,
-        num_types: int = 3,
-    ):
-        super().__init__()
-        self.embed_dim = embed_dim
-        self.num_types = num_types
-        self.att_gates = nn.ModuleList(
-            [
-                nn.Sequential(
-                    nn.Linear(embed_dim, att_hidden_dim),
-                    nn.ReLU(),
-                    nn.Dropout(att_dropout),
-                    nn.Linear(att_hidden_dim, 1),
-                )
-                for _ in range(num_types)
-            ]
-        )
-
-    @staticmethod
-    def _group_softmax(scores, graph_ids, num_graphs):
-        alpha = torch.zeros_like(scores)
-        for graph_id in range(num_graphs):
-            mask = graph_ids == graph_id
-            if mask.any():
-                alpha[mask] = torch.softmax(scores[mask], dim=0)
-        return alpha
-
-    def forward(self, graph, h, return_attn: bool = False):
-        ntype_tensor = graph.ndata[dgl.NTYPE].to(h.device)
-        batch_num_nodes = graph.batch_num_nodes().to(h.device)
-        num_graphs = batch_num_nodes.shape[0]
-        graph_ids = torch.repeat_interleave(
-            torch.arange(num_graphs, device=h.device),
-            batch_num_nodes,
-        )
-
-        type_feats = []
-        att_dict = {} if return_attn else None
-
-        for node_t in range(self.num_types):
-            type_idx = (ntype_tensor == node_t).nonzero(as_tuple=False).squeeze(-1)
-            pooled_t = h.new_zeros(num_graphs, self.embed_dim)
-
-            if type_idx.numel() > 0:
-                h_t = h[type_idx]
-                graph_ids_t = graph_ids[type_idx]
-                scores_t = self.att_gates[node_t](h_t)
-                alpha_t = self._group_softmax(scores_t, graph_ids_t, num_graphs)
-                pooled_t.index_add_(dim=0, index=graph_ids_t, source=alpha_t * h_t)
-
-                if return_attn:
-                    att_dict[node_t] = alpha_t.squeeze(-1)
-            elif return_attn:
-                att_dict[node_t] = h.new_zeros(0)
-
-            type_feats.append(pooled_t)
-
-        h_graph = torch.cat(type_feats, dim=1)
-        if return_attn:
-            return h_graph, att_dict
-        return h_graph
 
 
-class GATv2ConvEdgeOnly(nn.Module):
-    """GATv2 convolution where edge weights modulate attention scores."""
 
-    def __init__(
-        self,
-        in_feats,
-        out_feats,
-        num_heads,
-        feat_drop=0.0,
-        attn_drop=0.0,
-        negative_slope=0.2,
-        residual=False,
-        activation=None,
-        allow_zero_in_degree=False,
-        bias=True,
-        share_weights=False,
-    ):
-        super().__init__()
-        self._num_heads = num_heads
-        self._in_src_feats, self._in_dst_feats = expand_as_pair(in_feats)
-        self._out_feats = out_feats
-        self._allow_zero_in_degree = allow_zero_in_degree
-        self.share_weights = share_weights
-        self.bias = bias
+        
 
-        if isinstance(in_feats, tuple):
-            self.fc_src = nn.Linear(
-                self._in_src_feats,
-                out_feats * num_heads,
-                bias=bias,
-            )
-            self.fc_dst = nn.Linear(
-                self._in_dst_feats,
-                out_feats * num_heads,
-                bias=bias,
-            )
-        else:
-            self.fc_src = nn.Linear(
-                self._in_src_feats,
-                out_feats * num_heads,
-                bias=bias,
-            )
-            if share_weights:
-                self.fc_dst = self.fc_src
-            else:
-                self.fc_dst = nn.Linear(
-                    self._in_src_feats,
-                    out_feats * num_heads,
-                    bias=bias,
-                )
 
-        self.attn = nn.Parameter(torch.empty(1, num_heads, out_feats))
-        self.feat_drop = nn.Dropout(feat_drop)
-        self.attn_drop = nn.Dropout(attn_drop)
-        self.leaky_relu = nn.LeakyReLU(negative_slope)
 
-        if residual:
-            if self._in_dst_feats != out_feats * num_heads:
-                self.res_fc = nn.Linear(
-                    self._in_dst_feats,
-                    num_heads * out_feats,
-                    bias=bias,
-                )
-            else:
-                self.res_fc = nn.Identity()
-        else:
-            self.res_fc = None
+    
 
-        self.activation = activation
-        self.reset_parameters()
 
-    def reset_parameters(self):
-        gain = nn.init.calculate_gain("relu")
-        nn.init.xavier_normal_(self.fc_src.weight, gain=gain)
-        if self.bias:
-            nn.init.constant_(self.fc_src.bias, 0)
 
-        if not self.share_weights:
-            nn.init.xavier_normal_(self.fc_dst.weight, gain=gain)
-            if self.bias:
-                nn.init.constant_(self.fc_dst.bias, 0)
 
-        nn.init.xavier_normal_(self.attn, gain=gain)
-        if isinstance(self.res_fc, nn.Linear):
-            nn.init.xavier_normal_(self.res_fc.weight, gain=gain)
-            if self.bias:
-                nn.init.constant_(self.res_fc.bias, 0)
 
-    def forward(self, graph, feat, edge_weight=None, get_attention=False):
-        with graph.local_scope():
-            if not self._allow_zero_in_degree and (graph.in_degrees() == 0).any():
-                raise ValueError("Graph has zero in-degree nodes.")
 
-            if isinstance(feat, tuple):
-                h_src = self.feat_drop(feat[0])
-                h_dst = self.feat_drop(feat[1])
-                feat_src = self.fc_src(h_src).view(
-                    -1,
-                    self._num_heads,
-                    self._out_feats,
-                )
-                feat_dst = self.fc_dst(h_dst).view(
-                    -1,
-                    self._num_heads,
-                    self._out_feats,
-                )
-            else:
-                h_src = h_dst = self.feat_drop(feat)
-                feat_src = self.fc_src(h_src).view(
-                    -1,
-                    self._num_heads,
-                    self._out_feats,
-                )
-                feat_dst = self.fc_dst(h_dst).view(
-                    -1,
-                    self._num_heads,
-                    self._out_feats,
-                )
-                if graph.is_block:
-                    feat_dst = feat_dst[: graph.number_of_dst_nodes()]
-                    h_dst = h_dst[: graph.number_of_dst_nodes()]
 
-            graph.srcdata["h_src"] = feat_src
-            graph.dstdata["h_dst"] = feat_dst
-            graph.apply_edges(fn.u_add_v("h_src", "h_dst", "e"))
-            e = self.leaky_relu(graph.edata.pop("e"))
-            e = (e * self.attn).sum(dim=-1, keepdim=True)
 
-            if edge_weight is not None:
-                e = e * edge_weight.view(-1, 1, 1)
 
-            graph.edata["a"] = self.attn_drop(edge_softmax(graph, e))
-            graph.update_all(fn.u_mul_e("h_src", "a", "m"), fn.sum("m", "ft"))
-            rst = graph.dstdata["ft"]
 
-            if self.res_fc is not None:
-                resval = self.res_fc(h_dst).view(
-                    h_dst.shape[0],
-                    -1,
-                    self._out_feats,
-                )
-                rst = rst + resval
 
-            if self.activation is not None:
-                rst = self.activation(rst)
 
-            if get_attention:
-                return rst, graph.edata["a"]
-            return rst
+
+
+
+
+
+
 
 
 class MinimalClassifier(nn.Module):
-    """Final binary classifier on graph-level embeddings."""
-
-    def __init__(self, embed_dim, dropout=0.45):
+    def __init__(self, embed_dim, dropout=_DEFAULT_CONFIG.classifier_dropout):
         super().__init__()
         self.classifier = nn.Sequential(
             nn.Dropout(dropout),
-            nn.Linear(embed_dim, 1),
+            nn.Linear(embed_dim, 1) 
         )
 
     def forward(self, x):
         return self.classifier(x).squeeze(-1)
 
 
-def check_tensor(x: torch.Tensor, name: str) -> None:
+def custom_collate(batch, *args, **kwargs):
+    graphs, labels, mp_graphs_list = zip(*batch)
+    batched_graph = dgl.batch(graphs)
+    labels = torch.tensor(labels)
+    return batched_graph, labels, list(mp_graphs_list)
+
+def seed_worker(worker_id):
+    import random
+    import numpy as np
+    worker_seed = torch.initial_seed() % (2**32)
+    np.random.seed(worker_seed)
+    random.seed(worker_seed)
+
+
+
+
+
+
+class SupConLoss(nn.Module):
+    def __init__(
+        self,
+        temperature: float = _DEFAULT_CONFIG.contrastive_temperature,
+        eps: float = _DEFAULT_CONFIG.contrastive_eps
+    ):
+        super().__init__()
+        self.temperature = temperature
+        self.eps = eps
+
+    def forward(self, features: torch.Tensor, labels: torch.Tensor):
+        device = features.device
+        features = F.normalize(features, dim=1)               # (B, D) -> L2-normalize each row
+        batch_size = features.size(0)
+        if batch_size == 1:
+            return torch.tensor(0.0, device=device, requires_grad=True)
+
+        logits = torch.div(torch.matmul(features, features.T), self.temperature)  # (B, B)
+        labels = labels.view(-1, 1)
+        mask = torch.eq(labels, labels.T).float().to(device)   # (B, B), 1 where same class
+        logits_mask = 1.0 - torch.eye(batch_size, device=device)  # mask out self-similarity
+        mask = mask * logits_mask
+
+        positive_per_sample = mask.sum(1)
+        if (positive_per_sample == 0).all():
+            return torch.tensor(0.0, device=device, requires_grad=True)
+
+        logits_max, _ = torch.max(logits * logits_mask, dim=1, keepdim=True)
+        logits = logits - logits_max.detach()
+        exp_logits = torch.exp(logits) * logits_mask
+        log_prob = logits - torch.log(exp_logits.sum(1, keepdim=True) + self.eps)
+        mean_log_prob_pos = (mask * log_prob).sum(1) / (positive_per_sample + self.eps)
+        loss = - mean_log_prob_pos.mean()
+        return loss
+
+def pairwise_ranking_loss(pos_scores, neg_scores):
+    diff = pos_scores.unsqueeze(1) - neg_scores.unsqueeze(0)
+    loss = torch.log1p(torch.exp(-diff))
+    return loss.mean()
+
+
+def check_tensor(x, name):
     if not torch.isfinite(x).all():
         print(f"[NaN DETECTED] {name}")
         print("min:", x.min().item(), "max:", x.max().item())
         raise ValueError(f"{name} contains NaN or Inf")
 
-
-def expand_as_pair(input_value):
-    if isinstance(input_value, tuple):
-        return input_value
-    return input_value, input_value

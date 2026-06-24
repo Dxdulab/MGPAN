@@ -1,6 +1,6 @@
 """Model package for MGPAN."""
 
-from model.mgpan import MGPAN
-from model.trainer import MGPANTrainer
+from model.attention import NodeTypeAwarePooling
+from model.mgpan import MGPAN, MGPANGraph, MGPANLayer
 
-__all__ = ["MGPAN", "MGPANTrainer"]
+__all__ = ["MGPAN", "MGPANGraph", "MGPANLayer", "NodeTypeAwarePooling"]

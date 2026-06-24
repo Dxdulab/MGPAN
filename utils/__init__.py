@@ -1,5 +1,5 @@
-"""Data and metric utilities for MGPAN."""
+"""Utility package for MGPAN."""
 
-from utils.data_loader import GraphDataset, GraphMetapathDataset
+from utils.data_loader import GraphDataset, GraphmpDataset
 
-__all__ = ["GraphDataset", "GraphMetapathDataset"]
+__all__ = ["GraphDataset", "GraphmpDataset"]

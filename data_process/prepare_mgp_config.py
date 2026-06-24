@@ -27,7 +27,7 @@ PACKAGE_ROOT = Path(__file__).resolve().parents[1]
 PROJECT_ROOT = PACKAGE_ROOT.parent
 DATA_ROOT = _env_path("MGP_DATA_ROOT", PACKAGE_ROOT / "data", PROJECT_ROOT)
 
-HUMANN_DATASET = _env_text("MGP_HUMANN_DATASET", "LifeLD_VilaAV_2018")
+HUMANN_DATASET = _env_text("MGP_HUMANN_DATASET", "QinN_2014")
 EDGE_DATASET = _env_text("MGP_EDGE_DATASET", HUMANN_DATASET)
 
 HUMANN_DIR = _resolve_path(DATA_ROOT / HUMANN_DATASET, PROJECT_ROOT)
@@ -69,8 +69,8 @@ GRAPH_PREFIX = _env_text(
 )
 GRAPH_RAW_BIN = HUMANN_DIR / f"{GRAPH_PREFIX}_graphdata.bin"
 GRAPH_RAW_META_PKL = HUMANN_DIR / f"{GRAPH_PREFIX}_graphdata_meta.pkl"
-GRAPH_PRUNED_BIN = HUMANN_DIR / f"{GRAPH_PREFIX}_graphdataF.bin"
-GRAPH_PRUNED_META_PKL = HUMANN_DIR / f"{GRAPH_PREFIX}_graphdata_metaF.pkl"
+GRAPH_PRUNED_BIN = HUMANN_DIR / f"{GRAPH_PREFIX}_graphdataF6.bin"
+GRAPH_PRUNED_META_PKL = HUMANN_DIR / f"{GRAPH_PREFIX}_graphdata_metaF6.pkl"
 FEATURE_VOCAB_PKL = HUMANN_DIR / "feature_vocab.pkl"
 
 LABEL_COL = _env_text("MGP_LABEL_COL", "study_condition")
@@ -89,9 +89,13 @@ MM_GAMMA = 3.0
 MM_TOP_K = 3
 MM_ABUNDANCE_THRESHOLD = 0.01
 
-GRAPH_PRUNE_ABUNDANCE_THRESHOLDS = {
-    "microbe": 1e-2,
-    "pathway": 1e-4,
+
+
+# Node pruning in 02_build_graph_dataset.ipynb keeps top-K abundant nodes per type.
+GRAPH_PRUNE_ABUNDANCE_TOP_K = {
+    "microbe": 140,
+    "gene": 120,
+    "pathway": 120,
 }
 
 REQUIRED_INPUT_FILES = {
