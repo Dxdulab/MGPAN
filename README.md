@@ -16,7 +16,6 @@ MGPAN/
 |-- requirements.txt
 |-- config.py
 |-- main.py
-|-- Mp_run.sh
 |-- model/
 |   |-- __init__.py
 |   |-- attention.py
