@@ -423,20 +423,6 @@ class MGPAN(nn.Module):
 
         return best_threshold, f1[best_idx], precision[best_idx], recall[best_idx]
     
-    def find_best_threshold_f1(self,y_true, pred_probs, eps=_DEFAULT_CONFIG.threshold_eps):
-        precision, recall, thresholds = precision_recall_curve(y_true, pred_probs)
-
-        precision = precision[:-1]
-        recall = recall[:-1]
-
-        f1 = 2 * precision * recall / (precision + recall + eps)
-
-        best_idx = np.argmax(f1)
-        best_threshold = thresholds[best_idx]
-
-        return best_threshold, f1[best_idx]
-
-
     def eval_model(
         self,
         eval_dataset,
@@ -537,67 +523,6 @@ class MGPAN(nn.Module):
             )
 
 
-
-
-
-
-
-
-
-
-
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    def extract_raw_predictions(
-        self,
-        test_dataset,
-        fold,
-        batch_size,
-        num_workers,
-        device,
-        pin_memory=_DEFAULT_CONFIG.eval_pin_memory
-    ):
-        self.eval()
-        self.to(device)
-
-        test_loader = GraphDataLoader(
-            test_dataset,
-            batch_size=batch_size,
-            shuffle=False,
-            num_workers=num_workers,
-            pin_memory=pin_memory,
-            collate_fn=custom_collate
-        )
-
-        with torch.no_grad():
-            pred_probs, y_true = self.predict(test_loader, device=device)
-
-        pred_probs = np.asarray(pred_probs)
-        y_true = np.asarray(y_true)
-
-        df_fold = pd.DataFrame({
-            "Fold": fold + 1,
-            "y_true": y_true.astype(int),
-            "y_prob": pred_probs.astype(float)
-        })
-
-        return df_fold
 
     def predict(self, graph_loader, device='cpu'):
         self.eval()
@@ -740,8 +665,7 @@ class MGPANLayer(nn.Module):
                  activation='relu',
                  metapaths=None,
                  gat_num_heads=_DEFAULT_CONFIG.gat_num_heads,
-                 sage_aggregator=_DEFAULT_CONFIG.sage_aggregator,
-                 residual_dropout=_DEFAULT_CONFIG.residual_dropout
+                 sage_aggregator=_DEFAULT_CONFIG.sage_aggregator
                  ):
         super(MGPANLayer, self).__init__()
         self.gnn_type = gnn_type
@@ -791,12 +715,6 @@ class MGPANLayer(nn.Module):
                 raise ValueError(f"Invalid gnn_type: {gnn_type}. Choose 'gin' or 'sage'.")
             self.mp_layers.append(conv)
 
-        self.proj = nn.Linear(out_dim, out_dim)
-        self.pre_attn_norm = nn.LayerNorm(out_dim)        
-        self.post_attn_norm = nn.LayerNorm(out_dim)        
-        self.input_residual_proj = nn.Linear(in_dim, out_dim, bias=False)
-        self.residual_dropout = nn.Dropout(residual_dropout)
-        self.output_norm = nn.LayerNorm(out_dim)
         self.attention = MetaPathAttention(
             num_metapaths=self.num_metapaths,
             embed_dim=out_dim,   # out_dim 就是 GNN 层输出的维度
@@ -889,41 +807,9 @@ class MGPANLayer(nn.Module):
 
         fused_h = self.attention(h_views)
 
-        h_out = self.output_norm(fused_h  + self.residual_dropout(feat))
-        #h_out=fused_h
+        h_out=fused_h + feat
 
         return h_out
-
-
-        
-
-
-
-
-
-        
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 class MinimalClassifier(nn.Module):
@@ -950,10 +836,6 @@ def seed_worker(worker_id):
     worker_seed = torch.initial_seed() % (2**32)
     np.random.seed(worker_seed)
     random.seed(worker_seed)
-
-
-
-
 
 
 class SupConLoss(nn.Module):
@@ -991,10 +873,6 @@ class SupConLoss(nn.Module):
         loss = - mean_log_prob_pos.mean()
         return loss
 
-def pairwise_ranking_loss(pos_scores, neg_scores):
-    diff = pos_scores.unsqueeze(1) - neg_scores.unsqueeze(0)
-    loss = torch.log1p(torch.exp(-diff))
-    return loss.mean()
 
 
 def check_tensor(x, name):

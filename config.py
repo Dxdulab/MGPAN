@@ -71,7 +71,7 @@ class MGPANConfig:
     graph_readout_num_types: int = 3
     gat_num_heads: int = 1
     sage_aggregator: str = "mean"
-    residual_dropout: float = 0.2
+
 
     # Graph augmentation
     edge_drop_prob: float = 0.05
