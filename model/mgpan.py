@@ -98,51 +98,25 @@ class MGPAN(nn.Module):
             sage_aggregator=sage_aggregator,
             residual_dropout=residual_dropout
         )
-        # self.type_emb = nn.Embedding(num_node_types,type_emb_dim)
-        # self.type_emb_mlp = nn.Sequential(
-        #     nn.Linear(type_emb_dim, type_emb_hidden_dim),
-        #     nn.ReLU(),
-        #     nn.Linear(type_emb_hidden_dim, type_emb_dim)
-        # )
-        # self.node_id_emb = nn.Embedding(num_node_ids+1, node_id_emb_dim)
-        # self.node_id_emb_mlp = nn.Sequential(
-        #     nn.Linear(node_id_emb_dim, node_id_emb_dim),
-        #     nn.ReLU(),
-        #     nn.Dropout(self.dropout1)
-        # )
-        # self.abundance_proj = nn.Sequential(
-        #     nn.Linear(abundance_input_dim, abundance_proj_dim),
-        #     nn.ReLU(),
-        #     nn.Linear(abundance_proj_dim, abundance_proj_dim),
-        #     nn.ReLU()
-        # )
-
-        self.type_emb = nn.Embedding(num_node_types, type_emb_dim)
-
+        self.type_emb = nn.Embedding(num_node_types,type_emb_dim)
         self.type_emb_mlp = nn.Sequential(
             nn.Linear(type_emb_dim, type_emb_hidden_dim),
             nn.ReLU(),
-            nn.Linear(type_emb_hidden_dim, type_emb_dim),
-            nn.Dropout(self.dropout1)
+            nn.Linear(type_emb_hidden_dim, type_emb_dim)
         )
-
-        self.node_id_emb = nn.Embedding(num_node_ids + 1, node_id_emb_dim)
-
+        self.node_id_emb = nn.Embedding(num_node_ids+1, node_id_emb_dim)
         self.node_id_emb_mlp = nn.Sequential(
-            nn.LayerNorm(node_id_emb_dim),
+            nn.Linear(node_id_emb_dim, node_id_emb_dim),
+            nn.ReLU(),
             nn.Dropout(self.dropout1)
         )
-
         self.abundance_proj = nn.Sequential(
             nn.Linear(abundance_input_dim, abundance_proj_dim),
-            nn.LayerNorm(abundance_proj_dim),
             nn.ReLU(),
-            nn.Dropout(self.dropout1),
             nn.Linear(abundance_proj_dim, abundance_proj_dim),
-            nn.LayerNorm(abundance_proj_dim),
             nn.ReLU()
         )
-        
+
         total_input_dim = abundance_proj_dim +type_emb_dim+node_id_emb_dim
         self.node_feat_proj = nn.Linear(total_input_dim, self.embed_dim)
         self.node_feat_norm = nn.LayerNorm(self.embed_dim)
@@ -150,75 +124,25 @@ class MGPAN(nn.Module):
         final_embed_dim=int(self.embed_dim)
         self.classifier = MinimalClassifier(embed_dim=final_embed_dim, dropout=classifier_dropout)
     def forward(self, graph,mp_graphs_list=None, return_attn=False):
-        # feat = graph.ndata['feat'].float()
-        # check_tensor(feat, "raw feat")
-        # x = feat[:, :self.abundance_input_dim]
-        # abundance_feats = self.abundance_proj(x)
-        # check_tensor(abundance_feats, "abundance_feats")
-        # node_type=feat[:, self.abundance_input_dim].long() 
-        # type_feats = self.type_emb_mlp(self.type_emb(node_type))
-        # node_ids=feat[:, self.abundance_input_dim + 1].long()
-        # unk_id = self.num_node_ids
-        # node_ids = torch.where(node_ids >= unk_id, torch.tensor(unk_id, device=node_ids.device), node_ids)
-
-        # node_id_feats = self.node_id_emb(node_ids)
-        # node_id_feats  = self.node_id_emb_mlp(node_id_feats)
-        # check_tensor(node_id_feats, "node_id_feats")
-        # h = torch.cat([abundance_feats,type_feats,node_id_feats], dim=1)
-
-        # h = self.node_feat_proj(h)
-        # check_tensor(h, "node_feat_proj")
-        # h = self.node_feat_norm(h)
-        # check_tensor(h, "node_feat_norm")
-        # h = F.relu(h)
-        # check_tensor(h, "relu h")
-        # h = F.dropout(h, p=self.dropout1, training=self.training)
-
         feat = graph.ndata['feat'].float()
-        check_tensor(feat, "raw feat")
-
-        # abundance features
         x = feat[:, :self.abundance_input_dim]
         abundance_feats = self.abundance_proj(x)
-        check_tensor(abundance_feats, "abundance_feats")
-
-        # node type
-        node_type = feat[:, self.abundance_input_dim].long()
-
-        if self.training:
-            assert node_type.min() >= 0
-            assert node_type.max() < self.num_node_types
-
-        raw_type_feats = self.type_emb(node_type)
-        type_feats = raw_type_feats + self.type_emb_mlp(raw_type_feats)
-        check_tensor(type_feats, "type_feats")
-
-        # node id
-        node_ids = feat[:, self.abundance_input_dim + 1].long()
+        node_type=feat[:, self.abundance_input_dim].long() 
+        type_feats = self.type_emb_mlp(self.type_emb(node_type))
+        node_ids=feat[:, self.abundance_input_dim + 1].long()
         unk_id = self.num_node_ids
-
-        invalid_mask = (node_ids < 0) | (node_ids >= unk_id)
-        node_ids = torch.where(
-            invalid_mask,
-            node_ids.new_full(node_ids.shape, unk_id),
-            node_ids
-        )
+        node_ids = torch.where(node_ids >= unk_id, torch.tensor(unk_id, device=node_ids.device), node_ids)
 
         node_id_feats = self.node_id_emb(node_ids)
-        node_id_feats = self.node_id_emb_mlp(node_id_feats)
-        check_tensor(node_id_feats, "node_id_feats")
+        node_id_feats  = self.node_id_emb_mlp(node_id_feats)
 
-        # concat
-        h = torch.cat([abundance_feats, type_feats, node_id_feats], dim=1)
+        h = torch.cat([abundance_feats,type_feats,node_id_feats], dim=1)
 
         h = self.node_feat_proj(h)
-        check_tensor(h, "node_feat_proj")
 
         h = self.node_feat_norm(h)
-        check_tensor(h, "node_feat_norm")
-
+   
         h = F.relu(h)
-        check_tensor(h, "relu h")
 
         h = F.dropout(h, p=self.dropout1, training=self.training)
 
