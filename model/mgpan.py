@@ -665,7 +665,8 @@ class MGPANLayer(nn.Module):
                  activation='relu',
                  metapaths=None,
                  gat_num_heads=_DEFAULT_CONFIG.gat_num_heads,
-                 sage_aggregator=_DEFAULT_CONFIG.sage_aggregator
+                 sage_aggregator=_DEFAULT_CONFIG.sage_aggregator,
+                 residual_dropout=_DEFAULT_CONFIG.residual_dropout
                  ):
         super(MGPANLayer, self).__init__()
         self.gnn_type = gnn_type
@@ -714,14 +715,14 @@ class MGPANLayer(nn.Module):
             else:
                 raise ValueError(f"Invalid gnn_type: {gnn_type}. Choose 'gin' or 'sage'.")
             self.mp_layers.append(conv)
-
+        self.residual_dropout = nn.Dropout(residual_dropout)
         self.attention = MetaPathAttention(
             num_metapaths=self.num_metapaths,
             embed_dim=out_dim,   # out_dim 就是 GNN 层输出的维度
             dim_a=self.dim_a,            # 可调，hidden_dim
             dropout=self.attdropout          # 可调
         )
-
+ 
     @staticmethod
     def _get_activation_fn(activation):
         if activation is None:
@@ -807,7 +808,7 @@ class MGPANLayer(nn.Module):
 
         fused_h = self.attention(h_views)
 
-        h_out=fused_h + feat
+        h_out=fused_h + self.residual_dropout(feat)
 
         return h_out
 
