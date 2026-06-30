@@ -33,9 +33,9 @@ class MGPANConfig:
     log_dir: str = "logs"
 
     # Experiment naming
-    metapath: str = "F3_metapath_graphs8(full)"
-    experimental: str = "F3metapath8+typepooling+graphaugment+pos_weight(4+64+64)+0.1cl"
-    log: str = "log_Mp_MGPAN1"
+    metapath: str = "F_metapath_graphs8(full)"
+    experimental: str = "Fmetapath8+typepooling+graphaugment+pos_weight(4+64+64)+0.1cl"
+    log: str = "log_Mp_MGPAN"
     model_name: str = "MGPAN"
 
     # Reproducibility and cross validation
@@ -65,7 +65,7 @@ class MGPANConfig:
     dropout2: float = 0.35
     dropout3: float = 0.35
     attdropout: float = 0.35
-    activation: str = "elu"
+    activation: str = "gelu"
     classifier_dropout: float = 0.35
     graph_pool_hidden_dim: int = 32
     graph_readout_num_types: int = 3

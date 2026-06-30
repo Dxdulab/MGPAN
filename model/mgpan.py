@@ -613,8 +613,12 @@ class MGPANGraph(nn.Module):
             att_hidden_dim=graph_pool_hidden_dim,
             att_dropout=self.attdropout
         )
-        self.graph_feat_proj = nn.Linear(embed_dim * graph_readout_num_types, int(embed_dim))
-
+        self.graph_feat_proj = nn.Sequential(
+            nn.Linear(embed_dim * graph_readout_num_types, embed_dim),
+            nn.LayerNorm(embed_dim),
+            nn.GELU(),
+            nn.Dropout(dropout2),
+        )
     @staticmethod
     def _get_activation_fn(activation):
         if activation is None:
@@ -643,7 +647,7 @@ class MGPANGraph(nn.Module):
         else:
             h_Tyattn = self.type_att_pool(graph, h)
         h_readout = h_Tyattn
-        h_readout = F.relu(self.graph_feat_proj(h_readout))
+        h_readout = self.graph_feat_proj(h_readout)
 
         if return_attn:
             return h_readout, att_dict
