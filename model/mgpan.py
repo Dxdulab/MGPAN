@@ -341,17 +341,17 @@ class MGPAN(nn.Module):
 
             logging.info(f'[Fold {fold+1}]: Epoch{epoch+1:02}:  Acc: {acc:.4f} | Prec: {p:.4f} | Recall: {r:.4f} | F1: {f1:.4f} | AUC: {auc:.4f}| AUPR: {aupr:.4f}')
             
-            test_acc, test_p, test_r, test_f1,test_auc,_,_,_,_,_,test_aupr= self.eval_model(
-                    test_dataset,
-                    batch_size=batch_size,
-                    num_workers=num_workers,
-                    device=device,
-                    flag=True,
-                    min_recall=threshold_min_recall,
-                    threshold_eps=threshold_eps,
-                    pin_memory=eval_pin_memory
-            )
-            logging.info(f'[Fold {fold+1}]: test Epoch{epoch+1:02}: Acc: {test_acc:.4f} | Prec: {test_p:.4f} | Recall: {test_r:.4f} | F1: {test_f1:.4f}| AUC: {test_auc:.4f}| AUPR: {test_aupr:.4f}')
+            # test_acc, test_p, test_r, test_f1,test_auc,_,_,_,_,_,test_aupr= self.eval_model(
+            #         test_dataset,
+            #         batch_size=batch_size,
+            #         num_workers=num_workers,
+            #         device=device,
+            #         flag=True,
+            #         min_recall=threshold_min_recall,
+            #         threshold_eps=threshold_eps,
+            #         pin_memory=eval_pin_memory
+            # )
+            # logging.info(f'[Fold {fold+1}]: test Epoch{epoch+1:02}: Acc: {test_acc:.4f} | Prec: {test_p:.4f} | Recall: {test_r:.4f} | F1: {test_f1:.4f}| AUC: {test_auc:.4f}| AUPR: {test_aupr:.4f}')
             scheduler.step()
             train_loss.append(avg_total_loss)
             train_acc.append(acc)

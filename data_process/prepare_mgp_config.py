@@ -94,8 +94,8 @@ MM_ABUNDANCE_THRESHOLD = 0.01
 # Node pruning in 02_build_graph_dataset.ipynb keeps top-K abundant nodes per type.
 GRAPH_PRUNE_ABUNDANCE_TOP_K = {
     "microbe": 140,
-    "gene": 120,
-    "pathway": 120,
+    "gene": 100,
+    "pathway": 300,
 }
 
 REQUIRED_INPUT_FILES = {
